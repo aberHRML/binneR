@@ -1,7 +1,10 @@
-samp.process <- 
-	function(x,res,cut){ # for processing the scans into a single list of masses and their intensities
-	pl.6 <- NULL
-	pl.2 <- NULL
+#'  process a single data file
+
+sampProcess <- 
+	function(file,scans,res,sranges){
+	aa <- openMSfile(file)
+  pl <- peaks(aa) # obtain peak lists
+	pl <- combScans(pl,scans,sranges)
 	for (i in 1:length(x)){
 				pl.1 <- data.frame(x[i])
 				names(pl.1) <- c("mz","intensity")

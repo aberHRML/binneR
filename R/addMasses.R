@@ -1,5 +1,7 @@
-add.masses <- 
-	function(x){ # to quickly add in masses with zero intensity not present
+#' to quickly add in masses with zero intensity not present
+
+addMasses <- 
+	function(x){ # 
   masses <- col.masses(x)
   y.1 <- NULL
   for (i in 1:length(x)){

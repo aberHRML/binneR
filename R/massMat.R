@@ -1,4 +1,4 @@
-mass.mat <- 
+massMat <- 
 	function(x){ # to build intensity matrix for individal samples or all samples
 	z <- data.frame(x[1])
 	mat <- matrix(0,nrow=length(x),ncol=length(z[,1]))
