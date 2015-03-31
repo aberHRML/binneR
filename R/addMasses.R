@@ -1,11 +1,11 @@
-#' to quickly add in masses with zero intensity not present
+#' add in masses with zero intensity if not present
 
 addMasses <- 
-	function(x){ # 
-  masses <- col.masses(x)
+	function(x){
+  masses <- colMasses(x)
   y.1 <- NULL
   for (i in 1:length(x)){
-    y <- data.frame(x[i])
+    y <- data.frame(x[[i]])
     mat <- matrix(0,nrow=length(masses),ncol=2)
     names(mat) <- c("mz","intensity")
     z <- masses %in% y[,1]
