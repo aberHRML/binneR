@@ -3,7 +3,7 @@
 readFiles <- 
 	function(files,dp,scans,sranges=list(c(50,1000)),modes=c("p","n"),nCores=2){ # for data collected in both modes
   if(nCores<0){
-    pl <- lapply(files,sampProcess,scans=scans,dp=dp,sranges=sranges,modes=modes)
+    pl <- lapply(files[1:10],sampProcess,scans=scans,dp=dp,sranges=sranges,modes=modes)
     # split modes
     pos.neg <- list()
     for (i in 1:length(modes)){
@@ -29,11 +29,7 @@ readFiles <-
   	stopCluster(clust)
   }
   for (i in 1:length(modes)){
-  	pos.neg <- lapply(pos.neg,
-  										function(x,mode){
-  											colnames(x) <- paste(mode,colnames(x),sep="")
-  											return(x)
-  										},mode=modes[i])
+  	colnames(pos.neg[[i]]) <- paste(modes[i],colnames(pos.neg[[i]]),sep="")
   }
   names(pos.neg) <- modes
   gc()
