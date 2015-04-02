@@ -22,8 +22,11 @@ readFiles <-
     for (i in 1:length(modes)){
     	pos.neg[[i]] <- lapply(pl,function(x,mode){return(x[mode])},mode=modes[i])
     }  
+		pl <- NULL
+		gc()
   	# add in masses to get equal lengths for each sample
 		pos.neg <- parLapplyLB(clust,pos.neg,fun=addMasses)	
+		gc()
   	# build  intensity matrix
   	pos.neg <- parLapplyLB(clust,pos.neg,fun=massMat)
   	stopCluster(clust)
