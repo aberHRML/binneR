@@ -1,5 +1,5 @@
 #' Read and process mulitple data files
-
+ @export
 readFiles <- 
 	function(files,dp,scans,sranges=list(c(50,1000)),modes=c("p","n"),nCores=2){ # for data collected in both modes
   if(nCores<0){
