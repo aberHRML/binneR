@@ -1,5 +1,5 @@
 #' Combine scan ranges and retrieve given scans
-
+#' @export
 combScans <- 
 	function(x,scans,sranges,modes){
 	# separate scans based on modes

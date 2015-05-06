@@ -1,5 +1,5 @@
 #' add in masses with zero intensity if not present
-@export
+#' @export
 
 addMasses <- 
 	function(x){
