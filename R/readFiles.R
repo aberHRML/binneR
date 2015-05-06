@@ -15,7 +15,7 @@ readFiles <-
   	pos.neg <- lapply(pos.neg,massMat)	
   }else{
     clust = makeCluster(nCores, type="PSOCK")
-    clusterEvalQ(clust,library(OrbiFIEproc))
+    clusterEvalQ(clust, "package:OrbiFIEproc")
 		pl <- parLapplyLB(clust,files ,fun= sampProcess,scans=scans,dp=dp,sranges=sranges,modes=modes)	 
 		# split modes
     pos.neg <- list()
