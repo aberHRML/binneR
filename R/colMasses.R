@@ -1,5 +1,5 @@
 #' Collate all masses present in all lists 
-
+#' @export
 colMasses <- 
 	function(x){ 
   z <- NULL

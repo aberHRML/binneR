@@ -1,5 +1,5 @@
 #'  process a single data file
-
+#' @export
 sampProcess <- 
 	function(file,scans,dp,sranges,modes){
 	aa <- openMSfile(file)
