@@ -1,8 +1,8 @@
-#'
+#' to build intensity matrix for individal samples or all samples
 #' @export
 
 massMat <- 
-	function(x){ # to build intensity matrix for individal samples or all samples
+	function(x){ 
 	z <- data.frame(x[1])
 	mat <- matrix(0,nrow=length(x),ncol=length(z[,1]))
 	for (i in 1:length(x)){
