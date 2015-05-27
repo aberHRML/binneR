@@ -14,7 +14,7 @@ combScans <-
 											return(x)
 										},pat=pat,x=x)
 	# separate scan ranges and keep only relevant scans
-	pat.1 <- unlist(lapply(seq(1,length(pos.neg[[1]])/length(sranges)),rep,times=3))
+	pat.1 <- unlist(lapply(seq(1,length(pos.neg[[1]])/length(sranges)),rep,times=length(sranges)))
 	pos.neg <- lapply(pos.neg,
 										function(x,pattern){
 											y <- list()
@@ -36,7 +36,7 @@ combScans <-
 																									y[[i]] <- z[which(z[,1]>sranges[[i]][1] & z[,1] <= sranges[[i]][2]),]
 																							 }
 																							 y <- ldply(y,data.frame)
-																							 names(y) <- c("mz","intensity")
+																							 colnames(y) <- c("mz","intensity")
 																							 return(y)
 																							},sranges=sranges)	
 											)},sranges=sranges)

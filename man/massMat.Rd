@@ -2,11 +2,11 @@
 % Please edit documentation in R/massMat.R
 \name{massMat}
 \alias{massMat}
-\title{}
+\title{to build intensity matrix for individal samples or all samples}
 \usage{
 massMat(x)
 }
 \description{
-
+to build intensity matrix for individal samples or all samples
 }
 

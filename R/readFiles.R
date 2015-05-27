@@ -2,8 +2,8 @@
 #' @export
 readFiles <- 
 	function(files,dp,scans,sranges=list(c(50,1000)),modes=c("p","n"),nCores=2){ # for data collected in both modes
-  if(nCores<0){
-    pl <- lapply(files[1:10],sampProcess,scans=scans,dp=dp,sranges=sranges,modes=modes)
+  if(nCores<2){
+    pl <- lapply(files,sampProcess,scans=scans,dp=dp,sranges=sranges,modes=modes)
     # split modes
     pos.neg <- list()
     for (i in 1:length(modes)){
@@ -14,8 +14,8 @@ readFiles <-
   	# build  intensity matrix
   	pos.neg <- lapply(pos.neg,massMat)	
   }else{
-    clust = makeCluster(nCores, type="PSOCK")
-    clusterEvalQ(clust, "package:OrbiFIEproc")
+    clust = makeCluster(nCores, type="PSOCK") 
+    clusterExport(clust,c(ls("package:OrbiFIEproc"),ls("package:mzR"),ls("package:Rcpp"),ls("package:plyr")))
 		pl <- parLapplyLB(clust,files ,fun= sampProcess,scans=scans,dp=dp,sranges=sranges,modes=modes)	 
 		# split modes
     pos.neg <- list()
