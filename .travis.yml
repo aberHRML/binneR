@@ -1,6 +1,7 @@
 language: r
 bioc_required: true
-bioc_packages: mzR
+bioc_packages: 
+	- mzR
 sudo: required
 # Be strict when checking our package
 warnings_are_errors: true
