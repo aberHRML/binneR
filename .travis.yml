@@ -6,7 +6,7 @@ r_binary_packages:
  - RUnit
  - testthat
 
-bioc_packages: 
+bioc_packages:
  - mzR
 	
 # Install the bleeding edge version of a package from github (eg to pick
