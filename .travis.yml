@@ -7,7 +7,7 @@ r_binary_packages:
  - testthat
 
 bioc_packages: 
-	- mzR
+ - mzR
 	
 # Install the bleeding edge version of a package from github (eg to pick
 # up a not-yet-released bugfix)
