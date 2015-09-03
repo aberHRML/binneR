@@ -2,6 +2,11 @@ language: r
 sudo: required
 bioc_required: true
 
+apt_packages:
+ - libnetcdf-dev
+ - udunits-bin
+ - libudunits2-dev
+
 r_binary_packages:
  - RUnit
  - testthat
