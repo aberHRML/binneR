@@ -11,8 +11,8 @@ before_install:
 install:
   - ./travis-tool.sh install_deps
 script: 
-	- ./travis-tool.sh run_tests
-	
+  - ./travis-tool.sh run_tests
+
 after_success:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - git clone https://github.com/jasenfinch/HRM-docker.git
