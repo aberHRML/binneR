@@ -1,20 +1,28 @@
-language: r
-sudo: required
-bioc_required: true
+language: c
 
-apt_packages:
- - libnetcdf-dev
- - udunits-bin
- - libudunits2-dev
+services:
+  - docker
 
-r_binary_packages:
- - RUnit
- - testthat
+before_install:
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+  - ./travis-tool.sh bootstrap
+  - sudo apt-get install libnetcdf-dev udunits-bin libudunits2-dev
+install:
+  - ./travis-tool.sh install_deps
+script: 
+	- ./travis-tool.sh run_tests
+	
+after_success:
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - git clone https://github.com/jasenfinch/HRM-docker.git
+  - docker build -t jasenfinch/hrm-docker ./hrm-docker
+  - docker push jasenfinch/hrm-docker
 
-bioc_packages:
- - mzR
+after_failure:
+  - ./travis-tool.sh dump_logs
 
-# Install the bleeding edge version of a package from github (eg to pick
-# up a not-yet-released bugfix)
-r_github_packages:
- - jasenfinch/OrbiFIEproc
+notifications:
+  email:
+    on_success: change
+    on_failure: change
