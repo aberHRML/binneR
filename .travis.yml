@@ -18,7 +18,7 @@ script:
 after_success:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - git clone https://github.com/jasenfinch/HRM-docker.git
-  - docker build -t jasenfinch/hrm-docker ./hrm-docker
+  - docker build -t jasenfinch/hrm-docker ./HRM-docker
   - docker push jasenfinch/hrm-docker
 
 after_failure:
