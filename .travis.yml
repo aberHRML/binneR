@@ -1,28 +1,31 @@
-language: c
+language: r
 
 services:
-  - docker
+ - docker
 
-before_install:
-  - curl -OL http://raw.github.com/jasenfinch/dotfiles/master/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - ./travis-tool.sh bootstrap
-  - sudo apt-get install -y libnetcdf-dev udunits-bin libudunits2-dev
+sudo: required
+bioc_required: true
 
-install:
-  - ./travis-tool.sh install_bioc_deps
+apt_packages:
+ - libnetcdf-dev
+ - udunits-bin
+ - libudunits2-dev
 
-script: 
-  - ./travis-tool.sh run_tests
+r_binary_packages:
+ - RUnit
+ - testthat
+
+bioc_packages:
+ - mzR
+
+r_github_packages:
+ - jasenfinch/OrbiFIEproc
 
 after_success:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - git clone https://github.com/jasenfinch/HRM-docker.git
   - docker build -t jasenfinch/hrm-docker ./HRM-docker
   - docker push jasenfinch/hrm-docker
-
-after_failure:
-  - ./travis-tool.sh dump_logs
 
 notifications:
   email:
