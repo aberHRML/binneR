@@ -10,7 +10,7 @@ before_install:
   - sudo apt-get install -y libnetcdf-dev udunits-bin libudunits2-dev
 
 install:
-  - ./travis-tool.sh install_deps
+  - ./travis-tool.sh install_bioc_deps
 
 script: 
   - ./travis-tool.sh run_tests
