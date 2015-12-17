@@ -1,6 +1,6 @@
-#' Add in masses with zero intensity if not present in a peak matrix
+#' Add in masses with zero intensity if not present in a peak matrix in a peak list
 #' @name addMasses
-#' @description This function will add rows to a peak matrix of missing m/z identified within the supplied list to ensure equal matrix row lengths for further processing  
+#' @description This function will add rows to a peak matrix of missing m/z identified within the supplied peak list to ensure equal matrix row lengths for further processing  
 #' @param x A list containing peak matrices for each scan
 #' @return A list containing peak matrices with added 0 values
 #' @author Jasen Finch

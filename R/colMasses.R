@@ -1,8 +1,8 @@
-#' Collate all masses present in all lists 
+#' Collate all masses present in the supplied list 
 #' @name colMasses
-#' @description Collate all masses present across all scans in supplied list, into a single reference vector.
-#' @param x A list containing peak matrices for each scan
-#' @return A vector containing all the masses present in the supplied list
+#' @description Collate all masses present across all scans in the supplied peak list, into a single reference vector.
+#' @param x A peak list containing peak matrices for each scan
+#' @return A vector containing all the masses present in the supplied peak list
 #' @author Jasen Finch
 #' @export
 
