@@ -10,6 +10,7 @@
 #' @return A list containing peak lists for the relevant scans with combined scan ranges for each present mode in the data file. 
 #' @author Jasen Finch
 #' @export
+#' @import parallel
 readFiles <- function(files,dp,scans,sranges=list(c(50,1000)),modes=c("p","n"),nCores=2){ # for data collected in both modes
   if(nCores<2){
     pl <- lapply(files,sampProcess,scans=scans,dp=dp,sranges=sranges,modes=modes)

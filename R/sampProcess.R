@@ -9,6 +9,8 @@
 #' @return A list containing peak lists for the relevant scans with combined scan ranges for each present mode in the data file. 
 #' @author Jasen Finch
 #' @export
+#' @import mzR
+
 sampProcess <- function(file,scans,dp,sranges,modes){
 	aa <- openMSfile(file)
 	pl <- peaks(aa) # obtain peak lists

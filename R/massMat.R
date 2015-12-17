@@ -1,6 +1,6 @@
 #' build an intensity matrix for supplied peak list
 #' @name massMat
-#' @description 
+#' @description build and intensity matrix for a supplied peak list. Can be used to build intensity matrices for combining either scans within a sample of multiple samples. 
 #' @param x A peak list containing peak matrices for each scan of equal row length
 #' @return An intensity matrix with as many rows as peak matrices in peak list
 #' @author Jasen Finch

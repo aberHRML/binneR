@@ -8,6 +8,7 @@
 #' @return A list containing peak lists for the relevant scans with combined scan ranges for each present mode. 
 #' @author Jasen Finch
 #' @export
+#' @import plyr
 
 combScans <- function(x,scans,sranges,modes){
 	# separate scans based on modes
