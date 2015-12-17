@@ -1,8 +1,13 @@
 #' Collate all masses present in all lists 
+#' @name colMasses
+#' @description Collate all masses present across all scans in supplied list, into a single reference vector.
+#' @param x A list containing peak matrices for each scan
+#' @return A vector containing all the masses present in the supplied list
+#' @author Jasen Finch
 #' @export
-colMasses <- 
-	function(x){ 
-  z <- NULL
+
+colMasses <- function(x){ 
+ z <- NULL
   for (i in 1:length(x)){
     y <- data.frame(x[[i]])
     y.1 <- as.numeric(y[,1])
