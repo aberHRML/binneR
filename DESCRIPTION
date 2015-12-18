@@ -11,5 +11,7 @@ License: GPL (>= 2)
 Imports:
     mzR,
     parallel,
-    plyr
+    plyr,
+    shiny,
+    ggplot2
 RoxygenNote: 5.0.1
