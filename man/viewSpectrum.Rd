@@ -4,10 +4,21 @@
 \alias{viewSpectrum}
 \title{Shiny app to view}
 \usage{
-viewSpectrum()
+viewSpectrum(file = NULL)
+}
+\arguments{
+\item{file}{File path of data file to open}
 }
 \description{
 A shiny app to view converted MS data files.
+}
+\examples{
+viewSpectrum()
+
+\dontrun{
+
+viewSpectrum(file=list.files(system.file('mzXML',package='OrbiFIEproc'),full.names = T)[1])
+}
 }
 \author{
 Jasen Finch

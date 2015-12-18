@@ -1,24 +1,34 @@
 #' Shiny app to view 
 #' @name viewSpectrum
 #' @description A shiny app to view converted MS data files.
+#' @param file File path of data file to open
 #' @author Jasen Finch
+#' @examples 
+#' viewSpectrum()
+#' 
+#' \dontrun{
+#' 
+#' viewSpectrum(file=list.files(system.file('mzXML',package='OrbiFIEproc'),full.names = T)[1])
+#' }
 #' @export
 #' @import shiny
 #' @import ggplot2
 
-viewSpectrum <- function(){
+viewSpectrum <- function(file=NULL){
   options(shiny.maxRequestSize = 500*1024^2)
   shinyApp(
     ui = fluidPage(
       
       titlePanel("viewSpectrum"),
       sidebarLayout(
-        sidebarPanel(
-          fileInput('file1', 'Upload Annotation:',
+        sidebarPanel(if(is.null(file)){
+          fileInput('file1', 'Upload Data File:',
                     accept = c(
                       '.mzXML'
                     )
-          ),
+          )} else {
+          	textInput('file1', 'Data File Path:',value=file)
+          },
           tags$hr(),
           tags$b("Chromatogram"),
           radioButtons('chromY', '',
@@ -49,7 +59,11 @@ viewSpectrum <- function(){
         if(is.null(input$file1)){
           return(NULL)
         }
-        aa <- openMSfile(input$file1$datapath)
+      	if(class(input$file1)=='data.frame'){
+        	aa <- openMSfile(input$file1$datapath)
+      	} else {
+      		aa <- openMSfile(input$file1)
+      	}
         headers <- header(aa)
         headers$retentionTime <- round(headers$retentionTime/60,2)
         head <- lapply(0:1,function(x,ms){return(ms[which(ms$polarity==x),])},ms=headers)
@@ -155,20 +169,20 @@ viewSpectrum <- function(){
           chrom.plot <- chrom.plot + 
             aes(x=retentionTime) + 
             xlab("Retention Time (minutes)") + 
-            geom_line(x=input$rangeScan[1],colour="Red") +
-            geom_line(x=input$rangeScan[2],colour="Red")
+            geom_vline(xintercept = input$rangeScan[1],colour="Red") +
+            geom_vline(xintercept = input$rangeScan[2],colour="Red")
         } else {
           chrom.plot <- chrom.plot + 
             aes(x=seqNum) + xlab("Scan Number") + 
-            geom_line(x=input$rangeScan[1],colour="Red") +
-            geom_line(x=input$rangeScan[2],colour="Red")
+            geom_vline(xintercept = input$rangeScan[1],colour="Red") +
+            geom_vline(xintercept=input$rangeScan[2],colour="Red")
         }
         if(input$chromY=="basePeak"){
           chrom.plot <- chrom.plot + aes(y=basePeakIntensity) + ylab("Intensity")
         } else {
           chrom.plot <- chrom.plot + aes(y=totIonCurrent) + ylab("Intensity")
         }
-        chrom.plot
+        print(chrom.plot)
       })
       output$chromatogram.p <- renderPlot({
         aa <- loadData()
@@ -189,13 +203,13 @@ viewSpectrum <- function(){
           chrom.plot <- chrom.plot + 
             aes(x=retentionTime) + 
             xlab("Retention Time (minutes)") + 
-            geom_line(x=input$rangeScan[1],colour="Red") +
-            geom_line(x=input$rangeScan[2],colour="Red")
+            geom_vline(xintercept = input$rangeScan[1],colour="Red") +
+            geom_vline(xintercept = input$rangeScan[2],colour="Red")
         } else {
           chrom.plot <- chrom.plot + 
             aes(x=seqNum) + xlab("Scan Number") + 
-            geom_line(x=input$rangeScan[1],colour="Red") +
-            geom_line(x=input$rangeScan[2],colour="Red")
+            geom_vline(xintercept = input$rangeScan[1],colour="Red") +
+            geom_vline(xintercept = input$rangeScan[2],colour="Red")
         }
         if(input$chromY=="basePeak"){
           chrom.plot <- chrom.plot + aes(y=basePeakIntensity) + ylab("Intensity")
