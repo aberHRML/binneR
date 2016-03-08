@@ -8,10 +8,9 @@ Maintainer: Jasen Finch <jsf9@aber.ac.uk>
 Description: A spectral binning approach for high resolution flow infusion mass
     spectrometry data.
 License: GPL (>= 2)
-Depends: mzR, ggplot2
+Depends: mzR, ggplot2, plyr
 Imports:
     parallel,
-    plyr,
     shiny,
     ggplot2
 RoxygenNote: 5.0.1

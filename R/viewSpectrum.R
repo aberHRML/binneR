@@ -2,19 +2,21 @@
 #' @name viewSpectrum
 #' @description A shiny app to view converted MS data files.
 #' @param file File path of data file to open
+#' @param polarityOrder specified only when using mzML files. A numeric vector of the length of the number of polarities present in the file giving the polarity order. 
 #' @author Jasen Finch
-#' @examples 
-#' viewSpectrum()
-#' 
+#' @example 
 #' \dontrun{
-#' 
+#' # for an mzXML file
 #' viewSpectrum(file=list.files(system.file('mzXML',package='OrbiFIEproc'),full.names = T)[1])
+#' 
+#' # for an mzML file containing both polarities with negative scanning before positive
+#' viewSpectrum(polarityOrder=c(0,1))
 #' }
 #' @export
 #' @import shiny
 #' @import ggplot2
 
-viewSpectrum <- function(file=NULL){
+viewSpectrum <- function(file=NULL,polarityOrder=NULL){
   options(shiny.maxRequestSize = 500*1024^2)
   shinyApp(
     ui = fluidPage(
@@ -24,7 +26,7 @@ viewSpectrum <- function(file=NULL){
         sidebarPanel(if(is.null(file)){
           fileInput('file1', 'Upload Data File:',
                     accept = c(
-                      '.mzXML'
+                      '.mzXML','.mzML'
                     )
           )} else {
           	textInput('file1', 'Data File Path:',value=file)
@@ -65,6 +67,13 @@ viewSpectrum <- function(file=NULL){
       		aa <- openMSfile(input$file1)
       	}
         headers <- header(aa)
+        if(grepl('.mzML',input$file1)){
+        	if(!is.null(polarityOrder)){
+        		headers$polarity <- rep(polarityOrder,(1 * 1/length(polarityOrder)) * length(headers$polarity))
+        	} else {
+        		cat('\nmzML file used, polarityOrder needs to be specified\n')
+        	}
+        }
         headers$retentionTime <- round(headers$retentionTime/60,2)
         head <- lapply(0:1,function(x,ms){return(ms[which(ms$polarity==x),])},ms=headers)
         names(head) <- c('neg','pos')
