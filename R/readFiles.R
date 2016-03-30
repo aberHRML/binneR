@@ -32,7 +32,7 @@ readFiles <- function(files,dp,scans,sranges=list(c(50,1000)),modes=c("p","n"),n
     }
   }else{
     clust = makeCluster(nCores, type="PSOCK") 
-    clusterExport(clust,c(ls("package:OrbiFIEproc"),ls("package:mzR"),ls("package:Rcpp"),ls("package:plyr")))
+    clusterExport(clust,c(ls("package:binneR"),ls("package:mzR"),ls("package:Rcpp"),ls("package:plyr")))
 		pl <- parLapplyLB(clust,files ,fun= sampProcess,scans=scans,dp=dp,sranges=sranges,modes=modes)	 
 		# split modes
     pos.neg <- list()
