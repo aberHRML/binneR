@@ -1,4 +1,4 @@
-Package: OrbiFIEproc
+Package: binneR
 Type: Package
 Title: Spectral processing for high resolution flow infusion mass spectrometry
 Version: 1.0
