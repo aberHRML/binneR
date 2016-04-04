@@ -7,7 +7,7 @@
 #' @example 
 #' \dontrun{
 #' # for an mzXML file
-#' viewSpectrum(file=list.files(system.file('mzXML',package='OrbiFIEproc'),full.names = T)[1])
+#' viewSpectrum(file=list.files(system.file('mzXML',package='binneR'),full.names = T)[1])
 #' 
 #' # for an mzML file containing both polarities with negative scanning before positive
 #' viewSpectrum(polarityOrder=c(0,1))
