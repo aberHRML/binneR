@@ -4,7 +4,7 @@
 #' @param file File path of data file to open
 #' @param polarityOrder specified only when using mzML files. A numeric vector of the length of the number of polarities present in the file giving the polarity order. 
 #' @author Jasen Finch
-#' @example 
+#' @examples 
 #' \dontrun{
 #' # for an mzXML file
 #' viewSpectrum(file=list.files(system.file('mzXML',package='binneR'),full.names = T)[1])
