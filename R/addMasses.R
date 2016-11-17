@@ -1,17 +1,16 @@
-#' Add in masses with zero intensity if not present in a peak matrix in a peak list
-#' @name addMasses
-#' @description This function will add rows to a peak matrix of missing m/z identified within the supplied peak list to ensure equal matrix row lengths for further processing  
-#' @param x A list containing peak matrices for each scan
-#' @return A list containing peak matrices with added 0 values
-#' @author Jasen Finch
-#' @export
+# Add in masses with zero intensity if not present in a peak matrix in a peak list
+# @name addMasses
+# @description This function will add rows to a peak matrix of missing m/z identified within the supplied peak list to ensure equal matrix row lengths for further processing  
+# @param x A list containing peak matrices for each scan
+# @return A list containing peak matrices with added 0 values
+# @author Jasen Finch
 
 addMasses <- function(x){
 	masses <- colMasses(x)
 	y.1 <- NULL
-	for (i in 1:length(x)){
+	for (i in 1:length(x)) {
 		y <- data.frame(x[[i]])
-		mat <- matrix(0,nrow=length(masses),ncol=2)
+		mat <- matrix(0,nrow = length(masses),ncol = 2)
 		names(mat) <- c("mz","intensity")
 		z <- masses %in% y[,1]
 		mat[,1] <- masses

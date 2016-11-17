@@ -4,8 +4,8 @@
 \alias{readFiles}
 \title{Read and process mulitple data files}
 \usage{
-readFiles(files, dp, scans, sranges = list(c(50, 1000)), modes = c("p",
-  "n"), nCores = 2)
+readFiles(files, dp, scans, sranges = list(c(50, 1000)), modes = c("n",
+  "p"), nCores = 1)
 }
 \arguments{
 \item{files}{A vector of converted data file paths}
@@ -25,6 +25,10 @@ A list containing peak lists for the relevant scans with combined scan ranges fo
 }
 \description{
 Apply spectral binning on multiple data files.
+}
+\examples{
+res <- readFiles(list.files(system.file('mzXML',package = 'binneR'),
+                 full.names=TRUE),dp = 2,scans = 6:17)
 }
 \author{
 Jasen Finch
