@@ -26,7 +26,7 @@ readFiles <- function(files,dp, scans, sranges = list(c(50,1000)), modes = c("n"
 	# split modes
 	pl <- dlply(pl, 'Mode', identity)
 	# build  intensity matrix
-	pl <- parLapply(clust,pl,function(x){
+	pl <- parLapplyLB(clust,pl,function(x){
 		x <- spread(x,key = 'mz',value = 'intensity',fill = 0)
 		mode <- x$Mode[1]
 		x$File <- NULL
