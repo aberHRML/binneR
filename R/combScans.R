@@ -42,7 +42,11 @@ combScans <- function(x,scans,sranges,modes){
 			colnames(y) <- c("mz","intensity")
 			return(y)
 		},sranges = sranges))},sranges = sranges)
-	names(pos.neg) <- names(mode)
+	pos.neg <- lapply(pos.neg,function(x,scans){
+		names(x) <- scans
+		return(x)
+	},scans = scans)
+	names(pos.neg) <- modes
 	return(pos.neg)
 	}
 																	

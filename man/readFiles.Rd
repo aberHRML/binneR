@@ -33,4 +33,3 @@ res <- readFiles(list.files(system.file('mzXML',package = 'binneR'),
 \author{
 Jasen Finch
 }
-
