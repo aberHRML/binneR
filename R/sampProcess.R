@@ -24,6 +24,7 @@ sampProcess <- function(file,scans,dp,sranges,modes){
 	pl$mz <- round(pl$mz,dp)
 	pl <- pl %>% group_by(Mode,Scan,mz) %>% summarise(intensity = sum(intensity)) 
 	# average the scans
-	pl <- pl %>% group_by(Mode,mz) %>% summarise(intensity = sum(intensity)/length(unique(Scan))) 
+	Nscans <- length(unique(pl$Scan))
+	pl <- pl %>% group_by(Mode,mz) %>% summarise(intensity = sum(intensity)/Nscans) 
 	return(pl)
 }

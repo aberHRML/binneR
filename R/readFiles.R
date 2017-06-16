@@ -21,19 +21,20 @@
 readFiles <- function(files,dp, scans, sranges = list(c(50,1000)), modes = c("n","p"), nCores = 1){ # for data collected in both modes
 	clust = makeCluster(nCores, type = "PSOCK") 
 	pl <- parLapplyLB(clust,files ,fun = sampProcess,scans = scans,dp = dp,sranges = sranges,modes = modes)	 
-	stopCluster(clust)
 	names(pl) <- files
 	pl <- bind_rows(pl,.id = 'File')
-	pl$mz <- paste(pl$Mode,pl$mz,sep = '')
 	# split modes
 	pl <- dlply(pl, 'Mode', identity)
 	# build  intensity matrix
-	pl <- lapply(pl,function(x){
+	pl <- parLapply(clust,pl,function(x){
 		x <- spread(x,key = 'mz',value = 'intensity',fill = 0)
+		mode <- x$Mode[1]
 		x$File <- NULL
 		x$Mode <- NULL
+		colnames(x) <- paste(mode,colnames(x),sep = '')
 		x <- as.matrix(x)
 		return(x)
 	})
+	stopCluster(clust)
 	return(pl)
 }  
