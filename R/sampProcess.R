@@ -19,6 +19,7 @@ sampProcess <- function(file,scans,dp,sranges,modes){
 	pl <- lapply(pl,function(x,dp){
 		return(lapply(x,function(y,dp){
 			# round to dp
+			y[,'mz'] <- round(y[,'mz'],5)
 			y[,"mz"] <- round(y[,"mz"],dp)
 			# aggregate bins to give ion totals
 			y <- aggregate(y[,"intensity"],list(y[,"mz"]),sum)
