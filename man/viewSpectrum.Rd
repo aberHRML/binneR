@@ -26,4 +26,3 @@ viewSpectrum(polarityOrder=c(0,1))
 \author{
 Jasen Finch
 }
-

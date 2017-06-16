@@ -10,34 +10,20 @@
 # @author Jasen Finch
 #' @importFrom mzR openMSfile peaks
 #' @importFrom stats aggregate
+#' @importFrom dplyr bind_rows group_by summarise
+#' @importFrom magrittr %>%
 
 sampProcess <- function(file,scans,dp,sranges,modes){
 	aa <- openMSfile(file)
 	pl <- peaks(aa) # obtain peak lists
 	pl <- combScans(pl,scans,sranges,modes)
+	pl <- lapply(pl,bind_rows,.id = 'Scan')
+	pl <- bind_rows(pl,.id = 'Mode')
+	pl$mz <- round(pl$mz,5)
 	# round and aggregate within scans
-	pl <- lapply(pl,function(x,dp){
-		return(lapply(x,function(y,dp){
-			# round to dp
-			y[,'mz'] <- round(y[,'mz'],5)
-			y[,"mz"] <- round(y[,"mz"],dp)
-			# aggregate bins to give ion totals
-			y <- aggregate(y[,"intensity"],list(y[,"mz"]),sum)
-			return(y)
-			},dp = dp))
-		},dp = dp)
-	# add zeros for missing bins in each scan
-	pl <- lapply(pl,addMasses)
-	pl <- lapply(pl,massMat)
+	pl$mz <- round(pl$mz,dp)
+	pl <- pl %>% group_by(Mode,Scan,mz) %>% summarise(intensity = sum(intensity)) 
 	# average the scans
-	pl <- lapply(pl,function(x){
-		x <- apply(x,2,mean)
-		return(x)
-		})
-	pl <- lapply(pl,function(x){
-		x <- data.frame(mz = as.numeric(as.character(names(x))),intensity = x,row.names = NULL)
-		return(x)
-		})
-	names(pl) <- modes
+	pl <- pl %>% group_by(Mode,mz) %>% summarise(intensity = sum(intensity)/length(unique(Scan))) 
 	return(pl)
 }

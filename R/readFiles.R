@@ -11,6 +11,9 @@
 #' @author Jasen Finch
 #' @export
 #' @importFrom parallel makeCluster parLapplyLB stopCluster
+#' @importFrom dplyr bind_rows 
+#' @importFrom tidyr spread
+#' @importFrom plyr dlply
 #' @examples 
 #' res <- readFiles(list.files(system.file('mzXML',package = 'binneR'),
 #'                  full.names=TRUE),dp = 2,scans = 6:17)
@@ -18,23 +21,19 @@
 readFiles <- function(files,dp, scans, sranges = list(c(50,1000)), modes = c("n","p"), nCores = 1){ # for data collected in both modes
 	clust = makeCluster(nCores, type = "PSOCK") 
 	pl <- parLapplyLB(clust,files ,fun = sampProcess,scans = scans,dp = dp,sranges = sranges,modes = modes)	 
-	# split modes
-	pos.neg <- list()
-	for (i in 1:length(modes)) {
-		pos.neg[[i]] <- lapply(pl,function(x,mode){return(x[mode])},mode = modes[i])
-	}  
-	pl <- NULL
-	gc()
-	# add in masses to get equal lengths for each sample
-	pos.neg <- parLapplyLB(clust,pos.neg,fun = addMasses)	
-	gc()
-	# build  intensity matrix
-	pos.neg <- parLapplyLB(clust,pos.neg,fun = massMat)
 	stopCluster(clust)
-	for (i in 1:length(modes)) {
-		colnames(pos.neg[[i]]) <- paste(modes[i],colnames(pos.neg[[i]]),sep = "")
-	}
-	names(pos.neg) <- modes
-	gc()
-	return(pos.neg)
+	names(pl) <- files
+	pl <- bind_rows(pl,.id = 'File')
+	pl$mz <- paste(pl$Mode,pl$mz,sep = '')
+	# split modes
+	pl <- dlply(pl, 'Mode', identity)
+	# build  intensity matrix
+	pl <- lapply(pl,function(x){
+		x <- spread(x,key = 'mz',value = 'intensity',fill = 0)
+		x$File <- NULL
+		x$Mode <- NULL
+		x <- as.matrix(x)
+		return(x)
+	})
+	return(pl)
 }  
