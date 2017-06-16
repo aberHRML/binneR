@@ -1,8 +1,5 @@
 language: r
 
-services:
- - docker
-
 sudo: required
 bioc_required: true
 
@@ -17,15 +14,6 @@ r_binary_packages:
 
 bioc_packages:
  - mzR
-
-r_github_packages:
- - jasenfinch/binneR
-
-after_success:
-  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - git clone https://github.com/jasenfinch/HRM-docker.git
-  - docker build -t jasenfinch/hrm-docker ./HRM-docker
-  - docker push jasenfinch/hrm-docker
 
 notifications:
   email:
