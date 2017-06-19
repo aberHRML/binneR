@@ -18,7 +18,6 @@
 #' @importFrom mzR header runInfo
 #' @importFrom ggplot2 ggplot geom_line aes_string theme_bw ggtitle geom_vline xlab 
 #' @importFrom ggplot2 ylab geom_segment geom_text
-#' @export
 
 viewSpectrum <- function(file = NULL, polarityOrder = NULL){
   options(shiny.maxRequestSize = 500*1024^2)
