@@ -1,12 +1,16 @@
 Package: binneR
 Type: Package
 Title: Spectral processing for high resolution flow infusion mass spectrometry
-Version: 1.0
+Version: 1.1
 Date: 2015-03-30
 Author: Jasen Finch
 Maintainer: Jasen Finch <jsf9@aber.ac.uk>
 Description: A spectral binning approach for high resolution flow infusion mass
     spectrometry data.
+Imports: dplyr,
+         magrittr,
+         mzR,
+         plyr,
+         tidyr
 License: GPL (>= 2)
-Imports: parallel,shiny,ggplot2,plyr,mzR,dplyr,tidyr,magrittr
 RoxygenNote: 6.0.1
