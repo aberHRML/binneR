@@ -2,6 +2,4 @@
 
 ### binneR
 
-------------
-
 An R package for spectral binning of FIE-HRMS metabolomic fingerprinting data
