@@ -1,6 +1,7 @@
 language: r
 
 sudo: required
+cache: packages
 bioc_required: true
 
 apt_packages:
