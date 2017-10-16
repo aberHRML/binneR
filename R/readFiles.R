@@ -15,7 +15,7 @@
 #' @importFrom tidyr spread
 #' @importFrom plyr dlply
 #' @examples 
-#' res <- readFiles(list.files(system.file('mzXML',package = 'binneR'),
+#' res <- readFiles(list.files(system.file('mzML',package = 'binneR'),
 #'                  full.names=TRUE),dp = 2,scans = 6:17)
 
 readFiles <- function(files,dp, scans, sranges = list(c(50,1000)), modes = c("n","p"), nCores = 1){ # for data collected in both modes
