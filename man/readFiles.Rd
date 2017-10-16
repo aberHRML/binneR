@@ -27,7 +27,7 @@ A list containing peak lists for the relevant scans with combined scan ranges fo
 Apply spectral binning on multiple data files.
 }
 \examples{
-res <- readFiles(list.files(system.file('mzXML',package = 'binneR'),
+res <- readFiles(list.files(system.file('mzML',package = 'binneR'),
                  full.names=TRUE),dp = 2,scans = 6:17)
 }
 \author{
