@@ -1,7 +1,7 @@
 Package: binneR
 Type: Package
 Title: Spectral processing for high resolution flow infusion mass spectrometry
-Version: 1.1
+Version: 1.1.0
 Date: 2015-03-30
 Author: Jasen Finch
 Maintainer: Jasen Finch <jsf9@aber.ac.uk>
