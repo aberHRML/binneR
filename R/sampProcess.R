@@ -1,3 +1,5 @@
+globalVariables(c('Mode','Scan','mz','intensity'))
+
 #  process a single data file
 # @name sampProcess
 # @description Apply spectral binning on a single data file.
