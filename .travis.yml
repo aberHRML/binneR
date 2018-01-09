@@ -5,6 +5,9 @@ cache: packages
 bioc_required: true
 warnings_are_errors: true
 
+r:
+ - release
+ - devel
 apt_packages:
  - libnetcdf-dev
  - udunits-bin
