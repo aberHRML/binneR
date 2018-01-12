@@ -18,6 +18,9 @@ r_binary_packages:
  - RUnit
  - testthat
 
+r_packages:
+ - devtools
+
 bioc_packages:
  - mzR
 
