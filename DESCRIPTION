@@ -5,8 +5,7 @@ Version: 1.1.1
 Date: 2018-01-12
 Author: Jasen Finch
 Maintainer: Jasen Finch <jsf9@aber.ac.uk>
-Description: A spectral binning approach for high resolution flow infusion mass
-    spectrometry data.
+Description: A spectral binning approach for high resolution flow infusion mass spectrometry data.
 URL: https://github.com/jasenfinch/binneR
 Imports: dplyr,
          magrittr,
