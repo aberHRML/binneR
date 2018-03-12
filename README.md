@@ -5,6 +5,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/qgbik806tnd6v1up/branch/master?svg=true)](https://ci.appveyor.com/project/jasenfinch/binner/branch/master)
 [![CRAN](https://www.r-pkg.org/badges/version/binneR)](https://cran.r-project.org/web/packages/binneR/index.html)
 ![downloads](https://cranlogs.r-pkg.org/badges/binneR)
+[![DOI](https://zenodo.org/badge/33118371.svg)](https://zenodo.org/badge/latestdoi/33118371)
 
 ### Spectral Processing for High Resolution Flow Infusion Mass Spectrometry
 
