@@ -2,3 +2,4 @@
 .Rhistory
 .RData
 binneR.Rcheck
+inst/doc

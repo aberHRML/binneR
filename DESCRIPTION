@@ -11,6 +11,32 @@ Imports: dplyr,
          magrittr,
          mzR,
          plyr,
-         tidyr
+         tidyr,
+         methods,
+         purrr,
+         stringr,
+         tibble
 License: GPL (>= 3)
 RoxygenNote: 6.0.1
+Collate:
+    'allGenerics.R'
+    'allClasses.R'
+    'binneRlyse.R'
+    'binParameters.R'
+    'binPurity.R'
+    'binCentrality.R'
+    'spectralBinning-method.R'
+    'show-method.R'
+    'info-method.R'
+    'binnedData-method.R'
+    'accurateData-method.R'
+    'getPeaks.R'
+    'calcBinList.R'
+    'getHeaders.R'
+    'calcBinMeasures.R'
+    'combScans.R'
+    'readFiles.R'
+    'sampProcess.R'
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
