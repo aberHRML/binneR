@@ -38,5 +38,6 @@ Collate:
     'readFiles.R'
     'sampProcess.R'
 Suggests: knitr,
-    rmarkdown
+    rmarkdown,
+    ggplot2
 VignetteBuilder: knitr
