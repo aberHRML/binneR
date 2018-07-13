@@ -1,5 +1,6 @@
 #' @importFrom dplyr group_by summarise arrange inner_join select left_join filter distinct rename
 #' @importFrom tibble tibble
+#' @importFrom purrr map
 #' @importFrom tidyr spread
 #' @importFrom stringr str_c
 

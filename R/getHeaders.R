@@ -13,7 +13,7 @@ getHeaders <- function(files,nCores,clusterType){
         headers <- parLapply(clus,files,function(x){
             x %>%
                 openMSfile(backend = 'pwiz') %>%
-                header()
+                mzR::header()
         })
         stopCluster(clus)
     }

@@ -7,9 +7,9 @@ getFile <- function(file,scans,sranges,modes){
     ms <- openMSfile(file,backend = 'pwiz')
     pks <- peaks(ms) %>%
         combScans(scans,sranges,modes) %>%
-        map(bind_rows,.id = 'Scan') %>%
+        purrr::map(bind_rows,.id = 'Scan') %>%
         bind_rows(.id = 'Mode') %>%
-        as_tibble()
+        tibble::as_tibble()
 }
 
 #' @importFrom parallel makeCluster stopCluster parLapply
