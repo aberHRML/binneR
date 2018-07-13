@@ -28,7 +28,6 @@ remotes::install_github('jasenfinch/binneR')
 
 To do for v2.0.0:
 
-* Improve processing speed of binneRlyse.
 * Add bin plotting
 * Add chromatogram plotting
 * Add TIC plot function
