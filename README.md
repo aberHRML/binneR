@@ -25,3 +25,15 @@ To download and install this development vesion run:
 ``` r
 remotes::install_github('jasenfinch/binneR')
 ```
+
+To do for v2.0.0:
+
+* Proof vignette for package move changes.
+* Add original binneR functionality to vignette.
+* Improve processing speed of binneRlyse.
+* Add bin plotting
+* Add chromatogram plotting
+* Add TIC plot function
+* Add infusion scan detection function
+* Add new features to vignette
+* Add README.Rmd with package functionality
