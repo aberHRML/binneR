@@ -15,7 +15,10 @@ Imports: dplyr,
          methods,
          purrr,
          stringr,
-         tibble
+         tibble,
+         crayon,
+         cli,
+         lubridate
 License: GPL (>= 3)
 RoxygenNote: 6.0.1
 Collate:
@@ -37,6 +40,7 @@ Collate:
     'combScans.R'
     'readFiles.R'
     'sampProcess.R'
+    'binneR.R'
 Suggests: knitr,
     rmarkdown,
     ggplot2,

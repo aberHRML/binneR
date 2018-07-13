@@ -18,7 +18,6 @@ setMethod('show',signature = 'BinParameters',
               }
               cat('No. Cores',object@nCores,'\n')
               cat('Cluster Type:',object@clusterType,'\n')
-              cat('\n')
           })
 
 #' show-Binalysis
