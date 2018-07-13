@@ -168,7 +168,7 @@ analysis <- binneRlyse(files,info,binParameters())
 ```
 
 ```{r processing,echo=FALSE}
-analysis <- binneRlyse(files,info,binParameters(nCores = 2))
+analysis <- binneRlyse(files,info,binParameters(nCores = 2,clusterType = 'PSOCK'))
 ```
 
 ```{r printAnalysis,echo=FALSE}
@@ -194,7 +194,7 @@ dat <- tidyr::gather(tibble::as_tibble(dat),'mz','Intensity')
 dat <- dplyr::mutate(dat,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
 dat <- dplyr::mutate(dat,bin = round(mz,2))
 measures <- dplyr::group_by(dat,bin)
-measures <- dplyr::summarise(measures,purity = binneRlyse:::binPurity(mz,Intensity),centrality = binneRlyse:::binCentrality(mz,Intensity),Intensity = mean(Intensity))
+measures <- dplyr::summarise(measures,purity = binneR:::binPurity(mz,Intensity),centrality = binneR:::binCentrality(mz,Intensity),Intensity = mean(Intensity))
 ```
 
 ### Purity
