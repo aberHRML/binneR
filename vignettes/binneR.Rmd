@@ -226,7 +226,7 @@ There are a number of functions that can be used to return processing data from 
 
 ### Bin Measures
 
-*binneR* provides a number of measures that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate *m/z* peaks present within its boundaries. These include both purity and centrality.
+There are a number of measures that can be computed that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate *m/z* peaks present within its boundaries. These include both purity and centrality.
 
 ```{r measuresPrep, echo=FALSE}
 dat <- binneR::readFiles(system.file(

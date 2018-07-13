@@ -28,8 +28,6 @@ remotes::install_github('jasenfinch/binneR')
 
 To do for v2.0.0:
 
-* Proof vignette for package move changes.
-* Add original binneR functionality to vignette.
 * Improve processing speed of binneRlyse.
 * Add bin plotting
 * Add chromatogram plotting
