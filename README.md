@@ -37,3 +37,4 @@ To do for v2.0.0:
 * Add infusion scan detection function
 * Add new features to vignette
 * Add README.Rmd with package functionality
+* Add verbosity for `binneRlyse()`.
