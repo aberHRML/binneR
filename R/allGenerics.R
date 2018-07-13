@@ -17,3 +17,8 @@ setGeneric("binnedData", function(x) {
 setGeneric("accurateData", function(x) {
     standardGeneric("accurateData")
 })
+
+#' @rdname plotBin
+setGeneric('plotBin',function(x,bin,cls = T) {
+	standardGeneric('plotBin')
+})

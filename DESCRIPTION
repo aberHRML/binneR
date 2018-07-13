@@ -18,7 +18,8 @@ Imports: dplyr,
          tibble,
          crayon,
          cli,
-         lubridate
+         lubridate,
+         ggplot2
 License: GPL (>= 3)
 RoxygenNote: 6.0.1
 Collate:
@@ -41,9 +42,9 @@ Collate:
     'readFiles.R'
     'sampProcess.R'
     'binneR.R'
+    'plotBin.R'
 Suggests: knitr,
     rmarkdown,
-    ggplot2,
     gridExtra,
     readr
 VignetteBuilder: knitr

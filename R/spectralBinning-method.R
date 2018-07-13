@@ -41,7 +41,7 @@ setMethod("spectralBinning", signature = "Binalysis",
 							split(.$File) %>%
 							parLapply(clus,.,function(x,nScans){
 								x %>%
-								group_by(File,Mode,Bin,Scan) %>%
+									group_by(File,Mode,Bin,Scan) %>%
 									summarise(intensity = sum(intensity))	%>%
 									group_by(File,Mode,Bin) %>%
 									summarise(intensity = sum(intensity)/nScans)
@@ -114,12 +114,8 @@ setMethod("spectralBinning", signature = "Binalysis",
 						names(binnedData) <- modes
 						
 						if (length(parameters@cls) == 0) {
-							accurateMZ <- accurateMZ %>%
-								tbl_df() %>%
-								select(-Class)
-							pks <- pks %>%
-								tbl_df() %>%
-								select(-Class)
+							accurateMZ$Class <- NA
+							pks$Class <- NA
 						}
 						
 						headers <- getHeaders(files,parameters@nCores,parameters@clusterType)
@@ -129,8 +125,11 @@ setMethod("spectralBinning", signature = "Binalysis",
 						x@binLog <- date()
 						x@info <- info
 						x@binnedData <- binnedData
-						x@accurateMZ <- accurateMZ
-						x@spectra <- list(headers = headers, fingerprints = pks)
+						x@accurateMZ <- accurateMZ %>%
+							tbl_df()
+						x@spectra <- list(headers = headers, fingerprints = pks %>%
+																tbl_df()
+						)
 						return(x)
 					}
 )
