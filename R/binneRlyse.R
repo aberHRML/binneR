@@ -1,16 +1,3 @@
-
-globalVariables(c('.',
-                  'Bin',
-                  'Class',
-                  'Count',
-                  'File',
-                  'Mode',
-                  'Scan',
-                  'intensity',
-                  'mz',
-                  'n'
-                  ))
-
 #' binneRlyse
 #' @description perform spectral binning.
 #' @param files character vector of file paths to use for spectral binning
