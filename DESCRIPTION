@@ -44,6 +44,7 @@ Collate:
     'binneR.R'
     'plotBin.R'
     'detectInfusionScans.R'
+    'plotChromatogram.R'
 Suggests: knitr,
     rmarkdown,
     gridExtra,

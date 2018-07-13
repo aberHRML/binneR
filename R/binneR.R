@@ -13,5 +13,6 @@ globalVariables(c('.',
 									'seqNum',
 									'acquisitionNum',
 									'polarity',
-									'totIonCurrent'
+									'totIonCurrent',
+									'FileName'
 ))

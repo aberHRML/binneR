@@ -22,3 +22,8 @@ setGeneric("accurateData", function(x) {
 setGeneric('plotBin',function(x,bin,cls = T) {
 	standardGeneric('plotBin')
 })
+
+#' @rdname plotChromatogram
+setGeneric('plotChromatogram',function(x){
+	standardGeneric('plotChromatogram')
+})
