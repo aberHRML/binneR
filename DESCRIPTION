@@ -43,6 +43,7 @@ Collate:
     'sampProcess.R'
     'binneR.R'
     'plotBin.R'
+    'detectInfusionScans.R'
 Suggests: knitr,
     rmarkdown,
     gridExtra,

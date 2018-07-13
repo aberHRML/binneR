@@ -8,5 +8,10 @@ globalVariables(c('.',
 									'Scan',
 									'intensity',
 									'mz',
-									'n'
+									'n',
+									'Sample',
+									'seqNum',
+									'acquisitionNum',
+									'polarity',
+									'totIonCurrent'
 ))

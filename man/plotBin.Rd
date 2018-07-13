@@ -18,5 +18,5 @@ plotBin(x, bin, cls = T)
 \item{cls}{\code{TRUE} or \code{FALSE}. Should bins be plotted by class?}
 }
 \description{
-Density plot of a specified bin.
+kernal density plot of a specified bin.
 }
