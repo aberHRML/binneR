@@ -44,6 +44,4 @@ vignette('binneR',package = 'binneR')
 
 To do for v2.0.0:
 
-* Add new features to vignette
-* Add README.Rmd with package functionality
 * Add tests
