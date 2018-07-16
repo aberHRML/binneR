@@ -11,7 +11,7 @@ plotChromFromFile(files, sranges = list(c(70, 1000)), scans = c())
 
 \item{sranges}{A list of vectors containing the scan events present}
 
-\item{scan}{specify scans to highlight within the plot}
+\item{scans}{specify scans to highlight within the plot}
 }
 \description{
 plot and averaged infusion profile from a vector of specified file paths.

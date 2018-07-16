@@ -28,6 +28,6 @@ remotes::install_github('jasenfinch/binneR')
 
 To do for v2.0.0:
 
-* Add TIC plot function
 * Add new features to vignette
 * Add README.Rmd with package functionality
+* Add tests

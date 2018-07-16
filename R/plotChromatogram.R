@@ -73,7 +73,7 @@ plotChromFromFile <- function(files, sranges = list(c(70,1000)), scans = c()){
 				map(~{
 					a <- .
 					a %>%
-						split(rep(1:length(x@binParameters@sranges),nrow(.)/length(x@binParameters@sranges))) %>%
+						split(rep(1:length(sranges),nrow(.)/length(sranges))) %>%
 						map(~{
 							b <- .
 							b %>%

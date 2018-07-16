@@ -19,7 +19,8 @@ Imports: dplyr,
          crayon,
          cli,
          lubridate,
-         ggplot2
+         ggplot2,
+         ggthemes
 License: GPL (>= 3)
 RoxygenNote: 6.0.1
 Collate:
@@ -45,6 +46,7 @@ Collate:
     'plotBin.R'
     'detectInfusionScans.R'
     'plotChromatogram.R'
+    'plotTIC.R'
 Suggests: knitr,
     rmarkdown,
     gridExtra,

@@ -27,3 +27,8 @@ setGeneric('plotBin',function(x,bin,cls = T) {
 setGeneric('plotChromatogram',function(x){
 	standardGeneric('plotChromatogram')
 })
+
+#' @rdname plotTIC
+setGeneric('plotTIC',function(x, by = 'injOrder', colour = 'block'){
+	standardGeneric('plotTIC')
+})

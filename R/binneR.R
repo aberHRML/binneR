@@ -14,5 +14,13 @@ globalVariables(c('.',
 									'acquisitionNum',
 									'polarity',
 									'totIonCurrent',
-									'FileName'
+									'FileName',
+									'Colour',
+									'Index',
+									'LowerOut',
+									'Median',
+									'Q1',
+									'Q3',
+									'UpperOut',
+									'TIC'
 ))
