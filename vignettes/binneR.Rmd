@@ -71,9 +71,33 @@ The subsequent sections will outline the use of these two main functionalities.
 Firstly, an intensity matrix can
 Secondly, for routine metabolomic fingerprinting experiments, more formal functionality is provided using S4 structures that allow not only for the production of a spectrally binned intensity, but also the extraction of accurate *m/z* and plotting functionality.
 
+## Infusion Scan Detection
+
+In order to apply the spectral binning approach for FIE-HRMS data, the infusion scans need to be detected. 
+For a set of specified file paths, the range of infusion scans can be detected using the following:  
+
+```{r infusionScanDetection}
+library(binneR)
+infusionScans <- detectInfusionScans(list.files(system.file('mzML',package = 'binneR'),full.names = TRUE),
+										sranges = list(c(70,1000)),
+										thresh = 0.5
+										)
+infusionScans
+```
+
+The detected scans can then be checked by plotting an averaged chromatogram for these files.
+The infusion scans can also be plotted by supplying the range to the scans argument.
+
+```{r exampleChromatograms, fig.width=5,fig.height=4}
+plotChromFromFile(list.files(system.file('mzML',package = 'binneR'),full.names = TRUE),
+										sranges = list(c(70,1000)),
+									scans = infusionScans
+									)
+```
+
 ## Simple Intensity Matrix Production - quick FIE-HRMS matrix investigations
 
-The simplest funtionality of **binneR** is to read raw data vector of specified file paths, bin these to a given amu and aggregate across a given scan window.
+The simplest funtionality of *binneR* is to read raw data vector of specified file paths, bin these to a given amu and aggregate across a given scan window.
 This can be useful for a quick assessment of FIE-HRMS data structures.
 Spectral binning can be performed using the `readFiles()` function as shown below.
 The example file within the package can be specified using the following.
@@ -85,7 +109,6 @@ file <- list.files(system.file('mzML',package = 'binneR'),full.names = TRUE)
 Then the data can be spectrally binned using:
 
 ```{r readFilesExample}
-library(binneR)
 res <- readFiles(file,
 								 dp = 2,
 								 scans = 6:17,
@@ -216,6 +239,19 @@ analysis <- binneRlyse(files,info,binParameters(nCores = 2,clusterType = 'PSOCK'
 ```{r printAnalysis,echo=FALSE}
 analysis
 ```
+
+For data quality inspection, the infusion profiles this data can be plotted using:
+
+```{r analysisChromatogram, fig.width=5,fig.height=4}
+plotChromatogram(analysis)
+```
+
+And the total ion counts using:
+
+```{r analysisTICs, fig.width=5,fig.height=4}
+plotTIC(analysis)
+```
+
 #### Data Extraction
 
 There are a number of functions that can be used to return processing data from a `Binalysis` object:

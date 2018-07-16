@@ -50,5 +50,6 @@ Collate:
 Suggests: knitr,
     rmarkdown,
     gridExtra,
-    readr
+    readr,
+    metaboData
 VignetteBuilder: knitr
