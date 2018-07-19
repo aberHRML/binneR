@@ -22,8 +22,8 @@ setMethod('plotTIC',signature = 'Binalysis',
 							map(rowSums) %>%
 							bind_cols() %>%
 							rowid_to_column(var = 'Sample') %>%
-							mutate(Colour = rawInfo[,colour] %>% factor(),
-										 Index = rawInfo[,by]) %>%
+							mutate(Colour = rawInfo[,colour] %>% unlist() %>% factor(),
+										 Index = rawInfo[,by] %>% unlist()) %>%
 							gather('Mode','TIC',-Sample,-Colour,-Index)
 						
 						TICdat$Mode[TICdat$Mode == 'n'] <- 'Negative'
