@@ -41,7 +41,3 @@ The vignette outlining the package usage and features can be found using:
 ``` r
 vignette('binneR',package = 'binneR')
 ```
-
-To do for v2.0.0:
-
-* Add tests
