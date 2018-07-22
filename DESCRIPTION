@@ -1,7 +1,7 @@
 Package: binneR
 Type: Package
 Title: Spectral Processing for High Resolution Flow Infusion Mass Spectrometry
-Version: 1.1.1
+Version: 2.0.0
 Date: 2018-01-12
 Author: Jasen Finch
 Maintainer: Jasen Finch <jsf9@aber.ac.uk>
@@ -11,6 +11,45 @@ Imports: dplyr,
          magrittr,
          mzR,
          plyr,
-         tidyr
+         tidyr,
+         methods,
+         purrr,
+         stringr,
+         tibble,
+         crayon,
+         cli,
+         lubridate,
+         ggplot2,
+         ggthemes
 License: GPL (>= 3)
 RoxygenNote: 6.0.1
+Collate:
+    'allGenerics.R'
+    'allClasses.R'
+    'binneRlyse.R'
+    'binParameters.R'
+    'binPurity.R'
+    'binCentrality.R'
+    'spectralBinning-method.R'
+    'show-method.R'
+    'info-method.R'
+    'binnedData-method.R'
+    'accurateData-method.R'
+    'getPeaks.R'
+    'calcBinList.R'
+    'getHeaders.R'
+    'calcBinMeasures.R'
+    'combScans.R'
+    'readFiles.R'
+    'sampProcess.R'
+    'binneR.R'
+    'plotBin.R'
+    'detectInfusionScans.R'
+    'plotChromatogram.R'
+    'plotTIC.R'
+Suggests: knitr,
+    rmarkdown,
+    gridExtra,
+    readr,
+    metaboData
+VignetteBuilder: knitr
