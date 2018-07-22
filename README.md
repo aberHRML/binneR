@@ -9,7 +9,8 @@
 
 ### Spectral Processing for High Resolution Flow Infusion Mass Spectrometry
 
-A spectral binning approach for high resolution flow infusion mass spectrometry data.
+A spectral binning approach for flow infusion  electrospray high resolution mass spectrometry (FIE-HRMS) data.
+Includes tools for generating intensity matrices converted raw data file formats such as `.mzML` and `.mzXML`, plotting chromatograms and total ion counts.
 
 #### Installation
 
@@ -20,8 +21,27 @@ install.packages('binneR')
 ```
 
 The CRAN version can be found on the [cran](https://github.com/jasenfinch/binneR/tree/cran) branch of this repository.
+
+The example data used in this package are from the [metaboData](https://github.com/jasenfinch/metaboData) package that can be installed using:
+
+``` r
+remotes::install_github('jasenfinch/metaboData')
+```
+
 To download and install this development vesion run:
 
 ``` r
-remotes::install_github('jasenfinch/binneR')
+remotes::install_github('jasenfinch/binneR',build_vignettes = TRUE)
 ```
+
+#### Vignette
+
+The vignette outlining the package usage and features can be found using:
+
+``` r
+vignette('binneR',package = 'binneR')
+```
+
+To do for v2.0.0:
+
+* Add tests

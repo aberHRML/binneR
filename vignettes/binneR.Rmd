@@ -1,0 +1,374 @@
+---
+title: "binneR"
+author: "Jasen Finch"
+date: "March 2018"
+output: 
+    rmarkdown::html_vignette:
+        toc: true
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+## Introduction
+  
+  The *binneR* package provides a spectral binning approach for routine processing of flow infusion electrospray - high resolution mass spectrometry (FIE-HRMS) metabolomics fingerprinting experiments, the results of which can then be used for subsequent statistical analyses.
+  
+  Spectral binning rounds high resolution fingerprinting data by a specified amu bin width.
+  FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can be averaged to provide a metabolome fingerprint. 
+  Spectral binning is applied on a scan by scan basis where the data is rounded to the specified bin width, the signals are then sum aggregated and their intensities are averaged across the specified scans.
+  Below is indicated the 'plug flow' region of an example FIE-MS chromatogram and the resulting spectrum when signal intensities are averaged across these scans.
+  
+  
+  ```{r FIEfingerprint, echo=FALSE, fig.width=5,fig.height=4}
+chrom <- mzR::openMSfile(system.file(
+'DataSets/FIE-HRMS/BdistachyonEcotypes/QC01.mzML',
+package = 'metaboData'))
+chrom <- mzR::header(chrom)
+chrom <- chrom[seq(1,nrow(chrom),2),]
+chrom$acquisitionNum <- 1:nrow(chrom)
+
+spectrum <- binneR::readFiles(system.file(
+'DataSets/FIE-HRMS/BdistachyonEcotypes/QC01.mzML',
+package = 'metaboData'),scans = 6:12,sranges = list(c(70,1000)),dp = 2)$n
+
+spectrum <- tidyr::gather(tibble::as_tibble(spectrum),'mz','Intensity')
+spectrum <- dplyr::mutate(spectrum,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
+
+p <- list()
+
+p$chromatogram <- ggplot2::ggplot(chrom,ggplot2::aes(x = acquisitionNum,y = totIonCurrent)) + 
+ggplot2::geom_line() +
+ggplot2::geom_vline(xintercept = 6, linetype = "dashed",colour = 'red') +
+ggplot2::geom_vline(xintercept = 12, linetype = "dashed",colour = 'red') +
+ggplot2::theme_bw(base_size = 10) +
+ggplot2::xlab('Scan Number') +
+ggplot2::ylab('Total Ion Count') +
+ggplot2::ggtitle('Chromatogram')
+
+p$spectrum <- ggplot2::ggplot(spectrum,ggplot2::aes(x = mz, y = 0, xend = mz, yend = Intensity)) +
+ggplot2::geom_segment() +
+ggplot2::theme_bw() +
+ggplot2::xlab('m/z') +
+ggplot2::ylab(('Abundance')) +
+ggplot2::ggtitle('Spectrum')
+
+gridExtra::grid.arrange(gridExtra::arrangeGrob(p$chromatogram,p$spectrum))
+```
+
+Prior to the use of *binneR*, vendor specific raw data files need to be converted to one of the open source file formats such as *.mzXML* or *.mzML* so that they can be parsed into R.
+Data should also be centroided to reduce bin splitting artifacts that profile data can introduce during spectral binning.
+The *[msconvert](http://proteowizard.sourceforge.net/tools.shtml)* tool can be used for both data conversion and centroiding, allowing the use of vendor specific algorithms.
+
+There are two main functionalities provided by this package.
+
+* Simple intensity matrix production - quick FIE-HRMS matrix investigations.
+* binneRlyse - processing for routine metabolomics fingerprinting experiments.
+
+The subsequent sections will outline the use of these two main functionalities.
+
+Firstly, an intensity matrix can
+Secondly, for routine metabolomic fingerprinting experiments, more formal functionality is provided using S4 structures that allow not only for the production of a spectrally binned intensity, but also the extraction of accurate *m/z* and plotting functionality.
+
+## Infusion Scan Detection
+
+In order to apply the spectral binning approach for FIE-HRMS data, the infusion scans need to be detected. 
+For a set of specified file paths, the range of infusion scans can be detected using the following:  
+
+```{r infusionScanDetection}
+library(binneR)
+infusionScans <- detectInfusionScans(list.files(system.file('mzML',package = 'binneR'),full.names = TRUE),
+										sranges = list(c(70,1000)),
+										thresh = 0.5
+										)
+infusionScans
+```
+
+The detected scans can then be checked by plotting an averaged chromatogram for these files.
+The infusion scans can also be plotted by supplying the range to the scans argument.
+
+```{r exampleChromatograms, fig.width=5,fig.height=4}
+plotChromFromFile(list.files(system.file('mzML',package = 'binneR'),full.names = TRUE),
+										sranges = list(c(70,1000)),
+									scans = infusionScans
+									)
+```
+
+## Simple Intensity Matrix Production - quick FIE-HRMS matrix investigations
+
+The simplest funtionality of *binneR* is to read raw data vector of specified file paths, bin these to a given amu and aggregate across a given scan window.
+This can be useful for a quick assessment of FIE-HRMS data structures.
+Spectral binning can be performed using the `readFiles()` function as shown below.
+The example file within the package can be specified using the following.
+
+```{r fileList}
+file <- list.files(system.file('mzML',package = 'binneR'),full.names = TRUE)
+```
+
+Then the data can be spectrally binned using:
+
+```{r readFilesExample}
+res <- readFiles(file,
+								 dp = 2,
+								 scans = 6:17,
+								 sranges = list(c(50, 1000)),
+								 modes = c("n","p"), 
+								 nCores = 1)
+```
+
+This will return a list containing the intensity matrices for each ionisation mode, with the rows being the individual samples and columns the spectral bins.
+
+```{r readFiles}
+str(res)
+```
+
+## binneRlyse - metabolomics fingerprinting experiments
+
+Routine FIE-HRMS metabolomic fingerprinting experiments can require rapid the processing of hundereds of MS files that will also require sample information such as biological classes for subsequent statistical analyses.
+The package allows for a `BinAlysis` that formalises the spectral binning approach using an S4 class that not only bins the data to 0.01 amu but will also extract accurate *m/z* for each of these bins based on 0.00001 amu binned data.
+The accurate *m/z* data can be aggregated based on a specified class structure from which the modal accurate *m/z* is extracted.
+Some bin measures are also computed that allow the assessment of the quality of the 0.01 amu bins.
+
+Subsequent analyses of these data can easily be applied using the [*metabolyseR*](https://github.com/jasenfinch/metabolyseR) package.
+The [*metaboWorkflows*](https://github.com/jasenfinch/metaboWorkflows) package also provides customisable wrapper workflows for high resolution FIE-MS analyses.
+
+The example data used here is from the [*metaboData*](https://github.com/jasenfinch/metaboData) package and consists of a comparison of four *B. distachyon* ecotypes.
+
+This document will provide an overview of how to use the package as well as a discussion of the bin measures computed to assess bin quality.
+
+### Basic Usage
+
+There are two main functions for processing experimental data:
+
+* `binParameters()` - allows the selection of processing parameters.
+* `binneRlyse()` - input data file paths and sample information to process using the selected parameters.
+
+#### Sample information
+
+`binneRlyse()` requires the provision of sample information (info) for the experimental run to be processed.
+This should be in *csv* format and the recommended column headers include:
+
+* _fileOrder_ - the file order in alphabetical order as returned by `list.files()`  
+* _injOrder_ - the injection order of the samples during FIE-HRMS analysis
+* _fileName_ - the sample file name
+* _batch_ - the sample batch
+* _block_ - the randomised block of the sample
+* _name_ - the sample name
+* _class_ - the sample class
+
+The row orders of the info file should match the order in which the files paths are submitted to the `binneRlyse()` processing function.
+
+#### Parameters
+
+Prior to spectral binning the processing parameters first need to be selected.
+The default parameters can be initialised a `BinParameters` object using the `binParameters()` function as shown below.
+
+```{r binParameterExample}
+library(binneR)
+binParameters()
+```
+
+These parameters specify the following:
+
+* `scans` - the scan indexes to use for binning
+* `modes` - the scan order and names of the ionisation modes
+* `sranges` - a list of vectors containing minimum and maximum ranges for the scan events present
+* `cls` - the column of the info that contains class information if relevant 
+* `nCores` - the number of cores to use for parallelisation
+* `clusterType` - the cluster type to use for parallelisation
+
+Parameters can be altered upon initialisation of the `BinParameters` by specifying the parameter and it's value upon calling the `binParameters` function as shown below. 
+
+```{r parameterChangeExample}
+binParameters(scans = 6:14)
+```
+
+Alternatively for and already initialised `BinParameters` object, the slot containing the parameter of interest can be changed by directly accessing the slot as shown below.
+
+```{r parameterChangeExample2}
+parameters <- binParameters()
+parameters@scans <- 6:14
+parameters
+```
+
+#### Processing
+
+Processing is simple and requires only the use of the `binneRlyse()` function. 
+The input of this function is a vector of the paths of the data files to process, a tibble containing the sample info and `BinParameters` object.
+Below shows the files and info inputs for the example data set.
+
+```{r exampleFiles}
+library(readr)
+files <-  list.files(
+	system.file(
+		'DataSets/FIE-HRMS/BdistachyonEcotypes',
+		package = 'metaboData'),
+	full.names = TRUE)
+
+info <- readr::read_csv(files[grepl('runinfo',files)])
+files <- files[!grepl('runinfo',files)]
+
+head(files)
+info
+```
+
+It is crucial that the positions of the sample information in the info file match the sample positions within the files vector.
+Below shows an example of how this can be checked by matching the file names present in the info with those in the vector. 
+
+```{r infoMatchFiles}
+fileNames <- list.files(
+	system.file(
+		'DataSets/FIE-HRMS/BdistachyonEcotypes',
+		package = 'metaboData'))
+fileNames <- fileNames[-grep('runinfo',fileNames)]
+
+FALSE %in% (info$fileName == fileNames)
+```
+
+Spectral binning using the default parameters can then be performed with the following.
+
+```{r exampleProcessing,eval=FALSE}
+analysis <- binneRlyse(files,info,binParameters())
+```
+
+```{r processing,echo=FALSE}
+analysis <- binneRlyse(files,info,binParameters(nCores = 2,clusterType = 'PSOCK'))
+```
+
+```{r printAnalysis,echo=FALSE}
+analysis
+```
+
+For data quality inspection, the infusion profiles this data can be plotted using:
+
+```{r analysisChromatogram, fig.width=5,fig.height=4}
+plotChromatogram(analysis)
+```
+
+And the total ion counts using:
+
+```{r analysisTICs, fig.width=5,fig.height=4}
+plotTIC(analysis)
+```
+
+#### Data Extraction
+
+There are a number of functions that can be used to return processing data from a `Binalysis` object:
+
+* `info()` for sample information
+* `binnedData()` for the spectrally binned matrices
+* `accurateData()` for the accurate mass information for each of the 0.01 amu bins
+
+### Bin Measures
+
+There are a number of measures that can be computed that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate *m/z* peaks present within its boundaries. These include both purity and centrality.
+
+```{r measuresPrep, echo=FALSE}
+dat <- binneR::readFiles(system.file(
+	'DataSets/FIE-HRMS/BdistachyonEcotypes/QC01.mzML',
+	package = 'metaboData'),scans = 6:12,sranges = list(c(70,1000)),dp = 5)$n
+dat <- tidyr::gather(tibble::as_tibble(dat),'mz','Intensity')
+dat <- dplyr::mutate(dat,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
+dat <- dplyr::mutate(dat,bin = round(mz,2))
+measures <- dplyr::group_by(dat,bin)
+measures <- dplyr::summarise(measures,purity = binneR:::binPurity(mz,Intensity),centrality = binneR:::binCentrality(mz,Intensity),Intensity = mean(Intensity))
+```
+
+#### Purity
+
+Bin purity gives a measure of the spread of accurate *m/z* peaks found within a given bin and can be a signal for the presences of multiple real spectral peaks within a bin.
+Purity for a given bin is calculated using the equation below.
+
+$$p = 1 - \frac{\sigma}{w} $$
+
+Where *p* is purity, $\sigma$ is the standard deviation of the accurate *m/z* present within the bin and *w* is the width of the bin in amu.
+A purity closer to 1 indicates that the accurate *m/z* present within a bin are found over a narrow region and therefore likely only to be as the result of 1 real mass spectral peak.
+A reduction in purity could indicate the presence of multiple peaks present within a bin.
+
+Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (133.01) and low (98.96) purity respectively.
+
+```{r binPurity, echo=FALSE,fig.width=5}
+Pure <- dplyr::filter(measures,bin == 133.01)
+Pure <- dplyr::mutate(Pure, purity = paste('Purity = ',round(purity,3), sep = ''))
+pure <- dplyr::filter(dat,bin == Pure$bin)
+pure <- tibble::tibble(mz = unlist(apply(pure,1,function(x){rep(x[1],x[2])})))
+
+
+Impure <- dplyr::filter(measures,bin == 98.96)
+Impure <- dplyr::mutate(Impure, purity = paste('Purity = ',round(purity,3), sep = ''))
+impure <- dplyr::filter(dat,bin == Impure$bin)
+impure <- tibble::tibble(mz = unlist(apply(impure,1,function(x){rep(x[1],x[2])})))
+
+p <- list()
+
+p$pure <- ggplot2::ggplot(pure,ggplot2::aes(x = mz)) +
+	ggplot2::geom_density() +
+	ggplot2::theme_bw() +
+	ggplot2::xlim(Pure$bin - 0.005,Pure$bin + 0.005) +
+	ggplot2::ggtitle(paste(Pure$bin,'\t',Pure$purity)) +
+	ggplot2::xlab('m/z') +
+	ggplot2::ylab('Density')
+
+p$impure <- ggplot2::ggplot(impure,ggplot2::aes(x = mz)) +
+	ggplot2::geom_density() +
+	ggplot2::theme_bw() +
+	ggplot2::xlim(Impure$bin - 0.005,Impure$bin + 0.005) +
+	ggplot2::ggtitle(paste(Impure$bin,'\t',Impure$purity)) +
+	ggplot2::xlab('m/z') +
+	ggplot2::ylab('Density')
+
+gridExtra::grid.arrange(gridExtra::arrangeGrob(p$pure,p$impure))
+```
+
+Bin 133.01, that has a purity very close to 1, has only one peak present.
+Bin 98.96, that has a reduced purity, clearly has two peaks present.
+
+#### Centrality
+
+Bin centrality gives a measure of how close the mean of the accurate *m/z* are to the center of a given bin and can give indication of whether a peak could have been split between the boundary of tow adjacent bins.
+Centrality is calculated for a given bin using the equation below.
+
+$$ c = 1 - \frac{\sqrt{(\mu - k)^2}}{\frac{1}{2}w}$$
+
+Where *c* is centrality, $\mu$ is the mean accurate *m/z* present in the bin, *k* is the center of the bin and *w* is the bin width in amu.
+A centrality close to 1 indicates that the accurate *m/z* present within the boundaries of the bin are located close to the center of the bin.
+Low centrality would indicate that the accurate *m/z* present within the bin are found close to the bin boundary and could therefore indicate bin splitting, were an mass spectral peak is split between two adjacent bins.
+
+Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (88.04) and low (128.03) centrality respectively.
+
+```{r binCentrality, echo=FALSE,fig.width=5}
+Pure <- dplyr::filter(measures,bin == 88.04)
+Pure <- dplyr::mutate(Pure, centrality = paste('Centrality = ',round(centrality,3), sep = ''))
+pure <- dplyr::filter(dat,bin == Pure$bin)
+pure <- tibble::tibble(mz = unlist(apply(pure,1,function(x){rep(x[1],x[2])})))
+
+
+Impure <- dplyr::filter(measures,bin == 128.03)
+Impure <- dplyr::mutate(Impure, centrality = paste('Centrality = ',round(centrality,3), sep = ''))
+impure <- dplyr::filter(dat,bin == Impure$bin)
+impure <- tibble::tibble(mz = unlist(apply(impure,1,function(x){rep(x[1],x[2])})))
+
+p <- list()
+
+p$pure <- ggplot2::ggplot(pure,ggplot2::aes(x = mz)) +
+	ggplot2::geom_density() +
+	ggplot2::theme_bw() +
+	ggplot2::xlim(Pure$bin - 0.005,Pure$bin + 0.005) +
+	ggplot2::ggtitle(paste(Pure$bin,'\t',Pure$centrality)) +
+	ggplot2::xlab('m/z') +
+	ggplot2::ylab('Density')
+
+p$impure <- ggplot2::ggplot(impure,ggplot2::aes(x = mz)) +
+	ggplot2::geom_density() +
+	ggplot2::theme_bw() +
+	ggplot2::xlim(Impure$bin - 0.005,Impure$bin + 0.005) +
+	ggplot2::ggtitle(paste(Impure$bin,'\t',Impure$centrality)) +
+	ggplot2::xlab('m/z') +
+	ggplot2::ylab('Density')
+
+gridExtra::grid.arrange(gridExtra::arrangeGrob(p$pure,p$impure))
+```
+
+Bin 88.04 has a high centrality with single peak that is located very close to the center of the bin.
+Whereas bin 128.03 as low centrality with a single peak that is located very close to the upper boundary of the bin and has likely been split between this bin and bin 128.04.
