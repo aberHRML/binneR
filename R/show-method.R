@@ -3,6 +3,7 @@
 #' @param object BinParameters Object
 #' @author Jasen Finch \email{jsf9@aber.ac.uk}
 #' @importFrom methods show
+#' @importFrom purrr map_chr
 #' @export
 
 setMethod('show',signature = 'BinParameters',
@@ -38,13 +39,13 @@ setMethod('show',signature = 'Binalysis',
               cat('\n')
               if (length(object@binLog) > 0) {
                   var <- lapply(object@binnedData,ncol)
-                  names(var) <- names(object@binnedData)
-                  var <- bind_rows(var)
-                  var <- apply(var,1,paste,collapse = ': ')
-                  var <- paste(var,'features')
+                  var <- map_chr(names(var),~{
+                  	str_c(.,': ',var[[.]],' features')
+                  }) %>%
+                  	str_c(collapse = '\n')
                   cat(var,sep = '\n')
               }
-              cat('Average Purity:',mean(object@accurateMZ$Purity,na.rm = T),'\n')
-              cat('Average Centrality:',mean(object@accurateMZ$Centrality,na.rm = T),'\n')
+              cat('Average Purity:',mean(object@accurateMZ$Purity,na.rm = T) %>% round(3),'\n')
+              cat('Average Centrality:',mean(object@accurateMZ$Centrality,na.rm = T) %>% round(3),'\n')
               cat('\n')
           })

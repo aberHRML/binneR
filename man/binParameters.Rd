@@ -5,7 +5,8 @@
 \title{binParameters}
 \usage{
 binParameters(scans = 5:12, modes = c("n", "p"), sranges = list(c(70,
-  1000)), cls = character(), nCores = detectCores(), clusterType = "FORK")
+  1000)), cls = character(), nCores = detectCores(),
+  clusterType = "FORK")
 }
 \arguments{
 \item{scans}{numeric vector containing the scan indexes to use for binning}

@@ -22,7 +22,7 @@ Imports: dplyr,
          ggplot2,
          ggthemes
 License: GPL (>= 3)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Collate:
     'allGenerics.R'
     'allClasses.R'
