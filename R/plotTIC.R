@@ -39,14 +39,13 @@ setMethod('plotTIC',signature = 'Binalysis',
 						
 						TICmedian[TICmedian < 0] <- 0
 						
-						ggplot(TICdat,aes(x = Index,y = TIC,colour = Colour)) +
+						pl <- ggplot(TICdat,aes(x = Index,y = TIC,colour = Colour)) +
 							geom_hline(data = TICmedian,aes(yintercept = Median)) +
 							geom_hline(data = TICmedian,aes(yintercept = Q1),linetype = 2) +
 							geom_hline(data = TICmedian,aes(yintercept = Q3),linetype = 2) +
 							geom_hline(data = TICmedian,aes(yintercept = LowerOut),linetype = 3) +
 							geom_hline(data = TICmedian,aes(yintercept = UpperOut),linetype = 3) +
 							geom_point() +
-							scale_colour_ptol() +
 							theme_bw() +
 							theme(plot.title = element_text(face = 'bold'),
 										axis.title = element_text(face = 'bold'),
@@ -59,5 +58,11 @@ the dotted line shows the outlier boundary (1.5 X IQR).') +
 							ylab('Total Ion Count') +
 							xlab(by) +
 							guides(colour = guide_legend(title = colour))
+						
+						if (length(unique(TICdat$Colour)) <= 12) {
+							pl <- pl +
+								scale_colour_ptol()
+						}
+						return(pl)
 					}
 					)
