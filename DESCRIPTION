@@ -7,6 +7,7 @@ Author: Jasen Finch
 Maintainer: Jasen Finch <jsf9@aber.ac.uk>
 Description: A spectral binning approach for high resolution flow infusion mass spectrometry data.
 URL: https://github.com/jasenfinch/binneR
+Encoding: UTF-8 
 Imports: dplyr,
          magrittr,
          mzR,
@@ -51,5 +52,6 @@ Suggests: knitr,
     rmarkdown,
     gridExtra,
     readr,
-    metaboData
+    metaboData,
+    prettydoc
 VignetteBuilder: knitr

@@ -1,28 +1,35 @@
 ---
 title: "binneR"
 author: "Jasen Finch"
-date: "March 2018"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
-    rmarkdown::html_vignette:
-        toc: true
+  prettydoc::html_pretty:
+    toc: true
+    highlight: github
+    theme: tactile
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{binneR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
   
+```{r, echo=FALSE}
+htmltools::img(src = knitr::image_uri(system.file('sticker/binneRsticker.png',package = 'binneR')),
+  style = 'position:absolute; top:0; right:0; padding:10px; height:180px;')
+```
+  
 ## Introduction
   
-  The *binneR* package provides a spectral binning approach for routine processing of flow infusion electrospray - high resolution mass spectrometry (FIE-HRMS) metabolomics fingerprinting experiments, the results of which can then be used for subsequent statistical analyses.
+The *binneR* package provides a spectral binning approach for routine processing of flow infusion electrospray - high resolution mass spectrometry (FIE-HRMS) metabolomics fingerprinting experiments, the results of which can then be used for subsequent statistical analyses.
   
-  Spectral binning rounds high resolution fingerprinting data by a specified amu bin width.
-  FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can be averaged to provide a metabolome fingerprint. 
-  Spectral binning is applied on a scan by scan basis where the data is rounded to the specified bin width, the signals are then sum aggregated and their intensities are averaged across the specified scans.
-  Below is indicated the 'plug flow' region of an example FIE-MS chromatogram and the resulting spectrum when signal intensities are averaged across these scans.
+Spectral binning rounds high resolution fingerprinting data by a specified amu bin width.
+FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can be averaged to provide a metabolome fingerprint. 
+Spectral binning is applied on a scan by scan basis where the data is rounded to the specified bin width, the signals are then sum aggregated and their intensities are averaged across the specified scans.
+Below is indicated the 'plug flow' region of an example FIE-MS chromatogram and the resulting spectrum when signal intensities are averaged across these scans.
   
   
-  ```{r FIEfingerprint, echo=FALSE, fig.width=5,fig.height=4}
-chrom <- mzR::openMSfile(system.file(
+```{r FIEfingerprint, echo=FALSE, fig.width=7,fig.height=5,fig.align='center'}
+  chrom <- mzR::openMSfile(system.file(
 'DataSets/FIE-HRMS/BdistachyonEcotypes/QC01.mzML',
 package = 'metaboData'))
 chrom <- mzR::header(chrom)
@@ -78,21 +85,28 @@ For a set of specified file paths, the range of infusion scans can be detected u
 
 ```{r infusionScanDetection}
 library(binneR)
-infusionScans <- detectInfusionScans(list.files(system.file('mzML',package = 'binneR'),full.names = TRUE),
-										sranges = list(c(70,1000)),
-										thresh = 0.5
-										)
+infusionScans <- detectInfusionScans(
+	list.files(
+		system.file('mzML',
+								package = 'binneR'),
+		full.names = TRUE),
+	sranges = list(c(70,1000)),
+	thresh = 0.5
+)
 infusionScans
 ```
 
 The detected scans can then be checked by plotting an averaged chromatogram for these files.
 The infusion scans can also be plotted by supplying the range to the scans argument.
 
-```{r exampleChromatograms, fig.width=5,fig.height=4}
-plotChromFromFile(list.files(system.file('mzML',package = 'binneR'),full.names = TRUE),
-										sranges = list(c(70,1000)),
-									scans = infusionScans
-									)
+```{r exampleChromatograms, fig.width=7,fig.height=5,fig.align='center'}
+plotChromFromFile(
+	list.files(system.file('mzML',
+												 package = 'binneR'),
+						 full.names = TRUE),
+	sranges = list(c(70,1000)),
+	scans = infusionScans
+)
 ```
 
 ## Simple Intensity Matrix Production - quick FIE-HRMS matrix investigations
@@ -126,7 +140,7 @@ str(res)
 ## binneRlyse - metabolomics fingerprinting experiments
 
 Routine FIE-HRMS metabolomic fingerprinting experiments can require rapid the processing of hundereds of MS files that will also require sample information such as biological classes for subsequent statistical analyses.
-The package allows for a `BinAlysis` that formalises the spectral binning approach using an S4 class that not only bins the data to 0.01 amu but will also extract accurate *m/z* for each of these bins based on 0.00001 amu binned data.
+The package allows for a `Binalysis` that formalises the spectral binning approach using an S4 class that not only bins the data to 0.01 amu but will also extract accurate *m/z* for each of these bins based on 0.00001 amu binned data.
 The accurate *m/z* data can be aggregated based on a specified class structure from which the modal accurate *m/z* is extracted.
 Some bin measures are also computed that allow the assessment of the quality of the 0.01 amu bins.
 
@@ -229,11 +243,11 @@ FALSE %in% (info$fileName == fileNames)
 Spectral binning using the default parameters can then be performed with the following.
 
 ```{r exampleProcessing,eval=FALSE}
-analysis <- binneRlyse(files,info,binParameters())
+analysis <- binneRlyse(files,info,binParameters(cls = 'class'))
 ```
 
 ```{r processing,echo=FALSE}
-analysis <- binneRlyse(files,info,binParameters(nCores = 2,clusterType = 'PSOCK'))
+analysis <- binneRlyse(files,info,binParameters(cls = 'class',nCores = 2,clusterType = 'PSOCK'))
 ```
 
 ```{r printAnalysis,echo=FALSE}
@@ -242,14 +256,18 @@ analysis
 
 For data quality inspection, the infusion profiles this data can be plotted using:
 
-```{r analysisChromatogram, fig.width=5,fig.height=4}
+```{r analysisChromatogram, fig.width=7,fig.height=5,fig.align='center'}
 plotChromatogram(analysis)
 ```
 
 And the total ion counts using:
 
-```{r analysisTICs, fig.width=5,fig.height=4}
+```{r analysisTICs, fig.width=7,fig.height=5,fig.align='center'}
 plotTIC(analysis)
+```
+
+```{r plotBin, fig.width=7,fig.height=5,fig.align='center'}
+plotBin(analysis,'n133.01')
 ```
 
 #### Data Extraction
@@ -265,9 +283,10 @@ There are a number of functions that can be used to return processing data from 
 There are a number of measures that can be computed that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate *m/z* peaks present within its boundaries. These include both purity and centrality.
 
 ```{r measuresPrep, echo=FALSE}
-dat <- binneR::readFiles(system.file(
+dat <- system.file(
 	'DataSets/FIE-HRMS/BdistachyonEcotypes/QC01.mzML',
-	package = 'metaboData'),scans = 6:12,sranges = list(c(70,1000)),dp = 5)$n
+	package = 'metaboData') %>%
+	readFiles(scans = 6:12,sranges = list(c(70,1000)),dp = 5)$n
 dat <- tidyr::gather(tibble::as_tibble(dat),'mz','Intensity')
 dat <- dplyr::mutate(dat,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
 dat <- dplyr::mutate(dat,bin = round(mz,2))
@@ -288,10 +307,12 @@ A reduction in purity could indicate the presence of multiple peaks present with
 
 Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (133.01) and low (98.96) purity respectively.
 
-```{r binPurity, echo=FALSE,fig.width=5}
-Pure <- dplyr::filter(measures,bin == 133.01)
-Pure <- dplyr::mutate(Pure, purity = paste('Purity = ',round(purity,3), sep = ''))
-pure <- dplyr::filter(dat,bin == Pure$bin)
+```{r binPurity, echo=FALSE,fig.width=7,fig.height=5,fig.align='center'}
+Pure <- measures %>%
+	filter(bin == 133.01) %>%
+	mutate(purity = paste('Purity = ',round(purity,3), sep = ''))
+pure <- dat %>%
+	filter(bin == Pure$bin)
 pure <- tibble::tibble(mz = unlist(apply(pure,1,function(x){rep(x[1],x[2])})))
 
 
@@ -337,7 +358,7 @@ Low centrality would indicate that the accurate *m/z* present within the bin are
 
 Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (88.04) and low (128.03) centrality respectively.
 
-```{r binCentrality, echo=FALSE,fig.width=5}
+```{r binCentrality, echo=FALSE,fig.width=7,fig.height=5,fig.align='center'}
 Pure <- dplyr::filter(measures,bin == 88.04)
 Pure <- dplyr::mutate(Pure, centrality = paste('Centrality = ',round(centrality,3), sep = ''))
 pure <- dplyr::filter(dat,bin == Pure$bin)
