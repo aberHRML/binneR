@@ -15,7 +15,7 @@ vignette: >
   
 ```{r, echo=FALSE}
 htmltools::img(src = knitr::image_uri(system.file('sticker/binneRsticker.png',package = 'binneR')),
-  style = 'position:absolute; top:0; right:0; padding:10px; height:180px;')
+  style = 'display:block;margin-left:auto;margin-right:auto; height:200px;') 
 ```
   
 ## Introduction
@@ -266,8 +266,10 @@ And the total ion counts using:
 plotTIC(analysis)
 ```
 
+Density profiles for individual bins can be plotted by:
+
 ```{r plotBin, fig.width=7,fig.height=5,fig.align='center'}
-plotBin(analysis,'n133.01')
+plotBin(analysis,'n133.01',cls = TRUE)
 ```
 
 #### Data Extraction
@@ -283,10 +285,9 @@ There are a number of functions that can be used to return processing data from 
 There are a number of measures that can be computed that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate *m/z* peaks present within its boundaries. These include both purity and centrality.
 
 ```{r measuresPrep, echo=FALSE}
-dat <- system.file(
+dat <- readFiles(system.file(
 	'DataSets/FIE-HRMS/BdistachyonEcotypes/QC01.mzML',
-	package = 'metaboData') %>%
-	readFiles(scans = 6:12,sranges = list(c(70,1000)),dp = 5)$n
+	package = 'metaboData'),scans = 6:12,sranges = list(c(70,1000)),dp = 5)$n
 dat <- tidyr::gather(tibble::as_tibble(dat),'mz','Intensity')
 dat <- dplyr::mutate(dat,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
 dat <- dplyr::mutate(dat,bin = round(mz,2))
@@ -308,11 +309,9 @@ A reduction in purity could indicate the presence of multiple peaks present with
 Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (133.01) and low (98.96) purity respectively.
 
 ```{r binPurity, echo=FALSE,fig.width=7,fig.height=5,fig.align='center'}
-Pure <- measures %>%
-	filter(bin == 133.01) %>%
-	mutate(purity = paste('Purity = ',round(purity,3), sep = ''))
-pure <- dat %>%
-	filter(bin == Pure$bin)
+Pure <- dplyr::filter(measures,bin == 133.01)
+Pure <-	dplyr::mutate(Pure,purity = paste('Purity = ',round(purity,3), sep = ''))
+pure <- dplyr::filter(dat,bin == Pure$bin)
 pure <- tibble::tibble(mz = unlist(apply(pure,1,function(x){rep(x[1],x[2])})))
 
 

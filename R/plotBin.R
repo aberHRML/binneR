@@ -27,12 +27,13 @@ setMethod('plotBin',signature = 'Binalysis',
 							geom_density() +
 							theme_bw() +
 							xlim(m - 0.005,m + 0.005) +
-							xlab('m/z') +
-							ggtitle(bin) +
 							theme(plot.title = element_text(face = 'bold'),
 										axis.title.y = element_text(face = 'bold'),
 										axis.title.x = element_text(face = 'bold.italic'),
-										axis.text.x = element_text(angle = 45,hjust = 1))
+										axis.text.x = element_text(angle = 90,hjust = 1)) +
+							labs(title = bin,
+									 x = 'm/z',
+									 y = 'Density')
 						
 						if (cls == T) {
 							pl <- pl +
