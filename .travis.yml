@@ -13,6 +13,7 @@ apt_packages:
  - libnetcdf-dev
  - udunits-bin
  - libudunits2-dev
+ - netcdf-bin
 
 r_binary_packages:
  - RUnit
