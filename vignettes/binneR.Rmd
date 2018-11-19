@@ -13,8 +13,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r libraryLoad,echo=FALSE}
-packages <- c('mzR','ggplot2','dplyr')
+```{r libraryLoad,echo=FALSE,include=FALSE}
+packages <- c('binneR','metaboData','mzR','ggplot2','dplyr','magrittr')
 lapply(packages,library,character.only = T)
 ```
 
@@ -31,43 +31,63 @@ Spectral binning rounds high resolution fingerprinting data by a specified amu b
 FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can be averaged to provide a metabolome fingerprint. 
 Spectral binning is applied on a scan by scan basis where the data is rounded to the specified bin width, the signals are then sum aggregated and their intensities are averaged across the specified scans.
 Below is indicated the 'plug flow' region of an example FIE-MS chromatogram and the resulting spectrum when signal intensities are averaged across these scans.
-  
-```{r libraryLoads}
-library(binneR)
-library(metaboData)
-```
  
-```{r FIEfingerprint, echo=FALSE, fig.width=7,fig.height=5,fig.align='center'}
+```{r FIEfingerprint, echo=FALSE, fig.width=7,fig.height=5,fig.align='center',fig.show='animate',animation.hook = 'gifski',interval=0.1,dev='jpeg',aniopts=('controls,loop')}
+
 file <- filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
-chrom <- openMSfile(file)
-chrom <- header(chrom)
-chrom <- chrom[seq(1,nrow(chrom),2),]
+ms <- openMSfile(file)
+chrom <- mzR::header(ms)
+
+is <- detectInfusionScans(file)
+buffer <- 6
+is <- c(1,is[2] + buffer)
+
+spectrum <- peaks(ms) %>%
+	purrr::map(as_tibble) %>%
+	bind_rows(.id = 'seqNum') %>%
+	rename(`m/z` = V1,Abundance = V2) %>%
+	mutate(seqNum = as.numeric(seqNum)) %>%
+	left_join(chrom %>%
+							select(seqNum,polarity),by = 'seqNum') %>%
+	filter(polarity == 0) %>%
+	left_join(tibble(seqNum = unique(.$seqNum),Scan = 1:length(unique(.$seqNum))),by = 'seqNum') %>%
+	filter(Scan >= is[1] & Scan <= is[2]) %>%
+	mutate(Bin = `m/z` %>% round(2)) %>%
+	group_by(Scan,Bin) %>%
+	summarise(Abundance = sum(Abundance))
+
+lim <- max(spectrum$Abundance) + 1000
+
+chrom <- chrom %>%
+	filter(polarity == 0)
 chrom$acquisitionNum <- 1:nrow(chrom)
 
-spectrum <- readFiles(file,scans = detectInfusionScans(file),sranges = list(c(70,1000)),dp = 2)$n
-
-spectrum <- tidyr::gather(tibble::as_tibble(spectrum),'mz','Intensity')
-spectrum <- mutate(spectrum,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
-
-p <- list()
-
-p$chromatogram <- ggplot(chrom,aes(x = acquisitionNum,y = totIonCurrent)) + 
-	geom_line() +
-	geom_vline(xintercept = 6, linetype = "dashed",colour = 'red') +
-	geom_vline(xintercept = 12, linetype = "dashed",colour = 'red') +
-	theme_bw(base_size = 10) +
-	xlab('Scan Number') +
-	ylab('Total Ion Count') +
-	ggtitle('Chromatogram')
-
-p$spectrum <- ggplot(spectrum,aes(x = mz, y = 0, xend = mz, yend = Intensity)) +
-	geom_segment() +
-	theme_bw() +
-	xlab('m/z') +
-	ylab(('Abundance')) +
-	ggtitle('Spectrum')
-
-gridExtra::grid.arrange(gridExtra::arrangeGrob(p$chromatogram,p$spectrum))
+	for (i in is[1]:is[2]){
+	p <- list()
+	
+	p$chromatogram <- ggplot(chrom,aes(x = acquisitionNum,y = totIonCurrent)) + 
+		geom_line() +
+		geom_vline(xintercept = i, linetype = "dashed",colour = 'red') +
+		theme_bw(base_size = 10) +
+		xlab('Scan Number') +
+		ylab('Total Ion Count') +
+		ggtitle('Chromatogram')
+	
+	p$spectrum <- spectrum %>%
+		filter(Scan == i) %>%
+		{
+			ggplot(.,aes(x = Bin, y = 0, xend = Bin, yend = Abundance)) +
+				geom_segment() +
+				theme_bw() +
+				labs(title = 'Spectrum',
+						 x = 'm/z',
+						 y = 'Abundance') +
+				ylim(0,lim) +
+				xlim(0,1000)
+		}
+	
+	gridExtra::grid.arrange(gridExtra::arrangeGrob(p$chromatogram,p$spectrum))
+}
 ```
 
 Prior to the use of *binneR*, vendor specific raw data files need to be converted to one of the open source file formats such as *.mzXML* or *.mzML* so that they can be parsed into R.
@@ -81,8 +101,13 @@ There are two main functionalities provided by this package.
 
 The subsequent sections will outline the use of these two main functionalities.
 
-Firstly, an intensity matrix can
+Firstly, a simple intensity matrix can built for  
 Secondly, for routine metabolomic fingerprinting experiments, more formal functionality is provided using S4 structures that allow not only for the production of a spectrally binned intensity, but also the extraction of accurate *m/z* and plotting functionality.
+
+```{r libraryLoads,eval=FALSE}
+library(binneR)
+library(metaboData)
+```
 
 ## Infusion Scan Detection
 
@@ -234,29 +259,29 @@ analysis <- binneRlyse(files,info,binParameters(cls = 'class'))
 ```
 
 ```{r processing,echo=FALSE}
-analysis <- binneRlyse(files,info,binParameters(cls = 'class',nCores = 2,clusterType = 'PSOCK'))
+# analysis <- binneRlyse(files,info,binParameters(cls = 'class',nCores = 2,clusterType = 'PSOCK'))
 ```
 
 ```{r printAnalysis,echo=FALSE}
-analysis
+# analysis
 ```
 
 For data quality inspection, the infusion profiles this data can be plotted using:
 
 ```{r analysisChromatogram, fig.width=7,fig.height=5,fig.align='center'}
-plotChromatogram(analysis)
+# plotChromatogram(analysis)
 ```
 
 And the total ion counts using:
 
 ```{r analysisTICs, fig.width=7,fig.height=5,fig.align='center'}
-plotTIC(analysis)
+# plotTIC(analysis)
 ```
 
 Density profiles for individual bins can be plotted by:
 
 ```{r plotBin, fig.width=7,fig.height=5,fig.align='center'}
-plotBin(analysis,'n133.01',cls = TRUE)
+# plotBin(analysis,'n133.01',cls = TRUE)
 ```
 
 #### Data Extraction
