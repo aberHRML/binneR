@@ -24,9 +24,6 @@ r_packages:
  - digest
  - devtools
 
-r_github_packages:
- - jasenfinch/metaboData
-
 bioc_packages:
  - mzR
 

@@ -23,7 +23,7 @@ Imports: dplyr,
          ggplot2,
          ggthemes
 License: GPL (>= 3)
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Collate:
     'allGenerics.R'
     'allClasses.R'
@@ -52,6 +52,8 @@ Suggests: knitr,
     rmarkdown,
     gridExtra,
     readr,
-    metaboData,
-    prettydoc
+    metaboData (>= 0.2.2),
+    prettydoc,
+    htmltools
 VignetteBuilder: knitr
+Additional_repositories: https://aberhrml.github.io/drat/

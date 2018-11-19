@@ -12,8 +12,13 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-  
-```{r, echo=FALSE}
+
+```{r libraryLoad,echo=FALSE}
+packages <- c('mzR','ggplot2','dplyr')
+lapply(packages,library,character.only = T)
+```
+
+```{r sticker, echo=FALSE}
 htmltools::img(src = knitr::image_uri(system.file('sticker/binneRsticker.png',package = 'binneR')),
   style = 'display:block;margin-left:auto;margin-right:auto; height:200px;') 
 ```
@@ -27,39 +32,40 @@ FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can 
 Spectral binning is applied on a scan by scan basis where the data is rounded to the specified bin width, the signals are then sum aggregated and their intensities are averaged across the specified scans.
 Below is indicated the 'plug flow' region of an example FIE-MS chromatogram and the resulting spectrum when signal intensities are averaged across these scans.
   
-  
+```{r libraryLoads}
+library(binneR)
+library(metaboData)
+```
+ 
 ```{r FIEfingerprint, echo=FALSE, fig.width=7,fig.height=5,fig.align='center'}
-  chrom <- mzR::openMSfile(system.file(
-'DataSets/FIE-HRMS/BdistachyonEcotypes/QC01.mzML',
-package = 'metaboData'))
-chrom <- mzR::header(chrom)
+file <- filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+chrom <- openMSfile(file)
+chrom <- header(chrom)
 chrom <- chrom[seq(1,nrow(chrom),2),]
 chrom$acquisitionNum <- 1:nrow(chrom)
 
-spectrum <- binneR::readFiles(system.file(
-'DataSets/FIE-HRMS/BdistachyonEcotypes/QC01.mzML',
-package = 'metaboData'),scans = 6:12,sranges = list(c(70,1000)),dp = 2)$n
+spectrum <- readFiles(file,scans = detectInfusionScans(file),sranges = list(c(70,1000)),dp = 2)$n
 
 spectrum <- tidyr::gather(tibble::as_tibble(spectrum),'mz','Intensity')
-spectrum <- dplyr::mutate(spectrum,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
+spectrum <- mutate(spectrum,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
 
 p <- list()
 
-p$chromatogram <- ggplot2::ggplot(chrom,ggplot2::aes(x = acquisitionNum,y = totIonCurrent)) + 
-ggplot2::geom_line() +
-ggplot2::geom_vline(xintercept = 6, linetype = "dashed",colour = 'red') +
-ggplot2::geom_vline(xintercept = 12, linetype = "dashed",colour = 'red') +
-ggplot2::theme_bw(base_size = 10) +
-ggplot2::xlab('Scan Number') +
-ggplot2::ylab('Total Ion Count') +
-ggplot2::ggtitle('Chromatogram')
+p$chromatogram <- ggplot(chrom,aes(x = acquisitionNum,y = totIonCurrent)) + 
+	geom_line() +
+	geom_vline(xintercept = 6, linetype = "dashed",colour = 'red') +
+	geom_vline(xintercept = 12, linetype = "dashed",colour = 'red') +
+	theme_bw(base_size = 10) +
+	xlab('Scan Number') +
+	ylab('Total Ion Count') +
+	ggtitle('Chromatogram')
 
-p$spectrum <- ggplot2::ggplot(spectrum,ggplot2::aes(x = mz, y = 0, xend = mz, yend = Intensity)) +
-ggplot2::geom_segment() +
-ggplot2::theme_bw() +
-ggplot2::xlab('m/z') +
-ggplot2::ylab(('Abundance')) +
-ggplot2::ggtitle('Spectrum')
+p$spectrum <- ggplot(spectrum,aes(x = mz, y = 0, xend = mz, yend = Intensity)) +
+	geom_segment() +
+	theme_bw() +
+	xlab('m/z') +
+	ylab(('Abundance')) +
+	ggtitle('Spectrum')
 
 gridExtra::grid.arrange(gridExtra::arrangeGrob(p$chromatogram,p$spectrum))
 ```
@@ -84,12 +90,8 @@ In order to apply the spectral binning approach for FIE-HRMS data, the infusion 
 For a set of specified file paths, the range of infusion scans can be detected using the following:  
 
 ```{r infusionScanDetection}
-library(binneR)
 infusionScans <- detectInfusionScans(
-	list.files(
-		system.file('mzML',
-								package = 'binneR'),
-		full.names = TRUE),
+		filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
 	sranges = list(c(70,1000)),
 	thresh = 0.5
 )
@@ -101,9 +103,7 @@ The infusion scans can also be plotted by supplying the range to the scans argum
 
 ```{r exampleChromatograms, fig.width=7,fig.height=5,fig.align='center'}
 plotChromFromFile(
-	list.files(system.file('mzML',
-												 package = 'binneR'),
-						 full.names = TRUE),
+	filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
 	sranges = list(c(70,1000)),
 	scans = infusionScans
 )
@@ -117,7 +117,7 @@ Spectral binning can be performed using the `readFiles()` function as shown belo
 The example file within the package can be specified using the following.
 
 ```{r fileList}
-file <- list.files(system.file('mzML',package = 'binneR'),full.names = TRUE)
+file <- filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 ```
 
 Then the data can be spectrally binned using:
@@ -125,7 +125,7 @@ Then the data can be spectrally binned using:
 ```{r readFilesExample}
 res <- readFiles(file,
 								 dp = 2,
-								 scans = 6:17,
+								 scans = infusionScans,
 								 sranges = list(c(50, 1000)),
 								 modes = c("n","p"), 
 								 nCores = 1)
@@ -179,7 +179,6 @@ Prior to spectral binning the processing parameters first need to be selected.
 The default parameters can be initialised a `BinParameters` object using the `binParameters()` function as shown below.
 
 ```{r binParameterExample}
-library(binneR)
 binParameters()
 ```
 
@@ -213,15 +212,9 @@ The input of this function is a vector of the paths of the data files to process
 Below shows the files and info inputs for the example data set.
 
 ```{r exampleFiles}
-library(readr)
-files <-  list.files(
-	system.file(
-		'DataSets/FIE-HRMS/BdistachyonEcotypes',
-		package = 'metaboData'),
-	full.names = TRUE)
+files <-  filePaths('FIE-HRMS','BdistachyonEcotypes')
 
-info <- readr::read_csv(files[grepl('runinfo',files)])
-files <- files[!grepl('runinfo',files)]
+info <- runinfo('FIE-HRMS','BdistachyonEcotypes')
 
 head(files)
 info
@@ -231,13 +224,7 @@ It is crucial that the positions of the sample information in the info file matc
 Below shows an example of how this can be checked by matching the file names present in the info with those in the vector. 
 
 ```{r infoMatchFiles}
-fileNames <- list.files(
-	system.file(
-		'DataSets/FIE-HRMS/BdistachyonEcotypes',
-		package = 'metaboData'))
-fileNames <- fileNames[-grep('runinfo',fileNames)]
-
-FALSE %in% (info$fileName == fileNames)
+FALSE %in% (info$fileName == files)
 ```
 
 Spectral binning using the default parameters can then be performed with the following.
@@ -286,13 +273,13 @@ There are a number of measures that can be computed that allow the assessment of
 
 ```{r measuresPrep, echo=FALSE}
 dat <- readFiles(system.file(
-	'DataSets/FIE-HRMS/BdistachyonEcotypes/QC01.mzML',
+	'DataSets/FIE-HRMS/BdistachyonEcotypes/QC01.mzML.gz',
 	package = 'metaboData'),scans = 6:12,sranges = list(c(70,1000)),dp = 5)$n
 dat <- tidyr::gather(tibble::as_tibble(dat),'mz','Intensity')
-dat <- dplyr::mutate(dat,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
-dat <- dplyr::mutate(dat,bin = round(mz,2))
-measures <- dplyr::group_by(dat,bin)
-measures <- dplyr::summarise(measures,purity = binneR:::binPurity(mz,Intensity),centrality = binneR:::binCentrality(mz,Intensity),Intensity = mean(Intensity))
+dat <- mutate(dat,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
+dat <- mutate(dat,bin = round(mz,2))
+measures <- group_by(dat,bin)
+measures <- summarise(measures,purity = binneR:::binPurity(mz,Intensity),centrality = binneR:::binCentrality(mz,Intensity),Intensity = mean(Intensity))
 ```
 
 #### Purity
@@ -309,34 +296,34 @@ A reduction in purity could indicate the presence of multiple peaks present with
 Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (133.01) and low (98.96) purity respectively.
 
 ```{r binPurity, echo=FALSE,fig.width=7,fig.height=5,fig.align='center'}
-Pure <- dplyr::filter(measures,bin == 133.01)
-Pure <-	dplyr::mutate(Pure,purity = paste('Purity = ',round(purity,3), sep = ''))
-pure <- dplyr::filter(dat,bin == Pure$bin)
+Pure <- filter(measures,bin == 133.01)
+Pure <-	mutate(Pure,purity = paste('Purity = ',round(purity,3), sep = ''))
+pure <- filter(dat,bin == Pure$bin)
 pure <- tibble::tibble(mz = unlist(apply(pure,1,function(x){rep(x[1],x[2])})))
 
 
-Impure <- dplyr::filter(measures,bin == 98.96)
-Impure <- dplyr::mutate(Impure, purity = paste('Purity = ',round(purity,3), sep = ''))
-impure <- dplyr::filter(dat,bin == Impure$bin)
+Impure <- filter(measures,bin == 98.96)
+Impure <- mutate(Impure, purity = paste('Purity = ',round(purity,3), sep = ''))
+impure <- filter(dat,bin == Impure$bin)
 impure <- tibble::tibble(mz = unlist(apply(impure,1,function(x){rep(x[1],x[2])})))
 
 p <- list()
 
-p$pure <- ggplot2::ggplot(pure,ggplot2::aes(x = mz)) +
-	ggplot2::geom_density() +
-	ggplot2::theme_bw() +
-	ggplot2::xlim(Pure$bin - 0.005,Pure$bin + 0.005) +
-	ggplot2::ggtitle(paste(Pure$bin,'\t',Pure$purity)) +
-	ggplot2::xlab('m/z') +
-	ggplot2::ylab('Density')
+p$pure <- ggplot(pure,aes(x = mz)) +
+	geom_density() +
+	theme_bw() +
+	xlim(Pure$bin - 0.005,Pure$bin + 0.005) +
+	ggtitle(paste(Pure$bin,'\t',Pure$purity)) +
+	xlab('m/z') +
+	ylab('Density')
 
-p$impure <- ggplot2::ggplot(impure,ggplot2::aes(x = mz)) +
-	ggplot2::geom_density() +
-	ggplot2::theme_bw() +
-	ggplot2::xlim(Impure$bin - 0.005,Impure$bin + 0.005) +
-	ggplot2::ggtitle(paste(Impure$bin,'\t',Impure$purity)) +
-	ggplot2::xlab('m/z') +
-	ggplot2::ylab('Density')
+p$impure <- ggplot(impure,aes(x = mz)) +
+	geom_density() +
+	theme_bw() +
+	xlim(Impure$bin - 0.005,Impure$bin + 0.005) +
+	ggtitle(paste(Impure$bin,'\t',Impure$purity)) +
+	xlab('m/z') +
+	ylab('Density')
 
 gridExtra::grid.arrange(gridExtra::arrangeGrob(p$pure,p$impure))
 ```
@@ -358,34 +345,34 @@ Low centrality would indicate that the accurate *m/z* present within the bin are
 Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (88.04) and low (128.03) centrality respectively.
 
 ```{r binCentrality, echo=FALSE,fig.width=7,fig.height=5,fig.align='center'}
-Pure <- dplyr::filter(measures,bin == 88.04)
-Pure <- dplyr::mutate(Pure, centrality = paste('Centrality = ',round(centrality,3), sep = ''))
-pure <- dplyr::filter(dat,bin == Pure$bin)
+Pure <- filter(measures,bin == 88.04)
+Pure <- mutate(Pure, centrality = paste('Centrality = ',round(centrality,3), sep = ''))
+pure <- filter(dat,bin == Pure$bin)
 pure <- tibble::tibble(mz = unlist(apply(pure,1,function(x){rep(x[1],x[2])})))
 
 
-Impure <- dplyr::filter(measures,bin == 128.03)
-Impure <- dplyr::mutate(Impure, centrality = paste('Centrality = ',round(centrality,3), sep = ''))
-impure <- dplyr::filter(dat,bin == Impure$bin)
+Impure <- filter(measures,bin == 128.03)
+Impure <- mutate(Impure, centrality = paste('Centrality = ',round(centrality,3), sep = ''))
+impure <- filter(dat,bin == Impure$bin)
 impure <- tibble::tibble(mz = unlist(apply(impure,1,function(x){rep(x[1],x[2])})))
 
 p <- list()
 
-p$pure <- ggplot2::ggplot(pure,ggplot2::aes(x = mz)) +
-	ggplot2::geom_density() +
-	ggplot2::theme_bw() +
-	ggplot2::xlim(Pure$bin - 0.005,Pure$bin + 0.005) +
-	ggplot2::ggtitle(paste(Pure$bin,'\t',Pure$centrality)) +
-	ggplot2::xlab('m/z') +
-	ggplot2::ylab('Density')
+p$pure <- ggplot(pure,aes(x = mz)) +
+	geom_density() +
+	theme_bw() +
+	xlim(Pure$bin - 0.005,Pure$bin + 0.005) +
+	ggtitle(paste(Pure$bin,'\t',Pure$centrality)) +
+	xlab('m/z') +
+	ylab('Density')
 
-p$impure <- ggplot2::ggplot(impure,ggplot2::aes(x = mz)) +
-	ggplot2::geom_density() +
-	ggplot2::theme_bw() +
-	ggplot2::xlim(Impure$bin - 0.005,Impure$bin + 0.005) +
-	ggplot2::ggtitle(paste(Impure$bin,'\t',Impure$centrality)) +
-	ggplot2::xlab('m/z') +
-	ggplot2::ylab('Density')
+p$impure <- ggplot(impure,aes(x = mz)) +
+	geom_density() +
+	theme_bw() +
+	xlim(Impure$bin - 0.005,Impure$bin + 0.005) +
+	ggtitle(paste(Impure$bin,'\t',Impure$centrality)) +
+	xlab('m/z') +
+	ylab('Density')
 
 gridExtra::grid.arrange(gridExtra::arrangeGrob(p$pure,p$impure))
 ```
