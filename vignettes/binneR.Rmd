@@ -312,7 +312,7 @@ Where *p* is purity, $\sigma$ is the standard deviation of the accurate *m/z* pr
 A purity closer to 1 indicates that the accurate *m/z* present within a bin are found over a narrow region and therefore likely only to be as the result of 1 real mass spectral peak.
 A reduction in purity could indicate the presence of multiple peaks present within a bin.
 
-Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (133.01) and low (98.96) purity respectively.
+Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (n133.01) and low (n98.96) purity respectively.
 
 ```{r binPurity, echo=FALSE,fig.width=7,fig.height=5,fig.align='center'}
 Pure <- filter(measures,bin == 133.01)
@@ -332,7 +332,7 @@ p$pure <- ggplot(pure,aes(x = mz)) +
 	geom_density() +
 	theme_bw() +
 	xlim(Pure$bin - 0.005,Pure$bin + 0.005) +
-	ggtitle(paste(Pure$bin,'\t',Pure$purity)) +
+	ggtitle(paste('n',Pure$bin,'\t',Pure$purity,sep = '')) +
 	xlab('m/z') +
 	ylab('Density')
 
@@ -340,15 +340,15 @@ p$impure <- ggplot(impure,aes(x = mz)) +
 	geom_density() +
 	theme_bw() +
 	xlim(Impure$bin - 0.005,Impure$bin + 0.005) +
-	ggtitle(paste(Impure$bin,'\t',Impure$purity)) +
+	ggtitle(paste('n',Impure$bin,'\t',Impure$purity,sep = '')) +
 	xlab('m/z') +
 	ylab('Density')
 
 gridExtra::grid.arrange(gridExtra::arrangeGrob(p$pure,p$impure))
 ```
 
-Bin 133.01, that has a purity very close to 1, has only one peak present.
-Bin 98.96, that has a reduced purity, clearly has two peaks present.
+Bin n133.01, that has a purity very close to 1, has only one peak present.
+Bin n98.96, that has a reduced purity, clearly has two peaks present.
 
 #### Centrality
 
@@ -361,7 +361,7 @@ Where *c* is centrality, $\mu$ is the mean accurate *m/z* present in the bin, *k
 A centrality close to 1 indicates that the accurate *m/z* present within the boundaries of the bin are located close to the center of the bin.
 Low centrality would indicate that the accurate *m/z* present within the bin are found close to the bin boundary and could therefore indicate bin splitting, were an mass spectral peak is split between two adjacent bins.
 
-Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (88.04) and low (128.03) centrality respectively.
+Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (n88.04) and low (n104.03) centrality respectively.
 
 ```{r binCentrality, echo=FALSE,fig.width=7,fig.height=5,fig.align='center'}
 Pure <- filter(measures,bin == 88.04)
@@ -370,10 +370,13 @@ pure <- filter(dat,bin == Pure$bin)
 pure <- tibble::tibble(mz = unlist(apply(pure,1,function(x){rep(x[1],x[2])})))
 
 
-Impure <- filter(measures,bin == 128.03)
+Impure <- filter(measures,bin == 104.03)
 Impure <- mutate(Impure, centrality = paste('Centrality = ',round(centrality,3), sep = ''))
 impure <- filter(dat,bin == Impure$bin)
-impure <- tibble::tibble(mz = unlist(apply(impure,1,function(x){rep(x[1],x[2])})))
+impure <- tibble::tibble(mz = impure %>%
+												 	split(1:nrow(.)) %>%
+												 	purrr::map(~{rep(.$mz,.$Intensity)}) %>%
+												 	unlist())
 
 p <- list()
 
@@ -381,7 +384,7 @@ p$pure <- ggplot(pure,aes(x = mz)) +
 	geom_density() +
 	theme_bw() +
 	xlim(Pure$bin - 0.005,Pure$bin + 0.005) +
-	ggtitle(paste(Pure$bin,'\t',Pure$centrality)) +
+	ggtitle(paste('n',Pure$bin,'\t',Pure$centrality,sep = '')) +
 	xlab('m/z') +
 	ylab('Density')
 
@@ -389,12 +392,12 @@ p$impure <- ggplot(impure,aes(x = mz)) +
 	geom_density() +
 	theme_bw() +
 	xlim(Impure$bin - 0.005,Impure$bin + 0.005) +
-	ggtitle(paste(Impure$bin,'\t',Impure$centrality)) +
+	ggtitle(paste('n',Impure$bin,'\t',Impure$centrality,sep = '')) +
 	xlab('m/z') +
 	ylab('Density')
 
 gridExtra::grid.arrange(gridExtra::arrangeGrob(p$pure,p$impure))
 ```
 
-Bin 88.04 has a high centrality with single peak that is located very close to the center of the bin.
-Whereas bin 128.03 as low centrality with a single peak that is located very close to the upper boundary of the bin and has likely been split between this bin and bin 128.04.
+Bin n88.04 has a high centrality with single peak that is located very close to the center of the bin.
+Whereas bin n104.03 as low centrality with a single peak that is located very close to the upper boundary of the bin and could indicate that it has been split between this bin and bin n104.04.
