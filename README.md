@@ -4,7 +4,7 @@
 
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/0.1.0/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/jasenfinch/binneR.svg)](https://travis-ci.org/jasenfinch/binneR) 
-[![Build status](https://ci.appveyor.com/api/projects/status/qgbik806tnd6v1up/branch/master?svg=true)](https://ci.appveyor.com/project/jasenfinch/binner/branch/master)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/jasenfinch/binneR?branch=master&svg=true)](https://ci.appveyor.com/project/jasenfinch/binneR)
 [![CRAN](https://www.r-pkg.org/badges/version/binneR)](https://cran.r-project.org/web/packages/binneR/index.html)
 ![downloads](https://cranlogs.r-pkg.org/badges/binneR)
 [![DOI](https://zenodo.org/badge/33118371.svg)](https://zenodo.org/badge/latestdoi/33118371)
