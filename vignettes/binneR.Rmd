@@ -28,9 +28,7 @@ htmltools::img(src = knitr::image_uri(system.file('sticker/binneRsticker.png',pa
 The *binneR* package provides a spectral binning approach for routine processing of flow infusion electrospray - high resolution mass spectrometry (FIE-HRMS) metabolomics fingerprinting experiments, the results of which can then be used for subsequent statistical analyses.
   
 Spectral binning rounds high resolution fingerprinting data by a specified amu bin width.
-FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can be averaged to provide a metabolome fingerprint. 
-Spectral binning is applied on a scan by scan basis where the data is rounded to the specified bin width, the signals are then sum aggregated and their intensities are averaged across the specified scans.
-Below is indicated the 'plug flow' region of an example FIE-MS chromatogram and the resulting spectrum when signal intensities are averaged across these scans.
+FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can be averaged to provide a metabolome fingerprint. Below shows an animation of the spectrum change across ‘plug flow’ region of an example FIE-HRMS injection acquired in negative ionisation mode. 
  
 ```{r FIEfingerprint, echo=FALSE, fig.width=7,fig.height=5,fig.align='center',fig.show='animate',animation.hook = 'gifski',interval=0.1,dev='jpeg',aniopts=('controls,loop')}
 
@@ -90,6 +88,8 @@ chrom$acquisitionNum <- 1:nrow(chrom)
 }
 ```
 
+Spectral binning is applied on a scan by scan basis where the data is rounded to the specified bin width, the signals are then sum aggregated and their intensities are averaged across the specified scans.
+
 Prior to the use of *binneR*, vendor specific raw data files need to be converted to one of the open source file formats such as *.mzXML* or *.mzML* so that they can be parsed into R.
 Data should also be centroided to reduce bin splitting artifacts that profile data can introduce during spectral binning.
 The *[msconvert](http://proteowizard.sourceforge.net/tools.shtml)* tool can be used for both data conversion and centroiding, allowing the use of vendor specific algorithms.
@@ -101,9 +101,7 @@ There are two main functionalities provided by this package.
 
 The subsequent sections will outline the use of these two main functionalities.
 
-Firstly, a simple intensity matrix can built for  
-Secondly, for routine metabolomic fingerprinting experiments, more formal functionality is provided using S4 structures that allow not only for the production of a spectrally binned intensity, but also the extraction of accurate *m/z* and plotting functionality.
-
+Before we begin, the necessary packages need to be loaded.
 ```{r libraryLoads,eval=FALSE}
 library(binneR)
 library(metaboData)
@@ -152,7 +150,7 @@ res <- readFiles(file,
 								 dp = 2,
 								 scans = infusionScans,
 								 sranges = list(c(50, 1000)),
-								 modes = c("n","p"), 
+								 modes = c("n","p"),
 								 nCores = 1)
 ```
 
@@ -172,9 +170,7 @@ Some bin measures are also computed that allow the assessment of the quality of 
 Subsequent analyses of these data can easily be applied using the [*metabolyseR*](https://github.com/jasenfinch/metabolyseR) package.
 The [*metaboWorkflows*](https://github.com/jasenfinch/metaboWorkflows) package also provides customisable wrapper workflows for high resolution FIE-MS analyses.
 
-The example data used here is from the [*metaboData*](https://github.com/jasenfinch/metaboData) package and consists of a comparison of four *B. distachyon* ecotypes.
-
-This document will provide an overview of how to use the package as well as a discussion of the bin measures computed to assess bin quality.
+The example data used here is from the [*metaboData*](https://github.com/aberHRML/metaboData) package and consists of a comparison of leaf tissue from four *B. distachyon* ecotypes.
 
 ### Basic Usage
 
@@ -249,39 +245,39 @@ It is crucial that the positions of the sample information in the info file matc
 Below shows an example of how this can be checked by matching the file names present in the info with those in the vector. 
 
 ```{r infoMatchFiles}
-FALSE %in% (info$fileName == files)
+FALSE %in% (info$fileName == basename(files))
 ```
 
-Spectral binning using the default parameters can then be performed with the following.
+Spectral binning can then be performed with the following.
 
 ```{r exampleProcessing,eval=FALSE}
-analysis <- binneRlyse(files,info,binParameters(cls = 'class'))
+analysis <- binneRlyse(files,info,binParameters(scans = detectInfusionScans(files),cls = 'class'))
 ```
 
 ```{r processing,echo=FALSE}
-# analysis <- binneRlyse(files,info,binParameters(cls = 'class',nCores = 2,clusterType = 'PSOCK'))
+analysis <- binneRlyse(files,info,binParameters(scans = detectInfusionScans(files),cls = 'class',nCores = 2,clusterType = 'PSOCK'))
 ```
 
 ```{r printAnalysis,echo=FALSE}
-# analysis
+analysis
 ```
 
 For data quality inspection, the infusion profiles this data can be plotted using:
 
 ```{r analysisChromatogram, fig.width=7,fig.height=5,fig.align='center'}
-# plotChromatogram(analysis)
+plotChromatogram(analysis)
 ```
 
 And the total ion counts using:
 
 ```{r analysisTICs, fig.width=7,fig.height=5,fig.align='center'}
-# plotTIC(analysis)
+plotTIC(analysis)
 ```
 
 Density profiles for individual bins can be plotted by:
 
 ```{r plotBin, fig.width=7,fig.height=5,fig.align='center'}
-# plotBin(analysis,'n133.01',cls = TRUE)
+plotBin(analysis,'n133.01',cls = TRUE)
 ```
 
 #### Data Extraction
@@ -297,9 +293,7 @@ There are a number of functions that can be used to return processing data from 
 There are a number of measures that can be computed that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate *m/z* peaks present within its boundaries. These include both purity and centrality.
 
 ```{r measuresPrep, echo=FALSE}
-dat <- readFiles(system.file(
-	'DataSets/FIE-HRMS/BdistachyonEcotypes/QC01.mzML.gz',
-	package = 'metaboData'),scans = 6:12,sranges = list(c(70,1000)),dp = 5)$n
+dat <- readFiles(files[1],scans = detectInfusionScans(files[1]),sranges = list(c(70,1000)),dp = 5)$n
 dat <- tidyr::gather(tibble::as_tibble(dat),'mz','Intensity')
 dat <- mutate(dat,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
 dat <- mutate(dat,bin = round(mz,2))
