@@ -14,6 +14,7 @@ apt_packages:
  - udunits-bin
  - libudunits2-dev
  - netcdf-bin
+ - ffmpeg
 
 r_binary_packages:
  - RUnit
