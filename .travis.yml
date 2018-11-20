@@ -28,6 +28,9 @@ r_packages:
 bioc_packages:
  - mzR
 
+after_success:
+ - Rscript -e 'covr::codecov()'
+    
 notifications:
   email:
     on_success: change
