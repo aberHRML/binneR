@@ -13,6 +13,8 @@ apt_packages:
  - libnetcdf-dev
  - udunits-bin
  - libudunits2-dev
+ - netcdf-bin
+ - ffmpeg
 
 r_binary_packages:
  - RUnit
@@ -23,12 +25,12 @@ r_packages:
  - digest
  - devtools
 
-r_github_packages:
- - jasenfinch/metaboData
-
 bioc_packages:
  - mzR
 
+after_success:
+ - Rscript -e 'covr::codecov()'
+    
 notifications:
   email:
     on_success: change
