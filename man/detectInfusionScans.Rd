@@ -17,6 +17,5 @@ detectInfusionScans(files, sranges = list(c(70, 1000)), thresh = 0.5)
 detect infusion scans for a set of FIE-MS infusion profiles.
 }
 \examples{
-detectInfusionScans(list.files(system.file('mzML',package = 'binneR'),
-                 full.names=TRUE))
+detectInfusionScans(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1])
 }
