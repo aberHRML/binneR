@@ -20,17 +20,12 @@ perform spectral binning.
 }
 \examples{
 \dontrun{
-files <- list.files(
-       system.file(
-           'DataSets/FIE-HRMS/BdistachyonEcotypes',
-           package = 'metaboData'),
-       full.names = TRUE)
+files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
 
-info <- readr::read_csv(files[grepl('runinfo',files)])
-files <- files[!grepl('runinfo',files)]
+info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
 
 analysis <- binneRlyse(files, 
                        info, 
-                       parameters = binParameters())
+                       parameters = binParameters(detectInfusionScans(files)))
    }
 }
