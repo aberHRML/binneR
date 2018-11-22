@@ -1,3 +1,4 @@
+#' @importFrom utils install.packages
 
 .onLoad <- function(libname,pkgname) {
 	if (!requireNamespace("metaboData", quietly = TRUE)) {
