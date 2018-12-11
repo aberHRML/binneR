@@ -1,7 +1,7 @@
 Package: binneR
 Type: Package
 Title: Spectral Processing for High Resolution Flow Infusion Mass Spectrometry
-Version: 2.0.2
+Version: 2.0.3
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A spectral binning approach for high resolution flow infusion mass spectrometry data.
 URL: https://github.com/jasenfinch/binneR
@@ -46,7 +46,6 @@ Collate:
     'detectInfusionScans.R'
     'plotChromatogram.R'
     'plotTIC.R'
-    'zzz.R'
 Suggests: 
     knitr,
     rmarkdown,
