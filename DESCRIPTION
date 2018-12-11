@@ -54,6 +54,7 @@ Suggests:
     prettydoc,
     htmltools,
     covr,
-    testthat
+    testthat,
+    gifski
 VignetteBuilder: knitr
 Additional_repositories: https://aberhrml.github.io/drat/
