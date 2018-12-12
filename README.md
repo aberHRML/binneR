@@ -35,7 +35,7 @@ remotes::install_github('jasenfinch/metaboData')
 To download and install this development vesion run:
 
 ``` r
-remotes::install_github('jasenfinch/binneR',build_vignettes = TRUE)
+remotes::install_github('jasenfinch/binneR',build_opts =c("--no-resave-data", "--no-manual"))
 ```
 
 #### Vignette
