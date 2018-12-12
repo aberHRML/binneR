@@ -6,7 +6,9 @@
 #' @importFrom mzR openMSfile header
 #' @importFrom dplyr group_by summarise
 #' @examples 
-#' detectInfusionScans(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1])
+#' if (requireNamespace("metaboData", quietly = TRUE)) {
+#'    detectInfusionScans(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1])
+#' }
 #' @export
 
 detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5){
