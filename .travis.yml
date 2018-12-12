@@ -15,6 +15,7 @@ apt_packages:
  - libudunits2-dev
  - netcdf-bin
  - ffmpeg
+ - cargo
 
 r_binary_packages:
  - RUnit
