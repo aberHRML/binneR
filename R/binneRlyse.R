@@ -4,7 +4,7 @@
 #' @param info tibble containing sample information
 #' @param parameters object of class BinParameters containing parameters for spectral binning
 #' @param verbose show console output
-#' @importFrom dplyr tbl_df
+#' @importFrom dplyr tbl_df n
 #' @importFrom magrittr %>%
 #' @importFrom crayon blue red green
 #' @importFrom cli console_width
