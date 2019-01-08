@@ -28,9 +28,6 @@ r_packages:
 
 bioc_packages:
  - mzR
- 
-r_github_packages:
- - tidyverse/dplyr
 
 after_success:
  - Rscript -e 'covr::codecov()'
