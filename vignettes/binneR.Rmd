@@ -314,11 +314,12 @@ measures <- summarise(measures,purity = binneR:::binPurity(mz,Intensity),central
 #### Purity
 
 Bin purity gives a measure of the spread of accurate *m/z* peaks found within a given bin and can be a signal for the presences of multiple real spectral peaks within a bin.
-Purity for a given bin is calculated using the equation below.
+When the total ion count (*t*) for a given bin is greater than 1, purity is calculated by
 
 $$p = 1 - \frac{\sigma}{w} $$
 
 Where *p* is purity, $\sigma$ is the standard deviation of the accurate *m/z* present within the bin and *w* is the width of the bin in amu.
+Else, when $t = 1$, p  is also equal to 1.
 A purity closer to 1 indicates that the accurate *m/z* present within a bin are found over a narrow region and therefore likely only to be as the result of 1 real mass spectral peak.
 A reduction in purity could indicate the presence of multiple peaks present within a bin.
 
@@ -365,7 +366,7 @@ Bin n98.96, that has a reduced purity, clearly has two peaks present.
 Bin centrality gives a measure of how close the mean of the accurate *m/z* are to the center of a given bin and can give indication of whether a peak could have been split between the boundary of tow adjacent bins.
 Centrality is calculated for a given bin using the equation below.
 
-$$ c = 1 - \frac{\sqrt{(\mu - k)^2}}{\frac{1}{2}w}$$
+$$ c = 1 - \frac{|\mu - k|}{\frac{1}{2}w}$$
 
 Where *c* is centrality, $\mu$ is the mean accurate *m/z* present in the bin, *k* is the center of the bin and *w* is the bin width in amu.
 A centrality close to 1 indicates that the accurate *m/z* present within the boundaries of the bin are located close to the center of the bin.
