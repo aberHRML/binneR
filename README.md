@@ -24,18 +24,18 @@ Download and install from [CRAN](https://cran.r-project.org/web/packages/binneR/
 install.packages('binneR')
 ```
 
-The CRAN version can be found on the [cran](https://github.com/jasenfinch/binneR/tree/cran) branch of this repository.
+The CRAN version can be found on the [cran](https://github.com/aberHRML/binneR/tree/cran) branch of this repository.
 
-The example data used in this package are from the [metaboData](https://github.com/jasenfinch/metaboData) package that can be installed using:
+The example data used in this package are from the [metaboData](https://github.com/aberHRML/metaboData) package that can be installed using:
 
 ``` r
-remotes::install_github('jasenfinch/metaboData')
+remotes::install_github('aberHRML/metaboData',build_opts =c("--no-resave-data", "--no-manual"))
 ```
 
 To download and install this development vesion run:
 
 ``` r
-remotes::install_github('jasenfinch/binneR',build_opts =c("--no-resave-data", "--no-manual"))
+remotes::install_github('aberHRML/binneR',build_opts =c("--no-resave-data", "--no-manual"))
 ```
 
 #### Vignette
