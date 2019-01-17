@@ -24,3 +24,7 @@ globalVariables(c('.',
 									'UpperOut',
 									'TIC'
 ))
+
+#' @useDynLib binneR, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
+NULL
