@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-double binPurity(NumericVector mz, NumericVector intensity, int dp = 2){
+double binPurity(NumericVector mz, NumericVector intensity, double dp = 2){
 	
 	double purity;
 	
