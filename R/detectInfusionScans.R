@@ -52,5 +52,5 @@ detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5)
 	
 	TICthresh <- mTIC * thresh
 	scans <- hd$acquisitionNum[hd$totIonCurrent > TICthresh]
-	c(min(scans),max(scans))
+	return(min(scans):max(scans))
 }
