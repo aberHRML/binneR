@@ -24,3 +24,10 @@ binParameters(scans = 5:12, modes = c("n", "p"), sranges = list(c(70,
 \description{
 selection of parameters to use for spectral binning.
 }
+\examples{
+p <- binParameters(scans = 6:17,nCores = 2,clusterType = 'PSOCK')
+
+## Example using multiple overlapping scan ranges
+p <- binParameters(scans = 6:17,sranges = list(c(55,280),c(270,1200)))
+
+}
