@@ -1,5 +1,6 @@
 ---
 title: "binneR"
+subtitle: "`r paste0('v',packageVersion('binneR'))`"
 author: "Jasen Finch"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
