@@ -32,3 +32,8 @@ setGeneric('plotChromatogram',function(x){
 setGeneric('plotTIC',function(x, by = 'injOrder', colour = 'block'){
 	standardGeneric('plotTIC')
 })
+
+#' @rdname plotFingerprint
+setGeneric('plotFingerprint',function(x){
+	standardGeneric('plotFingerprint')
+})
