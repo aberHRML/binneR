@@ -46,6 +46,7 @@ Collate:
     'detectInfusionScans.R'
     'plotChromatogram.R'
     'plotTIC.R'
+    'plotFingerprint.R'
 Suggests: 
     knitr,
     rmarkdown,
