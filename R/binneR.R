@@ -22,5 +22,8 @@ globalVariables(c('.',
 									'Q1',
 									'Q3',
 									'UpperOut',
-									'TIC'
+									'TIC',
+									'Feature',
+									'Intensity',
+									'm/z'
 ))
