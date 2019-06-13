@@ -15,8 +15,8 @@
 #' @importFrom parallel detectCores
 #' @export
 
-binParameters <- function(scans = 5:12, modes = c('n','p'), sranges = list(c(70,1000)), cls = character(), nCores = detectCores(), clusterType = 'FORK'){
-    new('BinParameters',
+binParameters <- function(scans = 5:12, modes = c('n','p'), sranges = list(c(70,1000)), cls = character(), nCores = detectCores() * 0.75, clusterType = 'FORK'){
+   p <- new('BinParameters',
         scans = scans,
         modes = modes,
         sranges = sranges,
@@ -24,4 +24,10 @@ binParameters <- function(scans = 5:12, modes = c('n','p'), sranges = list(c(70,
         nCores = nCores,
         clusterType = clusterType
         )
+   
+   if (.Platform$OS.type == 'windows') {
+       p@clusterType <- 'PSOCK'    
+   }
+   
+   return(p)
 }

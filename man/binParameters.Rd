@@ -5,7 +5,7 @@
 \title{binParameters}
 \usage{
 binParameters(scans = 5:12, modes = c("n", "p"), sranges = list(c(70,
-  1000)), cls = character(), nCores = detectCores(),
+  1000)), cls = character(), nCores = detectCores() * 0.75,
   clusterType = "FORK")
 }
 \arguments{
