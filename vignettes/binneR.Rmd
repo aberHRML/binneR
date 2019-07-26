@@ -241,11 +241,12 @@ Alternatively, parameters can be initialised using the `binParameters` function 
 binParameters(scans = 6:14)
 ```
 
-For and already initialised `BinParameters` object, the slot containing the parameter of interest can be changed by directly accessing the slot as shown below.
+For and already initialised `BinParameters` object, parameters can be changed using the methods named after the parameter of interest. 
+For example to change the scans of a given object:
 
 ```{r parameterChangeExample2}
 alternativeParameters <- parameters
-alternativeParameters@scans <- 6:14
+scans(alternativeParameters) <- 6:14
 alternativeParameters
 ```
 
