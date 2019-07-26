@@ -188,9 +188,17 @@ The example data used here is from the [*metaboData*](https://github.com/aberHRM
 
 ### Basic Usage
 
+Firstly the file paths and sample information can be loaded for the example data set using the following:
+
+```{r exampleFiles}
+files <-  metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
+
+info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
+```
+
 There are two main functions for processing experimental data:
 
-* `binParameters()` - allows the selection of processing parameters.
+* `detectParameters()` - allows the auto detection of processing parameters. `binParameters()` can be use to manually select these parameters.
 * `binneRlyse()` - input data file paths and sample information to process using the selected parameters.
 
 #### Sample information
@@ -211,10 +219,11 @@ The row orders of the info file should match the order in which the files paths 
 #### Parameters
 
 Prior to spectral binning the processing parameters first need to be selected.
-The default parameters can be initialised a `BinParameters` object using the `binParameters()` function as shown below.
+The binning parameter can be detected using the `detectParameters()` function as shown below.
 
 ```{r binParameterExample}
-binParameters()
+parameters <- detectParameters(files)
+parameters
 ```
 
 These parameters specify the following:
@@ -226,31 +235,25 @@ These parameters specify the following:
 * `nCores` - the number of cores to use for parallelisation
 * `clusterType` - the cluster type to use for parallelisation
 
-Parameters can be altered upon initialisation of the `BinParameters` by specifying the parameter and it's value upon calling the `binParameters` function as shown below. 
+Alternatively, parameters can be initialised using the `binParameters` function as shown below. Parameter values can be specified using this function.
 
 ```{r parameterChangeExample}
 binParameters(scans = 6:14)
 ```
 
-Alternatively for and already initialised `BinParameters` object, the slot containing the parameter of interest can be changed by directly accessing the slot as shown below.
+For and already initialised `BinParameters` object, parameters can be changed using the methods named after the parameter of interest. 
+For example to change the scans of a given object:
 
 ```{r parameterChangeExample2}
-parameters <- binParameters()
-parameters@scans <- 6:14
-parameters
+alternativeParameters <- parameters
+scans(alternativeParameters) <- 6:14
+alternativeParameters
 ```
 
 #### Processing
 
 Processing is simple and requires only the use of the `binneRlyse()` function. 
-The input of this function is a vector of the paths of the data files to process, a tibble containing the sample info and `BinParameters` object.
-Below shows the files and info inputs for the example data set.
-
-```{r exampleFiles}
-files <-  metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
-
-info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
-```
+The input of this function is a vector of the paths of the data files to process, a tibble containing the sample info and a `BinParameters` object.
 
 It is crucial that the positions of the sample information in the info file match the sample positions within the files vector.
 Below shows an example of how this can be checked by matching the file names present in the info with those in the vector. 
@@ -262,7 +265,7 @@ TRUE %in% (info$fileName != basename(files))
 Spectral binning can then be performed with the following.
 
 ```{r exampleProcessing,eval=FALSE}
-analysis <- binneRlyse(files,info,binParameters(scans = detectInfusionScans(files),cls = 'class'))
+analysis <- binneRlyse(files,info,parameters)
 ```
 
 ```{r processing,echo=FALSE}

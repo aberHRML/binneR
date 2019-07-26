@@ -26,6 +26,6 @@ info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
 
 analysis <- binneRlyse(files, 
                        info, 
-                       parameters = binParameters(detectInfusionScans(files)))
+                       parameters = detectParameters(files))
    }
 }
