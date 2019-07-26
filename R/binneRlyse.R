@@ -18,7 +18,7 @@
 #' 
 #' analysis <- binneRlyse(files, 
 #'                        info, 
-#'                        parameters = binParameters(detectInfusionScans(files)))
+#'                        parameters = detectParameters(files))
 #'    }
 #' @export
 
