@@ -137,7 +137,7 @@ setMethod('clusterType',signature = 'BinParameters',function(x){
         x@clusterType
 })
 
-#' @rdname nCores
+#' @rdname clusterType
 #' @param value cluster type to use for parallel processing. FORK or PSOCK.
 #' @export
 

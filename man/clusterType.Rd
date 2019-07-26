@@ -4,14 +4,19 @@
 \name{clusterType}
 \alias{clusterType}
 \alias{clusterType,BinParameters-method}
+\alias{clusterType<-}
 \title{clusterType}
 \usage{
 clusterType(x)
 
 \S4method{clusterType}{BinParameters}(x)
+
+clusterType(x) <- value
 }
 \arguments{
 \item{x}{an S4 object of class BinParameters}
+
+\item{value}{cluster type to use for parallel processing. FORK or PSOCK.}
 }
 \description{
 get and set cluster type of a BinParameters object.

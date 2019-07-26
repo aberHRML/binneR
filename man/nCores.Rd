@@ -5,7 +5,6 @@
 \alias{nCores}
 \alias{nCores,BinParameters-method}
 \alias{nCores<-}
-\alias{clusterType<-}
 \title{nCores}
 \usage{
 nCores(x)
@@ -13,15 +12,11 @@ nCores(x)
 \S4method{nCores}{BinParameters}(x)
 
 nCores(x) <- value
-
-clusterType(x) <- value
 }
 \arguments{
 \item{x}{an S4 object of class BinParameters}
 
 \item{value}{number of cores to use for parallel processing}
-
-\item{value}{cluster type to use for parallel processing. FORK or PSOCK.}
 }
 \description{
 get and set number of cores of a BinParameters object.
