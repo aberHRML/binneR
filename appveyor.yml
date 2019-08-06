@@ -14,10 +14,6 @@ install:
 environment:
   global:
    USE_RTOOLS: true
-  
-build_script:
-  - travis-tool.sh install_github aberHRML/metaboData
-  - travis-tool.sh install_bioc_deps
 
 test_script:
   - travis-tool.sh run_tests
