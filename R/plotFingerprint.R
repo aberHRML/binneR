@@ -4,6 +4,7 @@
 #' @param x S4 object of class Binalysis
 #' @importFrom ggplot2 geom_segment
 #' @importFrom stringr str_remove_all
+#' @importFrom dplyr summarise_all
 #' @export
 
 setMethod('plotFingerprint',signature = 'Binalysis',

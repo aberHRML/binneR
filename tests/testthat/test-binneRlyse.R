@@ -14,6 +14,8 @@ info <- tibble::tibble(fileOrder = 1,
 
 p <- binParameters(scans = 6:17,nCores = 2,clusterType = 'PSOCK')
 
+pars <- list(scans = scans(p),modes = modes(p),sranges = sranges(p),nCores = nCores(p),clusterType = clusterType(p))
+
 analysis <- binneRlyse(file, 
 											 info, 
 											 parameters = p)
@@ -25,15 +27,16 @@ ad <- accurateData(analysis)
 chrPl <- plotChromatogram(analysis)
 ticPl <- plotTIC(analysis)
 binPl <- plotBin(analysis,'n133.01')
+fingPl <- plotFingerprint(analysis)
 
 test_that('binParameters works',{
 	expect_true(class(p) == 'BinParameters')
 	expect_true(identical(slotNames(p),c("scans","modes","sranges","cls","nCores","clusterType")))
-	expect_true(identical(p@scans,6:17))
-	expect_true(identical(p@modes,c('n','p')))
-	expect_true(identical(p@sranges,list(c(70,1000))))
-	expect_true(p@nCores == 2)
-	expect_true(p@clusterType == 'PSOCK')
+	expect_true(identical(pars$scans,6:17))
+	expect_true(identical(pars$modes,c('n','p')))
+	expect_true(identical(pars$sranges,list(c(70,1000))))
+	expect_true(pars$nCores == 2)
+	expect_true(pars$clusterType == 'PSOCK')
 })
 
 test_that('binneRlyse works',{
@@ -57,4 +60,5 @@ test_that('plots work',{
 	expect_true(identical(class(chrPl),c('gg','ggplot')))
 	expect_true(identical(class(ticPl),c('gg','ggplot')))
 	expect_true(identical(class(binPl),c('gg','ggplot')))
+	expect_true(identical(class(fingPl),c('gg','ggplot')))
 })
