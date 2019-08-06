@@ -142,7 +142,7 @@ detectClusterType <- function(){
 #' @param files character vector of file paths
 #' @examples 
 #' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
-#' parameters <- detectParameters(files)
+#' parameters <- detectParameters(files[1])
 #' @export
 
 detectParameters <- function(files){
