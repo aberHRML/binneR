@@ -12,3 +12,7 @@ detectParameters(files)
 \description{
 Detect binning parameters from file list.
 }
+\examples{
+files <- filePaths('FIE-HRMS','BdistachyonEcotypes')
+parameters <- detectParameters(files)
+}
