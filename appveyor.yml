@@ -15,9 +15,8 @@ cache:
 
 # Adapt as necessary starting from here
 environment:
-  global:
    USE_RTOOLS: true
-   PKGTYPE: source
+   PKGTYPE: both
 
 build_script:
   - travis-tool.sh install_deps
