@@ -141,7 +141,7 @@ detectClusterType <- function(){
 #' @description Detect binning parameters from file list.
 #' @param files character vector of file paths
 #' @examples 
-#' files <- filePaths('FIE-HRMS','BdistachyonEcotypes')
+#' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
 #' parameters <- detectParameters(files)
 #' @export
 
