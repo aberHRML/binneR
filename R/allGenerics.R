@@ -32,3 +32,38 @@ setGeneric('plotChromatogram',function(x){
 setGeneric('plotTIC',function(x, by = 'injOrder', colour = 'block'){
 	standardGeneric('plotTIC')
 })
+
+#' @rdname plotFingerprint
+setGeneric('plotFingerprint',function(x){
+	standardGeneric('plotFingerprint')
+})
+
+#' @rdname scans
+setGeneric('scans',function(x){
+	standardGeneric('scans')
+})
+
+#' @rdname modes
+setGeneric('modes',function(x){
+	standardGeneric('modes')
+})
+
+#' @rdname sranges
+setGeneric('sranges',function(x){
+	standardGeneric('sranges')
+})
+
+#' @rdname cls
+setGeneric('cls',function(x){
+	standardGeneric('cls')
+})
+
+#' @rdname nCores
+setGeneric('nCores',function(x){
+	standardGeneric('nCores')
+})
+
+#' @rdname clusterType
+setGeneric('clusterType',function(x){
+	standardGeneric('clusterType')
+})

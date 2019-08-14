@@ -1,6 +1,6 @@
-language: r
 
-sudo: required
+language: R
+sudo: false
 cache: packages
 bioc_required: true
 warnings_are_errors: true
@@ -11,23 +11,9 @@ r:
 
 apt_packages:
  - libnetcdf-dev
- - udunits-bin
- - libudunits2-dev
  - netcdf-bin
  - ffmpeg
  - cargo
-
-r_binary_packages:
- - RUnit
- - testthat
-
-r_packages:
- - rlang
- - digest
- - devtools
-
-bioc_packages:
- - mzR
 
 after_success:
  - Rscript -e 'covr::codecov()'

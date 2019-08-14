@@ -15,8 +15,8 @@
 #' @importFrom parallel detectCores
 #' @export
 
-binParameters <- function(scans = 5:12, modes = c('n','p'), sranges = list(c(70,1000)), cls = character(), nCores = detectCores(), clusterType = 'FORK'){
-    new('BinParameters',
+binParameters <- function(scans = 5:12, modes = c('n','p'), sranges = list(c(70,1000)), cls = character(), nCores = detectCores() * 0.75, clusterType = 'FORK'){
+   p <- new('BinParameters',
         scans = scans,
         modes = modes,
         sranges = sranges,
@@ -24,4 +24,129 @@ binParameters <- function(scans = 5:12, modes = c('n','p'), sranges = list(c(70,
         nCores = nCores,
         clusterType = clusterType
         )
+   
+   if (.Platform$OS.type == 'windows') {
+       p@clusterType <- 'PSOCK'    
+   }
+   
+   return(p)
 }
+
+#' scans
+#' @rdname scans
+#' @description get and set scans of a BinParameters object.
+#' @param x an S4 object of class BinParameters
+#' @export
+
+setMethod('scans',signature = 'BinParameters',function(x){
+        x@scans
+})
+
+#' @rdname scans
+#' @param value numeric vector of scan numbers
+#' @export
+
+`scans<-` <- function(x,value){
+        x@scans <- value
+        return(x)
+}
+
+#' modes
+#' @rdname modes
+#' @description get and set ionisation modes of a BinParameters object.
+#' @param x an S4 object of class BinParameters
+#' @export
+
+setMethod('modes',signature = 'BinParameters',function(x){
+        x@modes
+})
+
+#' @rdname modes
+#' @param value character vector of mode indexes
+#' @export
+
+`modes<-` <- function(x,value){
+        x@modes <- value
+        return(x)
+}
+
+#' sranges
+#' @rdname sranges
+#' @description get and set scan ranges of a BinParameters object.
+#' @param x an S4 object of class BinParameters
+#' @export
+
+setMethod('sranges',signature = 'BinParameters',function(x){
+        x@sranges
+})
+
+#' @rdname sranges
+#' @param value list containing low and high scan range vectors
+#' @export
+
+`sranges<-` <- function(x,value){
+        x@sranges <- value
+        return(x)
+}
+
+#' cls
+#' @rdname cls
+#' @description get and set class labels of a BinParameters object.
+#' @param x an S4 object of class BinParameters
+#' @export
+
+setMethod('cls',signature = 'BinParameters',function(x){
+        x@cls
+})
+
+#' @rdname cls
+#' @param value character containing the column of class labels to use for aggregating accurate mass data
+#' @export
+
+`cls<-` <- function(x,value){
+        x@cls <- value
+        return(x)
+}
+
+#' nCores
+#' @rdname nCores
+#' @description get and set number of cores of a BinParameters object.
+#' @param x an S4 object of class BinParameters
+#' @export
+
+setMethod('nCores',signature = 'BinParameters',function(x){
+        x@nCores
+})
+
+#' @rdname nCores
+#' @param value number of cores to use for parallel processing
+#' @export
+
+`nCores<-` <- function(x,value){
+        x@nCores <- value
+        return(x)
+}
+
+#' clusterType
+#' @rdname clusterType
+#' @description get and set cluster type of a BinParameters object.
+#' @param x an S4 object of class BinParameters
+#' @export
+
+setMethod('clusterType',signature = 'BinParameters',function(x){
+        x@clusterType
+})
+
+#' @rdname clusterType
+#' @param value cluster type to use for parallel processing. FORK or PSOCK.
+#' @export
+
+`clusterType<-` <- function(x,value){
+        x@clusterType <- value
+        return(x)
+}
+
+
+
+
+
