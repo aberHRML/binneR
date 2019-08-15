@@ -4,15 +4,20 @@
 \alias{detectParameters}
 \title{detectParameters}
 \usage{
-detectParameters(files)
+detectParameters(files, nCores = detectCores() * 0.75,
+  clusterType = detectClusterType())
 }
 \arguments{
 \item{files}{character vector of file paths}
+
+\item{nCores}{the number of cores to use for parallel processing}
+
+\item{clusterType}{the type of cluster to use for parallel processing}
 }
 \description{
 Detect binning parameters from file list.
 }
 \examples{
 files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
-parameters <- detectParameters(files)
+parameters <- detectParameters(files[1])
 }
