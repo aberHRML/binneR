@@ -21,7 +21,6 @@ Imports:
     lubridate,
     ggplot2,
     ggthemes,
-    Rcpp
 License: GPL (>= 3)
 RoxygenNote: 6.1.1
 Collate:
@@ -29,8 +28,6 @@ Collate:
     'allClasses.R'
     'binneRlyse.R'
     'binParameters.R'
-    'binPurity.R'
-    'binCentrality.R'
     'spectralBinning-method.R'
     'show-method.R'
     'info-method.R'
@@ -49,6 +46,7 @@ Collate:
     'plotChromatogram.R'
     'plotTIC.R'
     'plotFingerprint.R'
+    'binMeasures.R'
 Suggests: 
     knitr,
     rmarkdown,
@@ -61,5 +59,3 @@ Suggests:
     gifski
 VignetteBuilder: knitr
 Additional_repositories: https://aberhrml.github.io/drat/
-LinkingTo: 
-    Rcpp
