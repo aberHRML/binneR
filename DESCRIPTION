@@ -1,25 +1,26 @@
 Package: binneR
 Title: Spectral Processing for High Resolution Flow Infusion Mass Spectrometry
-Version: 2.1.0
+Version: 2.1.1
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A spectral binning approach for high resolution flow infusion mass spectrometry data.
 biocViews:  MassSpectrometry, Metabolomics
 URL: https://github.com/aberHRML/binneR
 Encoding: UTF-8 
-Imports: dplyr,
-         magrittr,
-         mzR,
-         plyr,
-         tidyr,
-         methods,
-         purrr,
-         stringr,
-         tibble,
-         crayon,
-         cli,
-         lubridate,
-         ggplot2,
-         ggthemes
+Imports: 
+    dplyr,
+    magrittr,
+    mzR,
+    plyr,
+    tidyr,
+    methods,
+    purrr,
+    stringr,
+    tibble,
+    crayon,
+    cli,
+    lubridate,
+    ggplot2,
+    ggthemes,
 License: GPL (>= 3)
 RoxygenNote: 6.1.1
 Collate:
@@ -27,8 +28,6 @@ Collate:
     'allClasses.R'
     'binneRlyse.R'
     'binParameters.R'
-    'binPurity.R'
-    'binCentrality.R'
     'spectralBinning-method.R'
     'show-method.R'
     'info-method.R'
@@ -47,6 +46,7 @@ Collate:
     'plotChromatogram.R'
     'plotTIC.R'
     'plotFingerprint.R'
+    'binMeasures.R'
 Suggests: 
     knitr,
     rmarkdown,
