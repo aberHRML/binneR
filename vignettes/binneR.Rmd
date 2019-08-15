@@ -222,7 +222,7 @@ Prior to spectral binning the processing parameters first need to be selected.
 The binning parameter can be detected using the `detectParameters()` function as shown below.
 
 ```{r binParameterExample}
-parameters <- detectParameters(files)
+parameters <- detectParameters(files,nCores = 2)
 parameters
 ```
 
@@ -269,7 +269,7 @@ analysis <- binneRlyse(files,info,parameters)
 ```
 
 ```{r processing,echo=FALSE}
-analysis <- binneRlyse(files,info,binParameters(scans = detectInfusionScans(files),cls = 'class',nCores = 2,clusterType = 'PSOCK'))
+analysis <- binneRlyse(files,info,binParameters(scans = detectInfusionScans(files,nCores = 2),cls = 'class',nCores = 2,clusterType = 'PSOCK'))
 ```
 
 ```{r printAnalysis,echo=FALSE}

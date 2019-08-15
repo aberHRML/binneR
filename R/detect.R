@@ -3,6 +3,8 @@
 #' @param files character vector of file paths to use
 #' @param sranges A list of vectors containing the scan events present.
 #' @param thresh detection threshold as a proportion of  preak of the infusion profile
+#' @param nCores the number of cores to use for parallel processing
+#' @param clusterType the type of cluster to use for parallel processing
 #' @importFrom mzR openMSfile header
 #' @importFrom dplyr group_by summarise
 #' @examples 
@@ -68,6 +70,8 @@ detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5,
 #' detectSranges
 #' @description Detect scan ranges from file list.
 #' @param files character vector of file paths.
+#' @param nCores the number of cores to use for parallel processing
+#' @param clusterType the type of cluster to use for parallel processing
 #' @importFrom magrittr set_names
 #' @importFrom stringr str_split str_locate str_extract str_split_fixed
 #' @importFrom purrr map_dbl
@@ -161,15 +165,14 @@ detectClusterType <- function(){
 #' detectParameters
 #' @description Detect binning parameters from file list.
 #' @param files character vector of file paths
+#' @param nCores the number of cores to use for parallel processing
+#' @param clusterType the type of cluster to use for parallel processing
 #' @examples 
 #' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
 #' parameters <- detectParameters(files[1])
 #' @export
 
-detectParameters <- function(files){
-	
-	nCores <- detectCores() * 0.75
-	clusterType <- detectClusterType()
+detectParameters <- function(files, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
 	
 	sranges <- detectSranges(files,nCores,clusterType)
 	scans <- detectInfusionScans(files,sranges = sranges,nCores = nCores,clusterType = clusterType)
