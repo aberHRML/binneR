@@ -1,4 +1,3 @@
-
 language: R
 sudo: false
 cache: packages
@@ -6,19 +5,18 @@ bioc_required: true
 warnings_are_errors: true
 
 r:
- - release
- - devel
+- release
+- devel
 
 apt_packages:
- - libnetcdf-dev
- - netcdf-bin
- - ffmpeg
- - cargo
+- libnetcdf-dev
+- netcdf-bin
+- ffmpeg
+- cargo
 
 after_success:
- - Rscript -e 'covr::codecov()'
-    
+- Rscript -e 'covr::codecov()'
+
 notifications:
-  email:
-    on_success: change
-    on_failure: change
+  slack:
+    secure: MWTOWZlyoKzNpmChvLy0xAT7jMwGKZ2sIkGz373W+K5/734sLoYneyPiXmy1AM1DhHDchjc8I7YiWo+Gahf43Kw9Y+E5ayxGmtt4ajI/0LqAL1KRHB94fNkZ/+Nd7zusabx4RZbOsZHnS126UqX3Oa1/EPXdFWsmmDDD1SvXGJXCE2+uMsCu0j/qj44DAfhJKhohwjg4vgviTMnUXpFKRMwRP19sjbQFofCiamAuvHyGH6Qu+ucmjTNqwXWPXhMUO+gk3uAeRVE3ldFrFMdpeKCeMF+a/6WiQ1gHLXAmiqklzZel+diI2i5VmqbW/55Hl4nep4A525LTS6l1hKzU9R+wdhca2XI8orVk8p3UyjBHtwYfyWDUpZFYb4dTsNuR/ifnJW8Bjwiqf2eYzODm4UMNumPF4G/226u+yJpA+Vh2wJHcDnOEgSPx/nFikVKm10+dPDaIVZKHSmHKrSOG2eC6q8OT8bNf0AJ6xZFrmnamm0oTXynm45TzFOdrkHuUTn9bQqEfdwb+C70r2NIxuqhzjZbHl7CpxUf/Aloc3Q39Hl9JhPI8BXIzq/MqIhsUQa/JEqmoqJTmadxJOHNFOQRKlkeXbX7s01PcH6QsfA/a2IK2ujoVYKA2udcrRkfESjHnekQHgKpuW0uC/kBpcFTYecjUIdmKSHX8z+DGN0Y=
