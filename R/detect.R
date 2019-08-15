@@ -11,15 +11,25 @@
 #' }
 #' @export
 
-detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5){
+detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
+	
+	nSlaves <- ceiling(length(files) / 10)
+	
+	if (nSlaves > nCores) {
+		nSlaves <- nCores	
+	}
+	
+	clus <- makeCluster(nSlaves,clusterType)
+	
 	ms <- files %>%
-		map(~{
-			d <- .
+		parLapply(clus,.,function(d){
 			d %>%
 				openMSfile() %>%
 				header()
-		})
-	names(ms) <- files
+		}) %>%
+		set_names(files)
+	
+	stopCluster(clus)
 	
 	hd <- ms %>%
 		bind_rows(.id = 'Sample') %>%
@@ -63,18 +73,29 @@ detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5)
 #' @importFrom purrr map_dbl
 #' @export
 
-detectSranges <- function(files){
+detectSranges <- function(files, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
+	
+	nSlaves <- ceiling(length(files) / 10)
+	
+	if (nSlaves > nCores) {
+		nSlaves <- nCores	
+	}
+	
+	clus <- makeCluster(nSlaves,clusterType)
 	
 	scanFilters <- files %>%
-		map(openMSfile,backend = 'pwiz') %>%
-		map(~{
-			header(.) %>%
+		{parLapply(clus,.,function(x){
+			x %>%
+				openMSfile(backend = 'pwiz') %>%
+				header() %>%
 				select(filterString) %>%
 				distinct()
-			}) %>%
+		})} %>%
 		bind_rows() %>%
 		distinct() %>%
 		unlist()
+	
+	stopCluster(clus)
 	
 	modePosition <- scanFilters[1] %>%
 			{str_locate(.,pattern = 'p ESI Full ms')[1,1] - 2}
@@ -147,11 +168,13 @@ detectClusterType <- function(){
 
 detectParameters <- function(files){
 	
-	sranges <- detectSranges(files)
-	scans <- detectInfusionScans(files,sranges = sranges)
-	modes <- detectModes(files)
 	nCores <- detectCores() * 0.75
 	clusterType <- detectClusterType()
+	
+	sranges <- detectSranges(files,nCores,clusterType)
+	scans <- detectInfusionScans(files,sranges = sranges,nCores = nCores,clusterType = clusterType)
+	modes <- detectModes(files)
+
 	
 	bp <- binParameters(scans,modes,sranges,nCores = nCores,clusterType = clusterType)
 	return(bp)
