@@ -14,5 +14,5 @@ Detect binning parameters from file list.
 }
 \examples{
 files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
-parameters <- detectParameters(files)
+parameters <- detectParameters(files[1])
 }

@@ -27,7 +27,3 @@ globalVariables(c('.',
 									'Intensity',
 									'm/z'
 ))
-
-#' @useDynLib binneR, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
-NULL

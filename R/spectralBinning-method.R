@@ -12,12 +12,16 @@ setMethod("spectralBinning", signature = "Binalysis",
 						info <- x@info
 						files <- x@files
 						
-						clus <- makeCluster(parameters@nCores,type = parameters@clusterType)
+						nSlaves <- ceiling(length(files) / 20)
+						
+						if (nSlaves > nCores(parameters)) {
+							nSlaves <- nCores(parameters)
+						}
 						
 						pks <- getPeaks(files,parameters@scans,
 														parameters@sranges,
 														parameters@modes,
-														parameters@nCores,
+														nSlaves,
 														parameters@clusterType)
 						
 						binList <- calcBinList(pks)
@@ -37,6 +41,8 @@ setMethod("spectralBinning", signature = "Binalysis",
 							unique() %>%
 							length()
 						
+						clus <- makeCluster(nSlaves,type = parameters@clusterType)
+						
 						binnedData <- pks %>%
 							split(.$File) %>%
 							parLapply(clus,.,function(x,nScans){
@@ -48,6 +54,10 @@ setMethod("spectralBinning", signature = "Binalysis",
 							},nScans = nScans) %>%
 							bind_rows()
 						
+						stopCluster(clus)
+						
+						clus <- makeCluster(nSlaves,type = parameters@clusterType)
+						
 						pks <- pks %>%
 							left_join(cls,by = "File") %>%
 							split(.$File) %>%
@@ -57,6 +67,8 @@ setMethod("spectralBinning", signature = "Binalysis",
 									summarise(intensity = sum(intensity)/nScans)
 							},nScans = nScans) %>%
 							bind_rows()
+						
+						stopCluster(clus)
 						
 						classes <- pks %>%
 							tbl_df() %>%
@@ -68,7 +80,15 @@ setMethod("spectralBinning", signature = "Binalysis",
 							rename(Class = '.')
 						
 						pks <- pks %>%
-							split(.$Class)
+									split(.$Class)
+						
+						nSlaves <- length(pks)
+						
+						if (nSlaves > nCores(parameters)) {
+							nSlaves <- nCores(parameters)
+						}
+						
+						clus <- makeCluster(nSlaves,type = parameters@clusterType)
 						
 						pks  <- parLapply(clus,classes$Class,function(x,classes,pks){
 							cls <- x
@@ -79,6 +99,8 @@ setMethod("spectralBinning", signature = "Binalysis",
 								summarise(intensity = sum(intensity)/nCls)
 						},classes = classes,pks = pks) %>%
 							bind_rows()
+						
+						stopCluster(clus)
 						
 						binMeasures <- calcBinMeasures(pks,parameters@nCores,parameters@clusterType)
 						
@@ -95,6 +117,14 @@ setMethod("spectralBinning", signature = "Binalysis",
 							filter(intensity == max(intensity)) %>%
 							select(Mode,Bin,mz)
 						
+						nSlaves <- length(modes(parameters))
+						
+						if (nSlaves > nCores(parameters)) {
+							nSlaves <- nCores(parameters)
+						}
+						
+						clus <- makeCluster(nSlaves,type = parameters@clusterType)
+						
 						binnedData <- binnedData %>%
 							left_join(mz,by = c("Mode", "Bin")) %>%
 							select(-Bin) %>%
@@ -105,6 +135,9 @@ setMethod("spectralBinning", signature = "Binalysis",
 									spread(mz,intensity,fill = 0) %>%
 									select(-File,-Mode)
 							})
+						
+						stopCluster(clus)
+						
 						modes <- names(binnedData)
 						binnedData <- map(modes,~{
 							d <- binnedData[[.]]
@@ -119,8 +152,6 @@ setMethod("spectralBinning", signature = "Binalysis",
 						}
 						
 						headers <- getHeaders(files,parameters@nCores,parameters@clusterType)
-						
-						stopCluster(clus)
 						
 						x@binLog <- date()
 						x@info <- info
