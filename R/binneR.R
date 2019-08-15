@@ -25,5 +25,6 @@ globalVariables(c('.',
 									'TIC',
 									'Feature',
 									'Intensity',
-									'm/z'
+									'm/z',
+									'filterString'
 ))

@@ -1,6 +1,7 @@
 #' @importFrom mzR header
 
 getHeaders <- function(files,nCores,clusterType){
+    
     if (nCores < 1) {
         headers <- map(files,~{
             f <- .
@@ -9,7 +10,13 @@ getHeaders <- function(files,nCores,clusterType){
                 header()
         })
     } else {
-        clus <- makeCluster(nCores,type = clusterType)
+        nSlaves <- ceiling(length(files)/10)
+        
+        if (nSlaves > nCores) {
+            nSlaves <- nCores
+        }
+        
+        clus <- makeCluster(nSlaves,type = clusterType)
         headers <- parLapply(clus,files,function(x){
             x %>%
                 openMSfile(backend = 'pwiz') %>%

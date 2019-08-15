@@ -12,13 +12,13 @@ info <- tibble::tibble(fileOrder = 1,
 											 name = '1',
 											 class = 1)
 
-p <- binParameters(scans = 6:17,nCores = 2,clusterType = 'PSOCK')
+p <- binParameters(scans = 6:17,nCores = 2,clusterType = detectClusterType())
 
 pars <- list(scans = scans(p),modes = modes(p),sranges = sranges(p),nCores = nCores(p),clusterType = clusterType(p))
 
 analysis <- binneRlyse(file, 
 											 info, 
-											 parameters = p)
+											 parameters = p,verbose = F)
 
 inf <- info(analysis)
 bd <- binnedData(analysis)
@@ -36,7 +36,7 @@ test_that('binParameters works',{
 	expect_true(identical(pars$modes,c('n','p')))
 	expect_true(identical(pars$sranges,list(c(70,1000))))
 	expect_true(pars$nCores == 2)
-	expect_true(pars$clusterType == 'PSOCK')
+	expect_true(pars$clusterType == detectClusterType())
 })
 
 test_that('binneRlyse works',{
