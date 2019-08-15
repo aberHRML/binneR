@@ -12,11 +12,11 @@ getHeaders <- function(files,nCores,clusterType){
     } else {
         nSlaves <- ceiling(length(files)/10)
         
-        if (nSlaves > nCores(parameters)) {
-            nSlaves <- nCores(parameters)
+        if (nSlaves > nCores) {
+            nSlaves <- nCores
         }
         
-        clus <- makeCluster(nSlaves,type = parameters@clusterType)
+        clus <- makeCluster(nSlaves,type = clusterType)
         headers <- parLapply(clus,files,function(x){
             x %>%
                 openMSfile(backend = 'pwiz') %>%

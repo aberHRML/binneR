@@ -18,7 +18,7 @@ pars <- list(scans = scans(p),modes = modes(p),sranges = sranges(p),nCores = nCo
 
 analysis <- binneRlyse(file, 
 											 info, 
-											 parameters = p)
+											 parameters = p,verbose = F)
 
 inf <- info(analysis)
 bd <- binnedData(analysis)
