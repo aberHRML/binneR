@@ -10,7 +10,7 @@ getHeaders <- function(files,nCores,clusterType){
                 header()
         })
     } else {
-        nSlaves <- length(files)/10
+        nSlaves <- ceiling(length(files)/10)
         
         if (nSlaves > nCores(parameters)) {
             nSlaves <- nCores(parameters)

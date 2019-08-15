@@ -82,7 +82,7 @@ setMethod("spectralBinning", signature = "Binalysis",
 						pks <- pks %>%
 									split(.$Class)
 						
-						nSlaves <- length(pks)
+						nSlaves <- ceiling(length(pks))
 						
 						if (nSlaves > nCores(parameters)) {
 							nSlaves <- nCores(parameters)
@@ -117,7 +117,7 @@ setMethod("spectralBinning", signature = "Binalysis",
 							filter(intensity == max(intensity)) %>%
 							select(Mode,Bin,mz)
 						
-						nSlaves <- length(modes(parameters))
+						nSlaves <- ceiling(length(modes(parameters)))
 						
 						if (nSlaves > nCores(parameters)) {
 							nSlaves <- nCores(parameters)
