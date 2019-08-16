@@ -326,9 +326,9 @@ measures <- summarise(measures,purity = binneR:::binPurity(mz,Intensity),central
 Bin purity gives a measure of the spread of accurate *m/z* peaks found within a given bin and can be a signal for the presences of multiple real spectral peaks within a bin.
 When the total ion count (*t*) for a given bin is greater than 1, purity is calculated by
 
-$$p = 1 - \frac{\sigma}{w} $$
+$$p = 1 - \frac{e}{w} $$
 
-Where *p* is purity, $\sigma$ is the standard deviation of the accurate *m/z* present within the bin and *w* is the width of the bin in amu.
+Where *p* is purity, $e$ is the mean absolute error of the accurate *m/z* present within the bin from the bin mean and *w* is the width of the bin in amu.
 Else, when $t = 1$, p  is also equal to 1.
 A purity closer to 1 indicates that the accurate *m/z* present within a bin are found over a narrow region and therefore likely only to be as the result of 1 real mass spectral peak.
 A reduction in purity could indicate the presence of multiple peaks present within a bin.
