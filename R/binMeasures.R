@@ -3,13 +3,12 @@ binMean <- function(mz,intensity) {
 	sum(mz * intensity)/sum(intensity)
 }
 
-binSD <- function(mz,intensity) {
-	intensity <- ceiling(intensity)
-	sqrt(sum(intensity * (mz - binMean(mz,intensity))^2)/sum(intensity - 1))
+binMAE <- function(mz,intensity) {
+	sum(abs(mz - binMean(mz,intensity)) * intensity) / sum(intensity)
 }
 
 binPurity <- function(mz,intensity,dp = 2){
-	1 - binSD(mz,intensity) / (1*10^-dp)
+	1 - binMAE(mz,intensity) / (1*10^-dp)
 }
 
 binCentrality <- function(mz,intensity,dp = 2){
