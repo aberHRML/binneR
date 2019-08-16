@@ -8,7 +8,7 @@
 #' @importFrom dplyr bind_cols
 #' @importFrom ggplot2 geom_point guide_legend guides geom_hline
 #' @importFrom tibble rowid_to_column
-#' @importFrom ggthemes scale_colour_ptol
+#' @importFrom ggthemes scale_fill_ptol
 #' @importFrom tidyr gather
 #' @export
 
@@ -39,13 +39,13 @@ setMethod('plotTIC',signature = 'Binalysis',
 						
 						TICmedian[TICmedian < 0] <- 0
 						
-						pl <- ggplot(TICdat,aes(x = Index,y = TIC,colour = Colour)) +
+						pl <- ggplot(TICdat,aes(x = Index,y = TIC,fill = Colour)) +
 							geom_hline(data = TICmedian,aes(yintercept = Median)) +
 							geom_hline(data = TICmedian,aes(yintercept = Q1),linetype = 2) +
 							geom_hline(data = TICmedian,aes(yintercept = Q3),linetype = 2) +
 							geom_hline(data = TICmedian,aes(yintercept = LowerOut),linetype = 3) +
 							geom_hline(data = TICmedian,aes(yintercept = UpperOut),linetype = 3) +
-							geom_point() +
+							geom_point(shape = 21) +
 							theme_bw() +
 							theme(plot.title = element_text(face = 'bold'),
 										axis.title = element_text(face = 'bold'),
@@ -57,11 +57,11 @@ The dashed line shows the inter-quartile range (IQR) and
 the dotted line shows the outlier boundary (1.5 X IQR).') +
 							ylab('Total Ion Count') +
 							xlab(by) +
-							guides(colour = guide_legend(title = colour))
+							guides(fill = guide_legend(title = colour))
 						
 						if (length(unique(TICdat$Colour)) <= 12) {
 							pl <- pl +
-								scale_colour_ptol()
+								scale_fill_ptol()
 						}
 						return(pl)
 					}
