@@ -12,7 +12,7 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 							.$headers
 						scans <- x@binParameters@scans
 						chromatograms <- chromatograms %>%
-							dplyr::select(FileName,acquisitionNum,totIonCurrent,polarity) %>%
+							dplyr::select(FileName,acquisitionNum,totIonCurrent,polarity,filterString) %>%
 							split(.$polarity) %>%
 							map(~{
 								f <- .
@@ -21,7 +21,7 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 									map(~{
 										a <- .
 										a %>%
-											split(rep(1:length(x@binParameters@sranges),nrow(.)/length(x@binParameters@sranges))) %>%
+											split(.$filterString) %>%
 											map(~{
 												b <- .
 												b %>%
