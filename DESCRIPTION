@@ -10,7 +10,6 @@ Imports:
     dplyr,
     magrittr,
     mzR,
-    plyr,
     tidyr,
     methods,
     purrr,
@@ -37,7 +36,6 @@ Collate:
     'calcBinList.R'
     'getHeaders.R'
     'calcBinMeasures.R'
-    'combScans.R'
     'readFiles.R'
     'sampProcess.R'
     'binneR.R'
