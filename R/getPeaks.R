@@ -13,6 +13,9 @@ getFile <- function(file,scans){
         mutate(scan = 1:n()) %>%
         filter(scan %in% scans) 
         
+    hd$polarity[hd$polarity == 0] <- 'n'
+    hd$polarity[hd$polarity == 1] <- 'p'
+    
     ms %>%
         peaks() %>%
         .[hd$seqNum] %>%
@@ -43,6 +46,6 @@ getPeaks <- function(files,scans,nCores,clusterType){
     names(pks) <- files
     pks <- pks %>%
         bind_rows(.id = 'file') %>%
-        mutate(mz = round(mz,5),Bin = round(mz,2))
+        mutate(mz = round(mz,5),bin = round(mz,2))
     return(pks)
 }

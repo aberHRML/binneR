@@ -19,15 +19,13 @@ setMethod("spectralBinning", signature = "Binalysis",
 						}
 						
 						pks <- getPeaks(files,parameters@scans,
-														parameters@sranges,
-														parameters@modes,
 														nSlaves,
 														parameters@clusterType)
 						
 						binList <- calcBinList(pks)
 						
 						pks <- pks %>% 
-							inner_join(binList,by = c("Mode", "Bin"))
+							inner_join(binList,by = c("polarity", "bin"))
 						
 						if (length(parameters@cls) != 0) {
 							classes <- unlist(info[,parameters@cls],use.names = F)
@@ -35,35 +33,31 @@ setMethod("spectralBinning", signature = "Binalysis",
 							classes <- rep(1,nrow(info))
 						}
 						
-						cls <- tibble(File = files, Class = classes) 
+						cls <- tibble(file = files, class = classes) 
 						
-						nScans <- pks$Scan %>%
+						nScans <- pks$scan %>%
 							unique() %>%
 							length()
 						
 						clus <- makeCluster(nSlaves,type = parameters@clusterType)
 						
 						binnedData <- pks %>%
-							split(.$File) %>%
+							split(.$file) %>%
 							parLapply(clus,.,function(x,nScans){
 								x %>%
-									group_by(File,Mode,Bin,Scan) %>%
+									group_by(file,polarity,bin,scan) %>%
 									summarise(intensity = sum(intensity))	%>%
-									group_by(File,Mode,Bin) %>%
+									group_by(file,polarity,bin) %>%
 									summarise(intensity = sum(intensity)/nScans)
 							},nScans = nScans) %>%
 							bind_rows()
 						
-						stopCluster(clus)
-						
-						clus <- makeCluster(nSlaves,type = parameters@clusterType)
-						
 						pks <- pks %>%
-							left_join(cls,by = "File") %>%
-							split(.$File) %>%
+							left_join(cls,by = "file") %>%
+							split(.$file) %>%
 							parLapply(clus,.,function(x,nScans){
 								x %>%
-									group_by(Class,File,Mode,mz,Bin) %>%
+									group_by(class,file,polarity,mz,bin) %>%
 									summarise(intensity = sum(intensity)/nScans)
 							},nScans = nScans) %>%
 							bind_rows()
@@ -72,15 +66,15 @@ setMethod("spectralBinning", signature = "Binalysis",
 						
 						classes <- pks %>%
 							tbl_df() %>%
-							select(Class,File) %>%
+							select(class,file) %>%
 							distinct() %>%
-							.$Class %>%
+							.$class %>%
 							table() %>%
 							as_tibble() %>%
-							rename(Class = '.')
+							rename(class = '.')
 						
 						pks <- pks %>%
-									split(.$Class)
+							split(.$class)
 						
 						nSlaves <- ceiling(length(pks))
 						
@@ -90,12 +84,12 @@ setMethod("spectralBinning", signature = "Binalysis",
 						
 						clus <- makeCluster(nSlaves,type = parameters@clusterType)
 						
-						pks  <- parLapply(clus,classes$Class,function(x,classes,pks){
+						pks  <- parLapply(clus,classes$class,function(x,classes,pks){
 							cls <- x
-							nCls <- classes$n[classes$Class == cls]
+							nCls <- classes$n[classes$class == cls]
 							pks[[cls]] %>%
-								filter(Class == cls) %>%
-								group_by(Class,Mode,mz,Bin) %>%
+								filter(class == cls) %>%
+								group_by(class,polarity,mz,bin) %>%
 								summarise(intensity = sum(intensity)/nCls)
 						},classes = classes,pks = pks) %>%
 							bind_rows()
@@ -105,19 +99,20 @@ setMethod("spectralBinning", signature = "Binalysis",
 						binMeasures <- calcBinMeasures(pks,parameters@nCores,parameters@clusterType)
 						
 						accurateMZ <- pks %>%
-							group_by(Class,Mode,Bin) %>%
+							group_by(class,polarity,bin) %>%
 							filter(intensity == max(intensity)) %>%
-							arrange(Bin)
+							arrange(bin)
 						
 						accurateMZ <- accurateMZ %>%
-							left_join(binMeasures,by = c("Class", "Mode", "Bin"))
+							left_join(binMeasures,by = c("class", "polarity", "bin"))
 						
 						mz <- accurateMZ %>%
-							group_by(Mode,Bin) %>%
+							group_by(polarity,bin) %>%
 							filter(intensity == max(intensity)) %>%
-							select(Mode,Bin,mz)
+							select(polarity,bin,mz)
 						
-						nSlaves <- ceiling(length(modes(parameters)))
+						nSlaves <- ceiling(length(accurateMZ$polarity %>%
+																				unique()))
 						
 						if (nSlaves > nCores(parameters)) {
 							nSlaves <- nCores(parameters)
@@ -126,29 +121,22 @@ setMethod("spectralBinning", signature = "Binalysis",
 						clus <- makeCluster(nSlaves,type = parameters@clusterType)
 						
 						binnedData <- binnedData %>%
-							left_join(mz,by = c("Mode", "Bin")) %>%
-							select(-Bin) %>%
-							split(.$Mode) %>%
+							left_join(mz,by = c("polarity", "bin")) %>%
+							select(-bin) %>%
+							split(.$polarity) %>%
 							parLapply(clus,.,function(x){
 								x %>%
 									tbl_df() %>%
+									mutate(mz = str_c(polarity,mz)) %>%
 									spread(mz,intensity,fill = 0) %>%
-									select(-File,-Mode)
+									select(-file,-polarity)
 							})
 						
 						stopCluster(clus)
 						
-						modes <- names(binnedData)
-						binnedData <- map(modes,~{
-							d <- binnedData[[.]]
-							colnames(d) <- str_c(.,colnames(d))
-							return(d)
-						})
-						names(binnedData) <- modes
-						
 						if (length(parameters@cls) == 0) {
-							accurateMZ$Class <- NA
-							pks$Class <- NA
+							accurateMZ$class <- NA
+							pks$class <- NA
 						}
 						
 						headers <- getHeaders(files,parameters@nCores,parameters@clusterType)
