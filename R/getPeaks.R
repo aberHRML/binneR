@@ -2,7 +2,7 @@
 #' @importFrom purrr map
 #' @importFrom dplyr bind_rows
 #' @importFrom tibble as_tibble
-#' @importFrom magrittr set_colnames
+#' @importFrom magrittr set_colnames set_names
 
 getFile <- function(file,scans){
     ms <- openMSfile(file,backend = 'pwiz')
