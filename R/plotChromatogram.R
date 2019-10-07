@@ -86,7 +86,7 @@ plotChromFromFile <- function(files, scans = c()){
 		}) %>%
 		bind_rows(.id = 'FileName') %>%
 		group_by(polarity,acquisitionNum) %>%
-		summarise(totIonCurrent = mean(totIonCurrent))
+		summarise(totIonCurrent = mean(totIonCurrent)) %>%
 		as_tibble()
 		chromatograms$polarity[chromatograms$polarity == 0] <- 'Negative'
 		chromatograms$polarity[chromatograms$polarity == 1] <- 'Positive'
