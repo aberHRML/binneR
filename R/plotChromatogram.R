@@ -55,25 +55,24 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 #' plotChromFromFile
 #' @description plot and averaged infusion profile from a vector of specified file paths.
 #' @param files character vector of file paths to use
-#' @param sranges A list of vectors containing the scan events present
 #' @param scans specify scans to highlight within the plot
 #' @examples 
 #' plotChromFromFile(list.files(system.file('mzML',package = 'binneR'),
 #'                             full.names=TRUE),scans = c(6,18))
 #' @export
 
-plotChromFromFile <- function(files, sranges = list(c(70,1000)), scans = c()){
+plotChromFromFile <- function(files, scans = c()){
 	
 	chromatograms <- files %>%
 		map(~{
 			openMSfile(.) %>%
 				header() %>%
-				select(acquisitionNum,totIonCurrent,polarity) %>%
+				select(acquisitionNum,totIonCurrent,polarity,filterString) %>%
 				split(.$polarity) %>%
 				map(~{
 					a <- .
 					a %>%
-						split(rep(1:length(sranges),nrow(.)/length(sranges))) %>%
+						split(.$filterString) %>%
 						map(~{
 							b <- .
 							b %>%
