@@ -13,7 +13,7 @@
 #' @importFrom parallel detectCores
 #' @export
 
-binParameters <- function(scans = 5:12, sranges = list(c(70,1000)), cls = character(), nCores = detectCores() * 0.75, clusterType = 'FORK'){
+binParameters <- function(scans = 5:12, cls = character(), nCores = detectCores() * 0.75, clusterType = 'FORK'){
    p <- new('BinParameters',
         scans = scans,
         cls = cls,
