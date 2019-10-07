@@ -13,7 +13,7 @@
 #' }
 #' @export
 
-detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
+detectInfusionScans <- function(files, thresh = 0.5, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
 	
 	nSlaves <- ceiling(length(files) / 10)
 	
@@ -36,7 +36,7 @@ detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5,
 	hd <- ms %>%
 		bind_rows(.id = 'Sample') %>%
 		as_tibble() %>%
-		select(Sample,seqNum,acquisitionNum,polarity,totIonCurrent) %>%
+		select(Sample,seqNum,acquisitionNum,polarity,totIonCurrent,filterString) %>%
 		split(.$polarity) %>%
 		map(~{
 			d <- .
@@ -45,7 +45,7 @@ detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5,
 				map(~{
 					a <- .
 					a %>%
-						split(rep(1:length(sranges),nrow(.)/length(sranges))) %>%
+						split(.$filterString) %>%
 						map(~{
 							b <- .
 							b %>%
@@ -54,11 +54,12 @@ detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5,
 						bind_rows()
 				}) %>%
 				bind_rows() %>%
-				select(Sample,acquisitionNum,totIonCurrent)
+				select(Sample,acquisitionNum,polarity,totIonCurrent,filterString)
 		}) %>%
-		bind_rows(.id = 'Polarity') %>%
+		bind_rows() %>%
 		group_by(acquisitionNum) %>%
 		summarise(totIonCurrent = mean(totIonCurrent))
+	
 	mTIC <- hd$totIonCurrent %>%
 		max()
 	
@@ -92,7 +93,7 @@ detectClusterType <- function(){
 
 detectParameters <- function(files, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
 	
-	scans <- detectInfusionScans(files,sranges = sranges,nCores = nCores,clusterType = clusterType)
+	scans <- detectInfusionScans(files,nCores = nCores,clusterType = clusterType)
 	
 	bp <- binParameters(scans = scans,nCores = nCores,clusterType = clusterType)
 	return(bp)
