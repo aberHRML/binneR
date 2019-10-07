@@ -11,8 +11,6 @@
 setClass('BinParameters',
          slots = list(
              scans = 'numeric',
-             modes = 'character',
-             sranges = 'list',
              cls = 'character',
              nCores = 'numeric',
              clusterType = 'character'

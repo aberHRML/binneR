@@ -4,14 +4,12 @@
 \alias{binParameters}
 \title{binParameters}
 \usage{
-binParameters(scans = 5:12, modes = c("n", "p"), sranges = list(c(70,
-  1000)), cls = character(), nCores = detectCores() * 0.75,
+binParameters(scans = 5:12, sranges = list(c(70, 1000)),
+  cls = character(), nCores = detectCores() * 0.75,
   clusterType = "FORK")
 }
 \arguments{
 \item{scans}{numeric vector containing the scan indexes to use for binning}
-
-\item{modes}{character vector denoting the order and names of the modes}
 
 \item{sranges}{list of vectors containing the ranges of the scan events present}
 
@@ -20,6 +18,8 @@ binParameters(scans = 5:12, modes = c("n", "p"), sranges = list(c(70,
 \item{nCores}{the number of cores to use for parallel processing}
 
 \item{clusterType}{the type of cluster to use for parallel processing}
+
+\item{modes}{character vector denoting the order and names of the modes}
 }
 \description{
 selection of parameters to use for spectral binning.
