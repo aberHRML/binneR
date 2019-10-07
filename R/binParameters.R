@@ -1,8 +1,6 @@
 #' binParameters
 #' @description selection of parameters to use for spectral binning.
 #' @param scans numeric vector containing the scan indexes to use for binning
-#' @param modes character vector denoting the order and names of the modes
-#' @param sranges list of vectors containing the ranges of the scan events present
 #' @param cls the column of class labels to use for aggregating accurate mass data. Defaults to NULL where accurate mass data will be averaged accross all samples
 #' @param nCores the number of cores to use for parallel processing
 #' @param clusterType the type of cluster to use for parallel processing

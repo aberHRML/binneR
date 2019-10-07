@@ -15,8 +15,6 @@ detectInfusionScans(files, thresh = 0.5, nCores = detectCores() * 0.75,
 \item{nCores}{the number of cores to use for parallel processing}
 
 \item{clusterType}{the type of cluster to use for parallel processing}
-
-\item{sranges}{A list of vectors containing the scan events present.}
 }
 \description{
 detect infusion scans for a set of FIE-MS infusion profiles.

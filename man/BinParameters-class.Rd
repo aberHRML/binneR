@@ -12,10 +12,6 @@ An S4 class to store spectral binning parameters.
 \describe{
 \item{\code{scans}}{numeric vector containing the scan indexes to use for binning}
 
-\item{\code{modes}}{character vector denoting the order and names of the modes}
-
-\item{\code{sranges}}{list of vectors containing the ranges of the scan events present}
-
 \item{\code{cls}}{the column of class labels to use for aggregating accurate mass data. Defaults to NULL where accurate mass data will be averaged accross all samples}
 
 \item{\code{nCores}}{the number of cores to use for parallel processing}

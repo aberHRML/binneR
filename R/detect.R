@@ -1,7 +1,6 @@
 #' detectInfusionScans
 #' @description detect infusion scans for a set of FIE-MS infusion profiles.
 #' @param files character vector of file paths to use
-#' @param sranges A list of vectors containing the scan events present.
 #' @param thresh detection threshold as a proportion of  preak of the infusion profile
 #' @param nCores the number of cores to use for parallel processing
 #' @param clusterType the type of cluster to use for parallel processing

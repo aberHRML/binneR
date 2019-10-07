@@ -1,6 +1,6 @@
 
 globalVariables(c('.',
-									'Bin',
+									'bin',
 									'Class',
 									'Count',
 									'File',
