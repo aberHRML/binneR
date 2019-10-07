@@ -13,8 +13,7 @@
 #' @importFrom dplyr bind_rows 
 #' @importFrom tidyr spread
 #' @examples 
-#' res <- readFiles(list.files(system.file('mzML',package = 'binneR'),
-#'                  full.names=TRUE),dp = 2,scans = 6:17)
+#' res <- readFiles(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],dp = 2,scans = 6:17)
 
 readFiles <- function(files,dp, scans, nCores = 1, clusterType = detectClusterType()){ # for data collected in both modes
 	clust = makeCluster(nCores, type = clusterType) 

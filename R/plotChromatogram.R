@@ -57,15 +57,15 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 #' @param files character vector of file paths to use
 #' @param scans specify scans to highlight within the plot
 #' @examples 
-#' plotChromFromFile(list.files(system.file('mzML',package = 'binneR'),
-#'                             full.names=TRUE),scans = c(6,18))
+#' plotChromFromFile(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
+#'                             scans = c(6,18))
 #' @export
 
 plotChromFromFile <- function(files, scans = c()){
 	
 	chromatograms <- files %>%
 		map(~{
-			openMSfile(.) %>%
+			openMSfile(.,backend = 'pwiz') %>%
 				header() %>%
 				select(acquisitionNum,totIonCurrent,polarity,filterString) %>%
 				split(.$polarity) %>%
