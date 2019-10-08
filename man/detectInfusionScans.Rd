@@ -4,13 +4,11 @@
 \alias{detectInfusionScans}
 \title{detectInfusionScans}
 \usage{
-detectInfusionScans(files, sranges = list(c(70, 1000)), thresh = 0.5,
-  nCores = detectCores() * 0.75, clusterType = detectClusterType())
+detectInfusionScans(files, thresh = 0.5, nCores = detectCores() * 0.75,
+  clusterType = detectClusterType())
 }
 \arguments{
 \item{files}{character vector of file paths to use}
-
-\item{sranges}{A list of vectors containing the scan events present.}
 
 \item{thresh}{detection threshold as a proportion of  preak of the infusion profile}
 

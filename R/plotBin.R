@@ -21,7 +21,7 @@ setMethod('plotBin',signature = 'Binalysis',
 						dat <- x %>%
 							.@spectra %>%
 							.$fingerprints %>%
-							filter(Mode == mode & Bin == m)
+							filter(polarity == mode & bin == m)
 						
 						pl <- ggplot(dat,aes(x = mz)) +
 							geom_density() +
@@ -37,7 +37,7 @@ setMethod('plotBin',signature = 'Binalysis',
 						
 						if (cls == T) {
 							pl <- pl +
-								facet_wrap(~Class)
+								facet_wrap(~class)
 						}
 						return(pl)
 					}

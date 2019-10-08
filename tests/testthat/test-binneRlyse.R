@@ -1,8 +1,7 @@
 
 context('binneRlyse')
 
-file <- list.files(system.file('mzML',package = 'binneR'),
-									 full.names = TRUE)[1]
+file <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 
 info <- tibble::tibble(fileOrder = 1,
 											 injOrder = 1,
@@ -12,9 +11,9 @@ info <- tibble::tibble(fileOrder = 1,
 											 name = '1',
 											 class = 1)
 
-p <- binParameters(scans = 6:17,nCores = 2,clusterType = detectClusterType())
+p <- binParameters(scans = 5:13,nCores = 2,clusterType = detectClusterType())
 
-pars <- list(scans = scans(p),modes = modes(p),sranges = sranges(p),nCores = nCores(p),clusterType = clusterType(p))
+pars <- list(scans = scans(p),nCores = nCores(p),clusterType = clusterType(p))
 
 analysis <- binneRlyse(file, 
 											 info, 
@@ -31,10 +30,8 @@ fingPl <- plotFingerprint(analysis)
 
 test_that('binParameters works',{
 	expect_true(class(p) == 'BinParameters')
-	expect_true(identical(slotNames(p),c("scans","modes","sranges","cls","nCores","clusterType")))
-	expect_true(identical(pars$scans,6:17))
-	expect_true(identical(pars$modes,c('n','p')))
-	expect_true(identical(pars$sranges,list(c(70,1000))))
+	expect_true(identical(slotNames(p),c("scans","cls","nCores","clusterType")))
+	expect_true(identical(pars$scans,5:13))
 	expect_true(pars$nCores == 2)
 	expect_true(pars$clusterType == detectClusterType())
 })
@@ -49,10 +46,10 @@ test_that('binneRlyse works',{
 	expect_true(class(bd) == 'list')
 	expect_true(identical(names(bd),c('n','p')))
 	expect_true(identical(purrr::map_dbl(bd,nrow),c(n = 1,p = 1)))
-	expect_true(identical(purrr::map_dbl(bd,ncol),c(n = 687,p = 1237)))
+	expect_true(identical(purrr::map_dbl(bd,ncol),c(n = 853,p = 1042)))
 	
 	expect_true(identical(class(ad),c('tbl_df','tbl','data.frame')))
-	expect_true(nrow(ad) == 1924)
+	expect_true(nrow(ad) == 1895)
 	expect_true(ncol(ad) == 7)
 })
 

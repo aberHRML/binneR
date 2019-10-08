@@ -4,12 +4,10 @@
 \alias{plotChromFromFile}
 \title{plotChromFromFile}
 \usage{
-plotChromFromFile(files, sranges = list(c(70, 1000)), scans = c())
+plotChromFromFile(files, scans = c())
 }
 \arguments{
 \item{files}{character vector of file paths to use}
-
-\item{sranges}{A list of vectors containing the scan events present}
 
 \item{scans}{specify scans to highlight within the plot}
 }
@@ -17,6 +15,6 @@ plotChromFromFile(files, sranges = list(c(70, 1000)), scans = c())
 plot and averaged infusion profile from a vector of specified file paths.
 }
 \examples{
-plotChromFromFile(list.files(system.file('mzML',package = 'binneR'),
-                            full.names=TRUE),scans = c(6,18))
+plotChromFromFile(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
+                            scans = c(6,18))
 }

@@ -5,3 +5,4 @@
 ^\.travis.yml$
 appveyor.yml
 README.md
+^LICENSE\.md$

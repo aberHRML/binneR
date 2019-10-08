@@ -1,10 +1,10 @@
 
 calcBinList <- function(pks){
  bins <- pks %>%
-     group_by(File,Mode,Scan,Bin) %>%
+     group_by(file,polarity,scan,bin) %>%
          summarise(intensity = sum(intensity)) %>%
-     group_by(Mode,Bin) %>%
-     summarise(Count = n()) %>%
-     filter(Count > 1) %>%
-     select(-Count)
+     group_by(polarity,bin) %>%
+     summarise(count = n()) %>%
+     filter(count > 1) %>%
+     select(-count)
 }

@@ -4,8 +4,8 @@
 \alias{readFiles}
 \title{Read and process mulitple data files}
 \usage{
-readFiles(files, dp, scans, sranges = list(c(50, 1000)), modes = c("n",
-  "p"), nCores = 1)
+readFiles(files, dp, scans, nCores = 1,
+  clusterType = detectClusterType())
 }
 \arguments{
 \item{files}{A vector of converted data file paths}
@@ -14,11 +14,9 @@ readFiles(files, dp, scans, sranges = list(c(50, 1000)), modes = c("n",
 
 \item{scans}{A vector of scan numbers that should be retrieved}
 
-\item{sranges}{A list of vectors containing the scan events present.}
-
-\item{modes}{A vector of strings denoting mode names including the order in which the scan events occur.}
-
 \item{nCores}{The number of cores on which to parallel process.}
+
+\item{clusterType}{the type of cluster to use for parallel processing}
 }
 \value{
 A list containing peak lists for the relevant scans with combined scan ranges for each present mode in the data file.
@@ -27,8 +25,7 @@ A list containing peak lists for the relevant scans with combined scan ranges fo
 Apply spectral binning on multiple data files.
 }
 \examples{
-res <- readFiles(list.files(system.file('mzML',package = 'binneR'),
-                 full.names=TRUE),dp = 2,scans = 6:17)
+res <- readFiles(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],dp = 2,scans = 6:17)
 }
 \author{
 Jasen Finch

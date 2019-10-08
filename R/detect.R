@@ -1,7 +1,6 @@
 #' detectInfusionScans
 #' @description detect infusion scans for a set of FIE-MS infusion profiles.
 #' @param files character vector of file paths to use
-#' @param sranges A list of vectors containing the scan events present.
 #' @param thresh detection threshold as a proportion of  preak of the infusion profile
 #' @param nCores the number of cores to use for parallel processing
 #' @param clusterType the type of cluster to use for parallel processing
@@ -13,7 +12,7 @@
 #' }
 #' @export
 
-detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
+detectInfusionScans <- function(files, thresh = 0.5, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
 	
 	nSlaves <- ceiling(length(files) / 10)
 	
@@ -36,7 +35,7 @@ detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5,
 	hd <- ms %>%
 		bind_rows(.id = 'Sample') %>%
 		as_tibble() %>%
-		select(Sample,seqNum,acquisitionNum,polarity,totIonCurrent) %>%
+		select(Sample,seqNum,acquisitionNum,polarity,totIonCurrent,filterString) %>%
 		split(.$polarity) %>%
 		map(~{
 			d <- .
@@ -45,7 +44,7 @@ detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5,
 				map(~{
 					a <- .
 					a %>%
-						split(rep(1:length(sranges),nrow(.)/length(sranges))) %>%
+						split(.$filterString) %>%
 						map(~{
 							b <- .
 							b %>%
@@ -54,99 +53,18 @@ detectInfusionScans <- function(files, sranges = list(c(70,1000)), thresh = 0.5,
 						bind_rows()
 				}) %>%
 				bind_rows() %>%
-				select(Sample,acquisitionNum,totIonCurrent)
+				select(Sample,acquisitionNum,polarity,totIonCurrent,filterString)
 		}) %>%
-		bind_rows(.id = 'Polarity') %>%
+		bind_rows() %>%
 		group_by(acquisitionNum) %>%
 		summarise(totIonCurrent = mean(totIonCurrent))
+	
 	mTIC <- hd$totIonCurrent %>%
 		max()
 	
 	TICthresh <- mTIC * thresh
 	scans <- hd$acquisitionNum[hd$totIonCurrent > TICthresh]
 	return(min(scans):max(scans))
-}
-
-#' detectSranges
-#' @description Detect scan ranges from file list.
-#' @param files character vector of file paths.
-#' @param nCores the number of cores to use for parallel processing
-#' @param clusterType the type of cluster to use for parallel processing
-#' @importFrom magrittr set_names
-#' @importFrom stringr str_split str_locate str_extract str_split_fixed
-#' @importFrom purrr map_dbl
-#' @export
-
-detectSranges <- function(files, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
-	
-	nSlaves <- ceiling(length(files) / 10)
-	
-	if (nSlaves > nCores) {
-		nSlaves <- nCores	
-	}
-	
-	clus <- makeCluster(nSlaves,clusterType)
-	
-	scanFilters <- files %>%
-		{parLapply(clus,.,function(x){
-			x %>%
-				openMSfile(backend = 'pwiz') %>%
-				header() %>%
-				select(filterString) %>%
-				distinct()
-		})} %>%
-		bind_rows() %>%
-		distinct() %>%
-		unlist()
-	
-	stopCluster(clus)
-	
-	modePosition <- scanFilters[1] %>%
-			{str_locate(.,pattern = 'p ESI Full ms')[1,1] - 2}
-		
-	
-	modes <- map_chr(scanFilters,str_sub,start = modePosition,end = modePosition)
-	
-	f <- scanFilters %>% 
-		split(modes) %>%
-		map(~{
-			map_chr(.,str_extract,pattern = '\\[(.*?)\\]') %>%
-				str_replace_all('\\[','') %>%
-				str_replace_all('\\]','') %>%
-				str_split_fixed('-',2) %>%
-				{suppressWarnings(as_tibble(.))} %>%
-				rename(low = V1,
-							 high = V2) %>%
-				mutate(low = as.numeric(low),
-							 high = as.numeric(high)) %>%
-				rowid_to_column(var = 'event')
-		}) %>%
-		bind_rows(.id = 'mode')
-	
-	sranges <- f %>%
-		split(.$event) %>%
-		map(~{
-			c(min(.$low),max(.$high))
-		}) %>%
-		unname()
-	
-	return(sranges)
-}
-
-#' detectModes
-#' @description Detect ionisation modes from file list.
-#' @param files character vector of file paths
-#' @export
-
-detectModes <- function(files){
-	ms <- openMSfile(files[1],backend = 'pwiz') %>%
-		header() %>%
-		.$polarity %>%
-		unique()
-	
-	ms[ms == '0'] <- 'n'
-	ms[ms == '1'] <- 'p'
-	return(ms)
 }
 
 #' detectClusterType
@@ -174,12 +92,9 @@ detectClusterType <- function(){
 
 detectParameters <- function(files, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
 	
-	sranges <- detectSranges(files,nCores,clusterType)
-	scans <- detectInfusionScans(files,sranges = sranges,nCores = nCores,clusterType = clusterType)
-	modes <- detectModes(files)
-
+	scans <- detectInfusionScans(files,nCores = nCores,clusterType = clusterType)
 	
-	bp <- binParameters(scans,modes,sranges,nCores = nCores,clusterType = clusterType)
+	bp <- binParameters(scans = scans,nCores = nCores,clusterType = clusterType)
 	return(bp)
 }
 

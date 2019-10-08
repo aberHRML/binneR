@@ -43,16 +43,6 @@ setGeneric('scans',function(x){
 	standardGeneric('scans')
 })
 
-#' @rdname modes
-setGeneric('modes',function(x){
-	standardGeneric('modes')
-})
-
-#' @rdname sranges
-setGeneric('sranges',function(x){
-	standardGeneric('sranges')
-})
-
 #' @rdname cls
 setGeneric('cls',function(x){
 	standardGeneric('cls')

@@ -1,25 +1,19 @@
 #' binParameters
 #' @description selection of parameters to use for spectral binning.
 #' @param scans numeric vector containing the scan indexes to use for binning
-#' @param modes character vector denoting the order and names of the modes
-#' @param sranges list of vectors containing the ranges of the scan events present
 #' @param cls the column of class labels to use for aggregating accurate mass data. Defaults to NULL where accurate mass data will be averaged accross all samples
 #' @param nCores the number of cores to use for parallel processing
 #' @param clusterType the type of cluster to use for parallel processing
 #' @examples 
-#' p <- binParameters(scans = 6:17,nCores = 2,clusterType = 'PSOCK')
+#' p <- binParameters(scans = 6:17,nCores = 2,clusterType = detectClusterType())
 #' 
-#' ## Example using multiple overlapping scan ranges
-#' p <- binParameters(scans = 6:17,sranges = list(c(55,280),c(270,1200)))
 #' 
 #' @importFrom parallel detectCores
 #' @export
 
-binParameters <- function(scans = 5:12, modes = c('n','p'), sranges = list(c(70,1000)), cls = character(), nCores = detectCores() * 0.75, clusterType = 'FORK'){
+binParameters <- function(scans = 5:12, cls = character(), nCores = detectCores() * 0.75, clusterType = 'FORK'){
    p <- new('BinParameters',
         scans = scans,
-        modes = modes,
-        sranges = sranges,
         cls = cls,
         nCores = nCores,
         clusterType = clusterType
@@ -48,44 +42,6 @@ setMethod('scans',signature = 'BinParameters',function(x){
 
 `scans<-` <- function(x,value){
         x@scans <- value
-        return(x)
-}
-
-#' modes
-#' @rdname modes
-#' @description get and set ionisation modes of a BinParameters object.
-#' @param x an S4 object of class BinParameters
-#' @export
-
-setMethod('modes',signature = 'BinParameters',function(x){
-        x@modes
-})
-
-#' @rdname modes
-#' @param value character vector of mode indexes
-#' @export
-
-`modes<-` <- function(x,value){
-        x@modes <- value
-        return(x)
-}
-
-#' sranges
-#' @rdname sranges
-#' @description get and set scan ranges of a BinParameters object.
-#' @param x an S4 object of class BinParameters
-#' @export
-
-setMethod('sranges',signature = 'BinParameters',function(x){
-        x@sranges
-})
-
-#' @rdname sranges
-#' @param value list containing low and high scan range vectors
-#' @export
-
-`sranges<-` <- function(x,value){
-        x@sranges <- value
         return(x)
 }
 

@@ -10,10 +10,6 @@ setMethod('show',signature = 'BinParameters',
           function(object){
               cat('\n')
               cat('Scans:',paste(min(object@scans),':',max(object@scans),sep = ''),'\n')
-              cat('Modes:',paste(object@modes,collapse = ', '),'\n')
-              cat('Scan Ranges:',paste(unlist(lapply(object@sranges,function(x){
-                 paste(x[1],':',x[2],sep = '') 
-              })),collapse = ' '),'\n')
               if (length(object@cls) > 0) {
                   cat('Class:',object@cls,'\n')
               }

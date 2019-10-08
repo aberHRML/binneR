@@ -12,7 +12,7 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 							.$headers
 						scans <- x@binParameters@scans
 						chromatograms <- chromatograms %>%
-							dplyr::select(FileName,acquisitionNum,totIonCurrent,polarity) %>%
+							dplyr::select(FileName,acquisitionNum,totIonCurrent,polarity,filterString) %>%
 							split(.$polarity) %>%
 							map(~{
 								f <- .
@@ -21,7 +21,7 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 									map(~{
 										a <- .
 										a %>%
-											split(rep(1:length(x@binParameters@sranges),nrow(.)/length(x@binParameters@sranges))) %>%
+											split(.$filterString) %>%
 											map(~{
 												b <- .
 												b %>%
@@ -55,25 +55,24 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 #' plotChromFromFile
 #' @description plot and averaged infusion profile from a vector of specified file paths.
 #' @param files character vector of file paths to use
-#' @param sranges A list of vectors containing the scan events present
 #' @param scans specify scans to highlight within the plot
 #' @examples 
-#' plotChromFromFile(list.files(system.file('mzML',package = 'binneR'),
-#'                             full.names=TRUE),scans = c(6,18))
+#' plotChromFromFile(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
+#'                             scans = c(6,18))
 #' @export
 
-plotChromFromFile <- function(files, sranges = list(c(70,1000)), scans = c()){
+plotChromFromFile <- function(files, scans = c()){
 	
 	chromatograms <- files %>%
 		map(~{
-			openMSfile(.) %>%
+			openMSfile(.,backend = 'pwiz') %>%
 				header() %>%
-				select(acquisitionNum,totIonCurrent,polarity) %>%
+				select(acquisitionNum,totIonCurrent,polarity,filterString) %>%
 				split(.$polarity) %>%
 				map(~{
 					a <- .
 					a %>%
-						split(rep(1:length(sranges),nrow(.)/length(sranges))) %>%
+						split(.$filterString) %>%
 						map(~{
 							b <- .
 							b %>%
@@ -87,7 +86,7 @@ plotChromFromFile <- function(files, sranges = list(c(70,1000)), scans = c()){
 		}) %>%
 		bind_rows(.id = 'FileName') %>%
 		group_by(polarity,acquisitionNum) %>%
-		summarise(totIonCurrent = mean(totIonCurrent))
+		summarise(totIonCurrent = mean(totIonCurrent)) %>%
 		as_tibble()
 		chromatograms$polarity[chromatograms$polarity == 0] <- 'Negative'
 		chromatograms$polarity[chromatograms$polarity == 1] <- 'Positive'
