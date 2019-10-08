@@ -5,10 +5,8 @@
 #' @param nCores the number of cores to use for parallel processing
 #' @param clusterType the type of cluster to use for parallel processing
 #' @examples 
-#' p <- binParameters(scans = 6:17,nCores = 2,clusterType = 'PSOCK')
+#' p <- binParameters(scans = 6:17,nCores = 2,clusterType = detectClusterType())
 #' 
-#' ## Example using multiple overlapping scan ranges
-#' p <- binParameters(scans = 6:17,sranges = list(c(55,280),c(270,1200)))
 #' 
 #' @importFrom parallel detectCores
 #' @export

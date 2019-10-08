@@ -2,7 +2,7 @@
 globalVariables(c('.',
 									'bin',
 									'Class',
-									'Count',
+									'count',
 									'File',
 									'Mode',
 									'Scan',

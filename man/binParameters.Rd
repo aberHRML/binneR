@@ -4,9 +4,8 @@
 \alias{binParameters}
 \title{binParameters}
 \usage{
-binParameters(scans = 5:12, sranges = list(c(70, 1000)),
-  cls = character(), nCores = detectCores() * 0.75,
-  clusterType = "FORK")
+binParameters(scans = 5:12, cls = character(), nCores = detectCores()
+  * 0.75, clusterType = "FORK")
 }
 \arguments{
 \item{scans}{numeric vector containing the scan indexes to use for binning}
@@ -21,9 +20,7 @@ binParameters(scans = 5:12, sranges = list(c(70, 1000)),
 selection of parameters to use for spectral binning.
 }
 \examples{
-p <- binParameters(scans = 6:17,nCores = 2,clusterType = 'PSOCK')
+p <- binParameters(scans = 6:17,nCores = 2,clusterType = detectClusterType())
 
-## Example using multiple overlapping scan ranges
-p <- binParameters(scans = 6:17,sranges = list(c(55,280),c(270,1200)))
 
 }
