@@ -46,6 +46,7 @@ Collate:
     'plotTIC.R'
     'plotFingerprint.R'
     'binMeasures.R'
+    singleSample.R
 Suggests: 
     knitr,
     rmarkdown,

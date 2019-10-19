@@ -3,6 +3,10 @@ setGeneric("spectralBinning", function(x) {
     standardGeneric("spectralBinning")
 })
 
+setGeneric("ss", function(x) {
+	standardGeneric("ss")
+})
+
 #' @rdname info
 setGeneric("info", function(x) {
     standardGeneric("info")
