@@ -11,9 +11,11 @@ setMethod('plotFingerprint',signature = 'Binalysis',
 					function(x){
 						spectra <- x %>%
 							binnedData() %>%
-							map(~{summarise_all(.,mean)}) %>%
-							bind_cols() %>%
-							gather('Feature','Intensity') %>%
+							map(~{
+								tibble(Feature = colnames(.),
+													 Intensity = colSums(.))
+								}) %>%
+							bind_rows() %>%
 							mutate(Mode = str_sub(Feature,1,1),
 										 `m/z` = str_remove_all(Feature,'[:alpha:]') %>%
 										 	as.numeric())
