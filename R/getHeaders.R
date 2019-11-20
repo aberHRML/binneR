@@ -26,6 +26,7 @@ getHeaders <- function(files,nCores,clusterType){
     }
     names(headers) <- files
     headers <- headers %>%
-        bind_rows(.id = 'FileName')
+        bind_rows(.id = 'FileName') %>%
+        select(FileName,acquisitionNum,totIonCurrent,polarity,filterString)
     return(headers)
 }
