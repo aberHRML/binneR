@@ -11,6 +11,8 @@ plotPurity(x, histBins = 30)
 }
 \arguments{
 \item{x}{S4 object of class Binalysis}
+
+\item{histBins}{number of bins to use for histogram plotting}
 }
 \description{
 Plot the bin purity distribution for a Binalysis object.

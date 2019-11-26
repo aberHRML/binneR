@@ -2,6 +2,7 @@
 #' @rdname plotPurity
 #' @description Plot the bin purity distribution for a Binalysis object.
 #' @param x S4 object of class Binalysis
+#' @param histBins number of bins to use for histogram plotting
 #' @importFrom ggplot2 geom_histogram
 #' @export
 
@@ -32,6 +33,7 @@ setMethod('plotPurity',signature = 'Binalysis',function(x,histBins = 30){
 #' @rdname plotCentrality
 #' @description Plot the bin centrality distribution for a Binalysis object.
 #' @param x S4 object of class Binalysis
+#' @param histBins number of bins to use for histogram plotting
 #' @export
 
 setMethod('plotCentrality',signature = 'Binalysis',function(x,histBins = 30){
