@@ -4,8 +4,13 @@
 \alias{singleSample}
 \title{singleSample}
 \usage{
-singleSample(file, class = NA, nCores = detectCores(),
-  clusterType = detectClusterType(), verbose = T)
+singleSample(
+  file,
+  class = NA,
+  nCores = detectCores(),
+  clusterType = detectClusterType(),
+  verbose = T
+)
 }
 \arguments{
 \item{file}{file path}

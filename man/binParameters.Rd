@@ -4,8 +4,12 @@
 \alias{binParameters}
 \title{binParameters}
 \usage{
-binParameters(scans = 5:12, cls = character(), nCores = detectCores()
-  * 0.75, clusterType = "FORK")
+binParameters(
+  scans = 5:12,
+  cls = character(),
+  nCores = detectCores() * 0.75,
+  clusterType = "FORK"
+)
 }
 \arguments{
 \item{scans}{numeric vector containing the scan indexes to use for binning}

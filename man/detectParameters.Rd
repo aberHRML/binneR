@@ -4,8 +4,11 @@
 \alias{detectParameters}
 \title{detectParameters}
 \usage{
-detectParameters(files, nCores = detectCores() * 0.75,
-  clusterType = detectClusterType())
+detectParameters(
+  files,
+  nCores = detectCores() * 0.75,
+  clusterType = detectClusterType()
+)
 }
 \arguments{
 \item{files}{character vector of file paths}
