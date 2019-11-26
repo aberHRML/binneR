@@ -4,8 +4,12 @@
 \alias{detectInfusionScans}
 \title{detectInfusionScans}
 \usage{
-detectInfusionScans(files, thresh = 0.5, nCores = detectCores() * 0.75,
-  clusterType = detectClusterType())
+detectInfusionScans(
+  files,
+  thresh = 0.5,
+  nCores = detectCores() * 0.75,
+  clusterType = detectClusterType()
+)
 }
 \arguments{
 \item{files}{character vector of file paths to use}

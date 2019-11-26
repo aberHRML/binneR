@@ -1,6 +1,6 @@
 Package: binneR
 Title: Spectral Processing for High Resolution Flow Infusion Mass Spectrometry
-Version: 2.3.1
+Version: 2.3.2
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A spectral binning approach for high resolution flow infusion mass spectrometry data.
 biocViews: MassSpectrometry, Metabolomics
@@ -23,31 +23,32 @@ Imports:
     ggthemes,
 License: GPL-3
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
 Collate:
-    'allGenerics.R'
-    'allClasses.R'
-    'binneRlyse.R'
-    'binParameters.R'
-    'spectralBinning-method.R'
-    'show-method.R'
-    'info-method.R'
-    'binnedData-method.R'
-    'accurateData-method.R'
-    'getPeaks.R'
-    'calcBinList.R'
-    'getHeaders.R'
-    'calcBinMeasures.R'
-    'readFiles.R'
-    'sampProcess.R'
-    'binneR.R'
-    'plotBin.R'
-    'detect.R'
-    'plotChromatogram.R'
-    'plotTIC.R'
-    'plotFingerprint.R'
-    'binMeasures.R'
+    allGenerics.R
+    allClasses.R
+    binneRlyse.R
+    binParameters.R
+    spectralBinning-method.R
+    show-method.R
+    info-method.R
+    binnedData-method.R
+    accurateData-method.R
+    getPeaks.R
+    calcBinList.R
+    getHeaders.R
+    calcBinMeasures.R
+    readFiles.R
+    sampProcess.R
+    binneR.R
+    plotBin.R
+    detect.R
+    plotChromatogram.R
+    plotTIC.R
+    plotFingerprint.R
+    binMeasures.R
     singleSample.R
+    plotMeasures.R
 Suggests: 
     knitr,
     rmarkdown,

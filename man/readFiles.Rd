@@ -4,8 +4,7 @@
 \alias{readFiles}
 \title{Read and process mulitple data files}
 \usage{
-readFiles(files, dp, scans, nCores = 1,
-  clusterType = detectClusterType())
+readFiles(files, dp, scans, nCores = 1, clusterType = detectClusterType())
 }
 \arguments{
 \item{files}{A vector of converted data file paths}

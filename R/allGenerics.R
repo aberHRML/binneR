@@ -61,3 +61,13 @@ setGeneric('nCores',function(x){
 setGeneric('clusterType',function(x){
 	standardGeneric('clusterType')
 })
+
+#' @rdname plotPurity
+setGeneric('plotPurity',function(x,histBins = 30){
+	standardGeneric('plotPurity')
+})
+
+#' @rdname plotCentrality
+setGeneric('plotCentrality',function(x,histBins = 30){
+	standardGeneric('plotCentrality')
+})
