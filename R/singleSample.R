@@ -38,10 +38,14 @@ singleSample <- function(file, class = NA, nCores = detectCores(), clusterType =
 	
 	if (verbose == T) {
 		startTime <- proc.time()
-		cat('\n',blue('binneR'),red(str_c('v',pv)),date(),'\n')		
-		cat(rep('_',console_width()),'\n',sep = '')
-		print(parameters)
-		cat(rep('_',console_width()),'\n',sep = '')
+		message(str_c('\n',blue('binneR'),red(str_c('v',pv)),date(),sep = ' '))		
+		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
+		params <- parameters %>%
+			{capture.output(print(.))} %>%
+			{.[-1]} %>%
+			str_c(collapse = '\n')
+		message(params)
+		message(str_c(str_c(rep('_',console_width()),collapse = ''),'\n',sep = ''))
 	}
 	
 	x <- new('Binalysis',
@@ -62,7 +66,7 @@ singleSample <- function(file, class = NA, nCores = detectCores(), clusterType =
 			round(1) %>%
 			seconds_to_period() %>%
 			str_c('[',.,']')
-		cat('\n',green('Completed! '),ellapsed,'\n\n',sep = '')
+		message(str_c(green('Completed! '),ellapsed,sep = ''))
 	}
 	
 	return(x)
