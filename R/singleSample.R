@@ -8,6 +8,7 @@
 #' filePath <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 #' 
 #' bd <- singleSample(filePath)
+#' @importFrom utils capture.output
 #' @export
 
 singleSample <- function(file, class = NA, nCores = detectCores(), clusterType = detectClusterType(), verbose = T){

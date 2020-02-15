@@ -299,7 +299,7 @@ There are a number of functions that can be used to return processing data from 
 
 * `info()` for sample information
 * `binnedData()` for the spectrally binned matrices
-* `accurateData()` for the accurate mass information for each of the 0.01 amu bins
+* `accurateData()` for the accurate mass information and bin measures for each of the 0.01 amu bins
 
 ### Bin Measures
 
@@ -308,8 +308,8 @@ There are a number of measures that can be computed that allow the assessment of
 ```{r measuresPrep, echo=FALSE}
 dat <- readFiles(files[1],scans = detectInfusionScans(files[1]),dp = 5) %>%
 	bind_cols() %>%
-	gather('mz','Intensity') %>%
-	mutate(mode = str_sub(mz,1,1),
+	tidyr::gather('mz','Intensity') %>%
+	mutate(mode = stringr::str_sub(mz,1,1),
 				 mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')),
 				 bin = round(mz,2))
 measures <- dat %>%
@@ -333,22 +333,22 @@ Below shows example density plots of two negative ionisation mode 0.01 amu bins 
 ```{r binPurity, echo=FALSE,fig.width=7,fig.height=5,fig.align='center'}
 Pure <- measures %>%
 	filter(bin == 133.01,mode == 'n') %>%
-	mutate(purity = paste('Purity = ',round(purity,3), sep = ''))
+	mutate(purity = paste('Purity = ',signif(purity,3), sep = ''))
 pure <- dat %>%
 	filter(bin == Pure$bin, mode == Pure$mode[1]) %>%
 	split(1:nrow(.)) %>%
-	map(~{
+	purrr::map(~{
 		tibble(mz = rep(.x$mz,.x$Intensity))
 	}) %>%
 	bind_rows()
 
 Impure <- measures %>%
 	filter(bin == 146.97,mode == 'n') %>%
-	mutate(purity = paste('Purity = ',round(purity,3), sep = ''))
+	mutate(purity = paste('Purity = ',signif(purity,3), sep = ''))
 impure <- dat %>%
 	filter(bin == Impure$bin, mode == Impure$mode) %>%
 	split(1:nrow(.)) %>%
-	map(~{
+	purrr::map(~{
 		tibble(mz = rep(.x$mz,.x$Intensity))
 	}) %>%
 	bind_rows()
@@ -391,19 +391,27 @@ Low centrality would indicate that the accurate *m/z* present within the bin are
 Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (n88.04) and low (n104.03) centrality respectively.
 
 ```{r binCentrality, echo=FALSE,fig.width=7,fig.height=5,fig.align='center'}
-Pure <- filter(measures,bin == 88.04)
-Pure <- mutate(Pure, centrality = paste('Centrality = ',round(centrality,3), sep = ''))
-pure <- filter(dat,bin == Pure$bin)
-pure <- tibble::tibble(mz = unlist(apply(pure,1,function(x){rep(x[1],x[2])})))
+Pure <- measures %>%
+	filter(bin == 88.04,mode == 'n') %>%
+	mutate(centrality = paste('Centrality = ',signif(centrality,3), sep = ''))
+pure <- dat %>%
+	filter(bin == Pure$bin, mode == Pure$mode[1]) %>%
+	split(1:nrow(.)) %>%
+	purrr::map(~{
+		tibble(mz = rep(.x$mz,.x$Intensity))
+	}) %>%
+	bind_rows()
 
-
-Impure <- filter(measures,bin == 104.03)
-Impure <- mutate(Impure, centrality = paste('Centrality = ',round(centrality,3), sep = ''))
-impure <- filter(dat,bin == Impure$bin)
-impure <- tibble::tibble(mz = impure %>%
-												 	split(1:nrow(.)) %>%
-												 	purrr::map(~{rep(.$mz,.$Intensity)}) %>%
-												 	unlist())
+Impure <- measures %>%
+	filter(bin == 104.03,mode == 'n') %>%
+	mutate(centrality = paste('Centrality = ',signif(centrality,3), sep = ''))
+impure <- dat %>%
+	filter(bin == Impure$bin, mode == Impure$mode) %>%
+	split(1:nrow(.)) %>%
+	purrr::map(~{
+		tibble(mz = rep(.x$mz,.x$Intensity))
+	}) %>%
+	bind_rows()
 
 p <- list()
 
