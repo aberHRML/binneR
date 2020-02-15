@@ -8,7 +8,7 @@ binMAE <- function(mz,intensity) {
 }
 
 binPurity <- function(mz,intensity,dp = 2){
-	1 - binMAE(mz,intensity) / (1*10^-dp)
+	1 - binMAE(mz,intensity) / (1*10^-dp/2)
 }
 
 binCentrality <- function(mz,intensity,dp = 2){
