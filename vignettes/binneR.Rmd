@@ -306,39 +306,52 @@ There are a number of functions that can be used to return processing data from 
 There are a number of measures that can be computed that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate *m/z* peaks present within its boundaries. These include both purity and centrality.
 
 ```{r measuresPrep, echo=FALSE}
-dat <- readFiles(files[1],scans = detectInfusionScans(files[1]),dp = 5)$n
-dat <- tidyr::gather(tibble::as_tibble(dat),'mz','Intensity')
-dat <- mutate(dat,mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')))
-dat <- mutate(dat,bin = round(mz,2))
-measures <- group_by(dat,bin)
-measures <- summarise(measures,purity = binneR:::binPurity(mz,Intensity),centrality = binneR:::binCentrality(mz,Intensity),Intensity = mean(Intensity))
+dat <- readFiles(files[1],scans = detectInfusionScans(files[1]),dp = 5) %>%
+	bind_cols() %>%
+	gather('mz','Intensity') %>%
+	mutate(mode = str_sub(mz,1,1),
+				 mz = as.numeric(stringr::str_replace(mz,'[:alpha:]','')),
+				 bin = round(mz,2))
+measures <- dat %>%
+	group_by(bin,mode) %>%
+	summarise(purity = binneR:::binPurity(mz,Intensity),centrality = binneR:::binCentrality(mz,Intensity),Intensity = mean(Intensity))
 ```
 
 #### Purity
 
 Bin purity gives a measure of the spread of accurate *m/z* peaks found within a given bin and can be a signal for the presences of multiple real spectral peaks within a bin.
-When the total ion count (*t*) for a given bin is greater than 1, purity is calculated by
+Bin purity is calculated by
 
-$$p = 1 - \frac{e}{w} $$
+$$p = 1 - \frac{e}{0.5\cdot w} $$
 
 Where *p* is purity, $e$ is the mean absolute error of the accurate *m/z* present within the bin from the bin mean and *w* is the width of the bin in amu.
-Else, when $t = 1$, p  is also equal to 1.
 A purity closer to 1 indicates that the accurate *m/z* present within a bin are found over a narrow region and therefore likely only to be as the result of 1 real mass spectral peak.
 A reduction in purity could indicate the presence of multiple peaks present within a bin.
 
-Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (n133.01) and low (n98.96) purity respectively.
+Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (n133.01) and low (n146.97) purity respectively.
 
 ```{r binPurity, echo=FALSE,fig.width=7,fig.height=5,fig.align='center'}
-Pure <- filter(measures,bin == 133.01)
-Pure <-	mutate(Pure,purity = paste('Purity = ',round(purity,3), sep = ''))
-pure <- filter(dat,bin == Pure$bin)
-pure <- tibble::tibble(mz = unlist(apply(pure,1,function(x){rep(x[1],x[2])})))
+Pure <- measures %>%
+	filter(bin == 133.01,mode == 'n') %>%
+	mutate(purity = paste('Purity = ',round(purity,3), sep = ''))
+pure <- dat %>%
+	filter(bin == Pure$bin, mode == Pure$mode[1]) %>%
+	split(1:nrow(.)) %>%
+	map(~{
+		tibble(mz = rep(.x$mz,.x$Intensity))
+	}) %>%
+	bind_rows()
 
-
-Impure <- filter(measures,bin == 98.96)
-Impure <- mutate(Impure, purity = paste('Purity = ',round(purity,3), sep = ''))
-impure <- filter(dat,bin == Impure$bin)
-impure <- tibble::tibble(mz = unlist(apply(impure,1,function(x){rep(x[1],x[2])})))
+Impure <- measures %>%
+	filter(bin == 146.97,mode == 'n') %>%
+	mutate(purity = paste('Purity = ',round(purity,3), sep = ''))
+impure <- dat %>%
+	filter(bin == Impure$bin, mode == Impure$mode) %>%
+	split(1:nrow(.)) %>%
+	map(~{
+		tibble(mz = rep(.x$mz,.x$Intensity))
+	}) %>%
+	bind_rows()
 
 p <- list()
 
@@ -346,7 +359,7 @@ p$pure <- ggplot(pure,aes(x = mz)) +
 	geom_density() +
 	theme_bw() +
 	xlim(Pure$bin - 0.005,Pure$bin + 0.005) +
-	ggtitle(paste('n',Pure$bin,'\t',Pure$purity,sep = '')) +
+	ggtitle(paste(Pure$mode,Pure$bin,'\t',Pure$purity,sep = '')) +
 	xlab('m/z') +
 	ylab('Density')
 
@@ -354,7 +367,7 @@ p$impure <- ggplot(impure,aes(x = mz)) +
 	geom_density() +
 	theme_bw() +
 	xlim(Impure$bin - 0.005,Impure$bin + 0.005) +
-	ggtitle(paste('n',Impure$bin,'\t',Impure$purity,sep = '')) +
+	ggtitle(paste(Impure$mode,Impure$bin,'\t',Impure$purity,sep = '')) +
 	xlab('m/z') +
 	ylab('Density')
 
@@ -362,14 +375,14 @@ gridExtra::grid.arrange(gridExtra::arrangeGrob(p$pure,p$impure))
 ```
 
 Bin n133.01, that has a purity very close to 1, has only one peak present.
-Bin n98.96, that has a reduced purity, clearly has two peaks present.
+Bin n146.97, that has a reduced purity, clearly has two peaks present.
 
 #### Centrality
 
 Bin centrality gives a measure of how close the mean of the accurate *m/z* are to the center of a given bin and can give indication of whether a peak could have been split between the boundary of tow adjacent bins.
 Centrality is calculated for a given bin using the equation below.
 
-$$ c = 1 - \frac{|\mu - k|}{\frac{1}{2}w}$$
+$$ c = 1 - \frac{|\mu - k|}{0.5\cdot w}$$
 
 Where *c* is centrality, $\mu$ is the mean accurate *m/z* present in the bin, *k* is the center of the bin and *w* is the bin width in amu.
 A centrality close to 1 indicates that the accurate *m/z* present within the boundaries of the bin are located close to the center of the bin.
