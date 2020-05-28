@@ -4,6 +4,7 @@
 
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/0.1.0/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/aberHRML/binneR.svg?branch=master)](https://travis-ci.org/aberHRML/binneR)
+[![R build status](https://github.com/aberHRML/binneR/workflows/R-CMD-check/badge.svg)](https://github.com/aberHRML/binneR/actions)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/aberHRML/binneR?branch=master&svg=true)](https://ci.appveyor.com/project/aberHRML/binneR)
 [![Coverage status](https://codecov.io/gh/aberHRML/binneR/branch/master/graph/badge.svg)](https://codecov.io/github/aberHRML/binneR?branch=master)
 [![CRAN](https://www.r-pkg.org/badges/version/binneR)](https://cran.r-project.org/web/packages/binneR/index.html)
