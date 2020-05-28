@@ -46,10 +46,10 @@ test_that('binneRlyse works',{
 	expect_true(class(bd) == 'list')
 	expect_true(identical(names(bd),c('n','p')))
 	expect_true(identical(purrr::map_dbl(bd,nrow),c(n = 1,p = 1)))
-	expect_true(identical(purrr::map_dbl(bd,ncol),c(n = 853,p = 1042)))
+	expect_true(identical(purrr::map_dbl(bd,ncol),c(n = 854,p = 1042)))
 	
 	expect_true(identical(class(ad),c('tbl_df','tbl','data.frame')))
-	expect_true(nrow(ad) == 1895)
+	expect_true(nrow(ad) == 1896)
 	expect_true(ncol(ad) == 7)
 })
 
