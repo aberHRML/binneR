@@ -1,18 +1,24 @@
 #' detectInfusionScans
 #' @description detect infusion scans for a set of FIE-MS infusion profiles.
 #' @param files character vector of file paths to use
-#' @param thresh detection threshold as a proportion of  preak of the infusion profile
+#' @param thresh detection threshold as a proportion of the peak of the 
+#' infusion profile
 #' @param nCores the number of cores to use for parallel processing
 #' @param clusterType the type of cluster to use for parallel processing
 #' @importFrom mzR openMSfile header
 #' @importFrom dplyr group_by summarise
 #' @examples 
 #' if (requireNamespace("metaboData", quietly = TRUE)) {
-#'    detectInfusionScans(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1])
+#'    detectInfusionScans(
+#'       metaboData::filePaths('FIE-HRMS',
+#'                             'BdistachyonEcotypes')[1])
 #' }
 #' @export
 
-detectInfusionScans <- function(files, thresh = 0.5, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
+detectInfusionScans <- function(files, 
+																thresh = 0.5, 
+																nCores = detectCores() * 0.75, 
+																clusterType = detectClusterType()){
 	
 	nSlaves <- ceiling(length(files) / 10)
 	
@@ -90,7 +96,9 @@ detectClusterType <- function(){
 #' parameters <- detectParameters(files[1])
 #' @export
 
-detectParameters <- function(files, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
+detectParameters <- function(files, 
+														 nCores = detectCores() * 0.75, 
+														 clusterType = detectClusterType()){
 	
 	scans <- detectInfusionScans(files,nCores = nCores,clusterType = clusterType)
 	

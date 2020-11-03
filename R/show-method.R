@@ -9,7 +9,10 @@
 setMethod('show',signature = 'BinParameters',
           function(object){
               cat('\n')
-              cat('Scans:',paste(min(object@scans),':',max(object@scans),sep = ''),'\n')
+              cat('Scans:',
+              		paste(min(object@scans),':',
+              					max(object@scans),sep = ''),
+              		'\n')
               if (length(object@cls) > 0) {
                   cat('Class:',object@cls,'\n')
               }
@@ -41,7 +44,15 @@ setMethod('show',signature = 'Binalysis',
                   	str_c(collapse = '\n')
                   cat(var,sep = '\n')
               }
-              cat('Average Purity:',mean(object@accurateMZ$Purity,na.rm = T) %>% round(3),'\n')
-              cat('Average Centrality:',mean(object@accurateMZ$Centrality,na.rm = T) %>% round(3),'\n')
+              cat('Average Purity:',
+              		mean(object@accurateMZ$Purity,
+              				 na.rm = TRUE) %>% 
+              			round(3),
+              		'\n')
+              cat('Average Centrality:',
+              		mean(object@accurateMZ$Centrality,
+              				 na.rm = TRUE) %>% 
+              			round(3),
+              		'\n')
               cat('\n')
           })

@@ -11,7 +11,11 @@
 #' @importFrom utils capture.output
 #' @export
 
-singleSample <- function(file, class = NA, nCores = detectCores(), clusterType = detectClusterType(), verbose = T){
+singleSample <- function(file, 
+												 class = NA, 
+												 nCores = detectCores(), 
+												 clusterType = detectClusterType(), 
+												 verbose = TRUE){
 
 	if (length(file) > 1) {
 		stop('Only suitable for a single file!')	

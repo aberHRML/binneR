@@ -1,4 +1,5 @@
-#' @importFrom dplyr group_by summarise arrange inner_join select left_join filter distinct rename
+#' @importFrom dplyr group_by summarise arrange inner_join select 
+#' @importFrom dplyr left_join filter distinct rename
 #' @importFrom tibble tibble
 #' @importFrom purrr map
 #' @importFrom tidyr spread
@@ -96,7 +97,9 @@ setMethod("spectralBinning", signature = "Binalysis",
 						
 						stopCluster(clus)
 						
-						binMeasures <- calcBinMeasures(pks,parameters@nCores,parameters@clusterType)
+						binMeasures <- calcBinMeasures(pks,
+																					 parameters@nCores,
+																					 parameters@clusterType)
 						
 						accurateMZ <- pks %>%
 							group_by(class,polarity,bin) %>%
@@ -194,7 +197,9 @@ setMethod('ss',signature = 'Binalysis',
 							group_by(class,polarity,mz,bin) %>%
 							summarise(intensity = sum(intensity))
 						
-						binMeasures <- calcBinMeasures(pks,parameters@nCores,parameters@clusterType)
+						binMeasures <- calcBinMeasures(pks,
+																					 parameters@nCores,
+																					 parameters@clusterType)
 						
 						accurateMZ <- pks %>%
 							group_by(class,polarity,bin) %>%

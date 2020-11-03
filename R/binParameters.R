@@ -1,7 +1,9 @@
 #' binParameters
 #' @description selection of parameters to use for spectral binning.
 #' @param scans numeric vector containing the scan indexes to use for binning
-#' @param cls the column of class labels to use for aggregating accurate mass data. Defaults to NULL where accurate mass data will be averaged accross all samples
+#' @param cls the column of class labels to use for aggregating accurate 
+#' mass data. Defaults to NULL where accurate mass data will be averaged 
+#' accross all samples
 #' @param nCores the number of cores to use for parallel processing
 #' @param clusterType the type of cluster to use for parallel processing
 #' @examples 
@@ -11,7 +13,10 @@
 #' @importFrom parallel detectCores
 #' @export
 
-binParameters <- function(scans = 5:12, cls = character(), nCores = detectCores() * 0.75, clusterType = 'FORK'){
+binParameters <- function(scans = 5:12, 
+                          cls = character(), 
+                          nCores = detectCores() * 0.75, 
+                          clusterType = 'FORK'){
    p <- new('BinParameters',
         scans = scans,
         cls = cls,
@@ -56,7 +61,8 @@ setMethod('cls',signature = 'BinParameters',function(x){
 })
 
 #' @rdname cls
-#' @param value character containing the column of class labels to use for aggregating accurate mass data
+#' @param value character containing the column of class labels to use 
+#' for aggregating accurate mass data
 #' @export
 
 `cls<-` <- function(x,value){

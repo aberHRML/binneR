@@ -1,8 +1,9 @@
 #' BinParameters
 #' @description An S4 class to store spectral binning parameters.
 #' @slot scans numeric vector containing the scan indexes to use for binning
-#' @slot cls the column of class labels to use for aggregating accurate mass data.
-#' Defaults to NULL where accurate mass data will be averaged accross all samples
+#' @slot cls the column of class labels to use for aggregating accurate 
+#' mass data. Defaults to NULL where accurate mass data will be averaged 
+#' across all samples
 #' @slot nCores the number of cores to use for parallel processing
 #' @slot clusterType the type of cluster to use for parallel processing
 #' @export

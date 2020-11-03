@@ -2,7 +2,8 @@
 #' @description perform spectral binning.
 #' @param files character vector of file paths to use for spectral binning
 #' @param info tibble containing sample information
-#' @param parameters object of class BinParameters containing parameters for spectral binning
+#' @param parameters object of class BinParameters containing parameters 
+#' for spectral binning
 #' @param verbose show console output
 #' @importFrom dplyr ungroup n
 #' @importFrom magrittr %>%

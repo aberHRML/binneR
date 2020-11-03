@@ -12,7 +12,11 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 							.$headers
 						scans <- x@binParameters@scans
 						chromatograms <- chromatograms %>%
-							dplyr::select(FileName,acquisitionNum,totIonCurrent,polarity,filterString) %>%
+							dplyr::select(FileName,
+														acquisitionNum,
+														totIonCurrent,
+														polarity,
+														filterString) %>%
 							split(.$polarity) %>%
 							map(~{
 								f <- .
@@ -53,7 +57,8 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 )
 
 #' plotChromFromFile
-#' @description plot and averaged infusion profile from a vector of specified file paths.
+#' @description plot and averaged infusion profile from a vector of specified 
+#' file paths.
 #' @param files character vector of file paths to use
 #' @param scans specify scans to highlight within the plot
 #' @examples 
