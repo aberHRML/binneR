@@ -65,7 +65,7 @@ setMethod("spectralBinning", signature = "Binalysis",
 						stopCluster(clus)
 						
 						classes <- pks %>%
-							tbl_df() %>%
+							ungroup() %>%
 							select(class,file) %>%
 							distinct() %>%
 							.$class %>%
@@ -126,7 +126,7 @@ setMethod("spectralBinning", signature = "Binalysis",
 							split(.$polarity) %>%
 							parLapply(clus,.,function(x){
 								x %>%
-									tbl_df() %>%
+									ungroup() %>%
 									mutate(mz = str_c(polarity,mz)) %>%
 									spread(mz,intensity,fill = 0) %>%
 									select(-file,-polarity)
@@ -145,9 +145,9 @@ setMethod("spectralBinning", signature = "Binalysis",
 						x@info <- info
 						x@binnedData <- binnedData
 						x@accurateMZ <- accurateMZ %>%
-							tbl_df()
+							ungroup()
 						x@spectra <- list(headers = headers, fingerprints = pks %>%
-																tbl_df()
+																ungroup()
 						)
 						return(x)
 					}
@@ -224,7 +224,7 @@ setMethod('ss',signature = 'Binalysis',
 							split(.$polarity) %>%
 							parLapply(clus,.,function(x){
 								x %>%
-									tbl_df() %>%
+									ungroup() %>%
 									mutate(mz = str_c(polarity,mz)) %>%
 									spread(mz,intensity,fill = 0) %>%
 									select(-file,-polarity)
@@ -237,9 +237,9 @@ setMethod('ss',signature = 'Binalysis',
 						x@binLog <- date()
 						x@binnedData <- binnedData
 						x@accurateMZ <- accurateMZ %>%
-							tbl_df()
+							ungroup()
 						x@spectra <- list(headers = headers, fingerprints = pks %>%
-																tbl_df()
+																ungroup()
 						)
 						return(x)
 					}

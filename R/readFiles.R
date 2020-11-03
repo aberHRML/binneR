@@ -24,7 +24,7 @@ readFiles <- function(files,dp, scans, nCores = 1, clusterType = detectClusterTy
 		split(.$polarity) %>%
 		parLapplyLB(cl = clust,function(x){
 		x <- spread(x,key = 'mz',value = 'intensity',fill = 0) %>%
-			tbl_df() %>%
+			ungroup() %>%
 			select(-file,-polarity)
 		return(x)
 	})

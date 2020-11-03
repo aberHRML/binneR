@@ -4,7 +4,7 @@
 #' @param info tibble containing sample information
 #' @param parameters object of class BinParameters containing parameters for spectral binning
 #' @param verbose show console output
-#' @importFrom dplyr tbl_df n
+#' @importFrom dplyr ungroup n
 #' @importFrom magrittr %>%
 #' @importFrom crayon blue red green
 #' @importFrom cli console_width
@@ -43,7 +43,7 @@ binneRlyse <- function(files, info, parameters = binParameters(), verbose = T){
 									files = files,
 									info = info,
 									binnedData = list(),
-									accurateMZ = tbl_df(data.frame()),
+									accurateMZ = tibble(),
 									spectra = list()
 	) %>% spectralBinning()
 	
