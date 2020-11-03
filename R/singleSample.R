@@ -23,9 +23,9 @@ singleSample <- function(file, class = NA, nCores = detectCores(), clusterType =
 	
 	parameters <- detectParameters(file,nCores = nCores,clusterType = clusterType)
 	
-	i <- tibble(fileOrder = 1:length(scans(parameters)),
+	i <- tibble(fileOrder = seq_len(length(scans(parameters))),
 							fileName = basename(file),
-							injOrder = 1:length(scans(parameters)),
+							injOrder = seq_len(length(scans(parameters))),
 							name = str_c('Scan ',scans(parameters)),
 							class = class,
 							batch = 1,

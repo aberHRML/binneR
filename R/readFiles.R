@@ -16,7 +16,7 @@
 #' res <- readFiles(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],dp = 2,scans = 6:17)
 
 readFiles <- function(files,dp, scans, nCores = 1, clusterType = detectClusterType()){ # for data collected in both modes
-	clust = makeCluster(nCores, type = clusterType) 
+	clust <- makeCluster(nCores, type = clusterType) 
 	pl <- parLapplyLB(clust,files ,fun = sampProcess,scans = scans,dp = dp) %>%
 		set_names(files) %>%
 		bind_rows(.id = 'file') %>%

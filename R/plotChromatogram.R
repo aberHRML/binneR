@@ -25,7 +25,7 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 											map(~{
 												b <- .
 												b %>%
-													mutate(acquisitionNum = 1:nrow(.))
+													mutate(acquisitionNum = seq_len(nrow(.)))
 											}) %>%
 											bind_rows()
 									}) %>%
@@ -76,7 +76,7 @@ plotChromFromFile <- function(files, scans = c()){
 						map(~{
 							b <- .
 							b %>%
-								mutate(acquisitionNum = 1:nrow(.))
+								mutate(acquisitionNum = seq_len(nrow(.)))
 						}) %>%
 						bind_rows()
 				}) %>%

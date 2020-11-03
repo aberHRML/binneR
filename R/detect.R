@@ -48,7 +48,7 @@ detectInfusionScans <- function(files, thresh = 0.5, nCores = detectCores() * 0.
 						map(~{
 							b <- .
 							b %>%
-								mutate(acquisitionNum = 1:nrow(.))
+								mutate(acquisitionNum = seq_len(nrow(.)))
 						}) %>%
 						bind_rows()
 				}) %>%
