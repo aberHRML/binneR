@@ -6,3 +6,4 @@
 appveyor.yml
 README.md
 ^LICENSE\.md$
+^\.github$

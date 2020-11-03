@@ -28,7 +28,12 @@ message(msg)
 ```
 
 ```{r libraryLoad,echo=FALSE,include=FALSE}
-pacman::p_load(binneR,metaboData,mzR,ggplot2,dplyr,magrittr)
+library(binneR)
+library(metaboData)
+library(mzR)
+library(ggplot2)
+library(dplyr)
+library(magrittr)
 ```
 
 ```{r sticker, echo=FALSE}
