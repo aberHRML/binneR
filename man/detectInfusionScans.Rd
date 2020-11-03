@@ -14,7 +14,8 @@ detectInfusionScans(
 \arguments{
 \item{files}{character vector of file paths to use}
 
-\item{thresh}{detection threshold as a proportion of  preak of the infusion profile}
+\item{thresh}{detection threshold as a proportion of the peak of the 
+infusion profile}
 
 \item{nCores}{the number of cores to use for parallel processing}
 
@@ -25,6 +26,8 @@ detect infusion scans for a set of FIE-MS infusion profiles.
 }
 \examples{
 if (requireNamespace("metaboData", quietly = TRUE)) {
-   detectInfusionScans(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1])
+   detectInfusionScans(
+      metaboData::filePaths('FIE-HRMS',
+                            'BdistachyonEcotypes')[1])
 }
 }

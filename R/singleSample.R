@@ -41,7 +41,7 @@ singleSample <- function(file,
 	
 	pv <- packageVersion('binneR') %>% as.character()
 	
-	if (verbose == T) {
+	if (verbose == TRUE) {
 		startTime <- proc.time()
 		message(str_c('\n',blue('binneR'),red(str_c('v',pv)),date(),sep = ' '))		
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
@@ -64,7 +64,7 @@ singleSample <- function(file,
 	) %>%
 		ss()
 	
-	if (verbose == T) {
+	if (verbose == TRUE) {
 		endTime <- proc.time()
 		ellapsed <- {endTime - startTime} %>%
 			.[3] %>%

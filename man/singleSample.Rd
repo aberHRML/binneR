@@ -9,7 +9,7 @@ singleSample(
   class = NA,
   nCores = detectCores(),
   clusterType = detectClusterType(),
-  verbose = T
+  verbose = TRUE
 )
 }
 \arguments{

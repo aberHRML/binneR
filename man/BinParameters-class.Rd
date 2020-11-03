@@ -12,7 +12,9 @@ An S4 class to store spectral binning parameters.
 \describe{
 \item{\code{scans}}{numeric vector containing the scan indexes to use for binning}
 
-\item{\code{cls}}{the column of class labels to use for aggregating accurate mass data. Defaults to NULL where accurate mass data will be averaged accross all samples}
+\item{\code{cls}}{the column of class labels to use for aggregating accurate 
+mass data. Defaults to NULL where accurate mass data will be averaged 
+across all samples}
 
 \item{\code{nCores}}{the number of cores to use for parallel processing}
 

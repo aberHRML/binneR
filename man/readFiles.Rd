@@ -9,7 +9,8 @@ readFiles(files, dp, scans, nCores = 1, clusterType = detectClusterType())
 \arguments{
 \item{files}{A vector of converted data file paths}
 
-\item{dp}{An integer denoting the number of decimal places for spectral binning}
+\item{dp}{An integer denoting the number of decimal places for spectral 
+binning}
 
 \item{scans}{A vector of scan numbers that should be retrieved}
 
@@ -18,13 +19,18 @@ readFiles(files, dp, scans, nCores = 1, clusterType = detectClusterType())
 \item{clusterType}{the type of cluster to use for parallel processing}
 }
 \value{
-A list containing peak lists for the relevant scans with combined scan ranges for each present mode in the data file.
+A list containing peak lists for the relevant scans with combined 
+scan ranges for each present mode in the data file.
 }
 \description{
 Apply spectral binning on multiple data files.
 }
 \examples{
-res <- readFiles(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],dp = 2,scans = 6:17)
+res <- readFiles(
+    metaboData::filePaths('FIE-HRMS',
+                          'BdistachyonEcotypes')[1],
+                          dp = 2,
+                          scans = 6:17)
 }
 \author{
 Jasen Finch

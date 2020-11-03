@@ -14,7 +14,9 @@ binParameters(
 \arguments{
 \item{scans}{numeric vector containing the scan indexes to use for binning}
 
-\item{cls}{the column of class labels to use for aggregating accurate mass data. Defaults to NULL where accurate mass data will be averaged accross all samples}
+\item{cls}{the column of class labels to use for aggregating accurate 
+mass data. Defaults to NULL where accurate mass data will be averaged 
+accross all samples}
 
 \item{nCores}{the number of cores to use for parallel processing}
 

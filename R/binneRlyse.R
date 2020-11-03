@@ -23,10 +23,10 @@
 #'    }
 #' @export
 
-binneRlyse <- function(files, info, parameters = binParameters(), verbose = T){
+binneRlyse <- function(files, info, parameters = binParameters(), verbose = TRUE){
 	pv <- packageVersion('binneR') %>% as.character()
 	
-	if (verbose == T) {
+	if (verbose == TRUE) {
 		startTime <- proc.time()
 		message(str_c('\n',blue('binneR'),red(str_c('v',pv)),date(),sep = ' '))		
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
@@ -48,7 +48,7 @@ binneRlyse <- function(files, info, parameters = binParameters(), verbose = T){
 									spectra = list()
 	) %>% spectralBinning()
 	
-	if (verbose == T) {
+	if (verbose == TRUE) {
 		endTime <- proc.time()
 		ellapsed <- {endTime - startTime} %>%
 			.[3] %>%

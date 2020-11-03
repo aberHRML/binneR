@@ -15,7 +15,8 @@ cls(x) <- value
 \arguments{
 \item{x}{an S4 object of class BinParameters}
 
-\item{value}{character containing the column of class labels to use for aggregating accurate mass data}
+\item{value}{character containing the column of class labels to use 
+for aggregating accurate mass data}
 }
 \description{
 get and set class labels of a BinParameters object.

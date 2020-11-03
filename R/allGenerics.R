@@ -23,7 +23,7 @@ setGeneric("accurateData", function(x) {
 })
 
 #' @rdname plotBin
-setGeneric('plotBin',function(x,bin,cls = T) {
+setGeneric('plotBin',function(x,bin,cls = TRUE) {
 	standardGeneric('plotBin')
 })
 

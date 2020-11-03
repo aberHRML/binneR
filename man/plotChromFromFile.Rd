@@ -12,7 +12,8 @@ plotChromFromFile(files, scans = c())
 \item{scans}{specify scans to highlight within the plot}
 }
 \description{
-plot and averaged infusion profile from a vector of specified file paths.
+plot and averaged infusion profile from a vector of specified 
+file paths.
 }
 \examples{
 plotChromFromFile(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],

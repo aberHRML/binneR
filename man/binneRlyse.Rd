@@ -11,7 +11,8 @@ binneRlyse(files, info, parameters = binParameters(), verbose = T)
 
 \item{info}{tibble containing sample information}
 
-\item{parameters}{object of class BinParameters containing parameters for spectral binning}
+\item{parameters}{object of class BinParameters containing parameters 
+for spectral binning}
 
 \item{verbose}{show console output}
 }

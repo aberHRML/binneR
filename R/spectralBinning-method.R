@@ -29,7 +29,7 @@ setMethod("spectralBinning", signature = "Binalysis",
 							inner_join(binList,by = c("polarity", "bin"))
 						
 						if (length(parameters@cls) != 0) {
-							classes <- unlist(info[,parameters@cls],use.names = F)
+							classes <- unlist(info[,parameters@cls],use.names = FALSE)
 						} else {
 							classes <- rep(1,nrow(info))
 						}

@@ -5,23 +5,27 @@
 \alias{Binalysis-class}
 \title{Binalysis}
 \description{
-An S4 class to store spectrally binned data and accurate mass information.
+An S4 class to store spectrally binned data and accurate 
+mass information.
 }
 \section{Slots}{
 
 \describe{
 \item{\code{binLog}}{date and time of initiation of spectral binning}
 
-\item{\code{binParameters}}{object of class BinParameters containing the parameters for spectral binning}
+\item{\code{binParameters}}{object of class BinParameters containing the 
+parameters for spectral binning}
 
 \item{\code{files}}{file paths for raw data}
 
 \item{\code{info}}{tibble containing runinfo data}
 
-\item{\code{binnedData}}{list containing tibbles of spectrally binned data for each acquisition mode}
+\item{\code{binnedData}}{list containing tibbles of spectrally binned data 
+for each acquisition mode}
 
 \item{\code{accurateMZ}}{tibble containin accurate mass information}
 
-\item{\code{spectra}}{list containing tibbles of headers and class master mix fingerprints}
+\item{\code{spectra}}{list containing tibbles of headers and class master 
+mix fingerprints}
 }}
 

@@ -10,7 +10,7 @@
 #' @export
 
 setMethod('plotBin',signature = 'Binalysis',
-					function(x,bin,cls = T){
+					function(x,bin,cls = TRUE){
 						
 						m <- bin %>%
 							str_replace_all('[:alpha:]','') %>%
@@ -35,7 +35,7 @@ setMethod('plotBin',signature = 'Binalysis',
 									 x = 'm/z',
 									 y = 'Density')
 						
-						if (cls == T) {
+						if (cls == TRUE) {
 							pl <- pl +
 								facet_wrap(~class)
 						}
