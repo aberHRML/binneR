@@ -5,7 +5,6 @@ Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "
 Description: A spectral binning approach for high resolution flow infusion mass spectrometry data.
 biocViews: MassSpectrometry, Metabolomics
 URL: https://github.com/aberHRML/binneR
-SystemRequirements: libnetcdf-dev
 Depends: R (>= 3.5)
 Imports: 
     dplyr,
@@ -58,7 +57,8 @@ Suggests:
     htmltools,
     covr,
     testthat,
-    gifski
+    gifski,
+    pacman
 LazyData: true
 VignetteBuilder: knitr
 Additional_repositories: https://aberhrml.github.io/drat/
