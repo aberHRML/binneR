@@ -1,0 +1,3 @@
+scans: 5:12
+nCores: 2
+clusterType: FORK

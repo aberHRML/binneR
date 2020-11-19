@@ -5,9 +5,9 @@
 \alias{plotBin,Binalysis-method}
 \title{plotBin}
 \usage{
-plotBin(x, bin, cls = T)
+plotBin(x, bin, cls = TRUE)
 
-\S4method{plotBin}{Binalysis}(x, bin, cls = T)
+\S4method{plotBin}{Binalysis}(x, bin, cls = TRUE)
 }
 \arguments{
 \item{x}{S4 object of class Binalysis}

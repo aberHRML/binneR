@@ -4,7 +4,7 @@
 \alias{binneRlyse}
 \title{binneRlyse}
 \usage{
-binneRlyse(files, info, parameters = binParameters(), verbose = T)
+binneRlyse(files, info, parameters = binParameters(), verbose = TRUE)
 }
 \arguments{
 \item{files}{character vector of file paths to use for spectral binning}
