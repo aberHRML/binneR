@@ -1,7 +1,7 @@
 
 calcBinList <- function(pks){
  bins <- pks %>%
-     group_by(file,polarity,scan,bin) %>%
+     group_by(fileName,polarity,scan,bin) %>%
          summarise(intensity = sum(intensity)) %>%
      group_by(polarity,bin) %>%
      summarise(count = n()) %>%

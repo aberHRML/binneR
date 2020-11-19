@@ -45,7 +45,7 @@ getPeaks <- function(files,scans,nCores,clusterType){
    }
     names(pks) <- files
     pks <- pks %>%
-        bind_rows(.id = 'file') %>%
+        bind_rows(.id = 'fileName') %>%
         mutate(mz = round(mz,5),bin = round(mz,2))
     return(pks)
 }

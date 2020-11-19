@@ -36,7 +36,7 @@ setMethod("spectralBinning", signature = "Binalysis",
 							classes <- rep(NA,nrow(info))
 						}
 						
-						cls <- tibble(file = files, class = classes) 
+						cls <- tibble(fileName = files, class = classes) 
 						
 						nScans <- pks$scan %>%
 							unique() %>%
@@ -45,22 +45,22 @@ setMethod("spectralBinning", signature = "Binalysis",
 						clus <- makeCluster(nSlaves,type = parameters@clusterType)
 						
 						binnedData <- pks %>%
-							split(.$file) %>%
+							split(.$fileName) %>%
 							parLapply(clus,.,function(x,nScans){
 								x %>%
-									group_by(file,polarity,bin,scan) %>%
+									group_by(fileName,polarity,bin,scan) %>%
 									summarise(intensity = sum(intensity))	%>%
-									group_by(file,polarity,bin) %>%
+									group_by(fileName,polarity,bin) %>%
 									summarise(intensity = sum(intensity)/nScans)
 							},nScans = nScans) %>%
 							bind_rows()
 						
 						pks <- pks %>%
-							left_join(cls,by = "file") %>%
-							split(.$file) %>%
+							left_join(cls,by = "fileName") %>%
+							split(.$fileName) %>%
 							parLapply(clus,.,function(x,nScans){
 								x %>%
-									group_by(class,file,polarity,mz,bin) %>%
+									group_by(class,fileName,polarity,mz,bin) %>%
 									summarise(intensity = sum(intensity)/nScans)
 							},nScans = nScans) %>%
 							bind_rows()
@@ -106,7 +106,7 @@ setMethod("spectralBinning", signature = "Binalysis",
 									ungroup() %>%
 									mutate(mz = str_c(polarity,mz)) %>%
 									spread(mz,intensity,fill = 0) %>%
-									select(-file,-polarity)
+									select(-fileName,-polarity)
 							})
 						
 						stopCluster(clus)

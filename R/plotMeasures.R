@@ -10,7 +10,7 @@ setMethod('plotPurity',signature = 'Binalysis',function(x,histBins = 30){
 	
 	pur <- x %>%
 		accurateData() %>%
-		dplyr::select(polarity,Purity) %>%
+		dplyr::select(polarity,purity) %>%
 		mutate(polarity = as.character(polarity)) 
 	
 	pur$polarity[pur$polarity == 'n'] <- 'Negative mode'
@@ -40,7 +40,7 @@ setMethod('plotCentrality',signature = 'Binalysis',function(x,histBins = 30){
 	
 	pur <- x %>%
 		accurateData() %>%
-		dplyr::select(polarity,Centrality) %>%
+		dplyr::select(polarity,centrality) %>%
 		mutate(polarity = as.character(polarity)) 
 	
 	pur$polarity[pur$polarity == 'n'] <- 'Negative mode'
