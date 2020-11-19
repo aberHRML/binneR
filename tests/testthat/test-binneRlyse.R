@@ -50,7 +50,7 @@ test_that('binneRlyse works',{
 	
 	expect_true(identical(class(ad),c('tbl_df','tbl','data.frame')))
 	expect_true(nrow(ad) == 1896)
-	expect_true(ncol(ad) == 7)
+	expect_true(ncol(ad) == 8)
 })
 
 test_that('plots work',{

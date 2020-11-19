@@ -131,7 +131,7 @@ setMethod('ss',signature = 'Binalysis',
 						pks <- getPeaks(file,scans(parameters),
 														1,
 														clusterType(parameters)) %>%
-							mutate(file = str_c('Scan ',scan))
+							mutate(fileName = str_c('Scan ',scan))
 						
 						binList <- calcBinList(pks)
 						
@@ -148,23 +148,27 @@ setMethod('ss',signature = 'Binalysis',
 						clus <- makeCluster(nSlaves,type = parameters@clusterType)
 						
 						binnedData <- pks %>%
-							split(.$file) %>%
+							split(.$fileName) %>%
 							parLapply(clus,.,function(x){
 								x %>%
-									group_by(file,polarity,bin) %>%
+									group_by(fileName,polarity,bin) %>%
 									summarise(intensity = sum(intensity))
 							}) %>%
 							bind_rows()
 						
 						stopCluster(clus)
 						
+						binMeasures <- calcBinMeasures(pks,
+																					 'class',
+																					 parameters@nCores,
+																					 parameters@clusterType) %>%
+							group_by(class,polarity,bin) %>%
+							summarise(purity = mean(purity),
+												centrality = mean(centrality))
+						
 						pks  <- pks %>%
 							group_by(class,polarity,mz,bin) %>%
 							summarise(intensity = sum(intensity))
-						
-						binMeasures <- calcBinMeasures(pks,
-																					 parameters@nCores,
-																					 parameters@clusterType)
 						
 						accurateMZ <- pks %>%
 							group_by(class,polarity,bin) %>%
@@ -197,7 +201,7 @@ setMethod('ss',signature = 'Binalysis',
 									ungroup() %>%
 									mutate(mz = str_c(polarity,mz)) %>%
 									spread(mz,intensity,fill = 0) %>%
-									select(-file,-polarity)
+									select(-fileName,-polarity)
 							})
 						
 						stopCluster(clus)
