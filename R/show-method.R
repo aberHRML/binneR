@@ -44,15 +44,17 @@ setMethod('show',signature = 'Binalysis',
                   	str_c(collapse = '\n')
                   cat(var,sep = '\n')
               }
-              cat('Average Purity:',
-              		mean(object@accurateMZ$Purity,
-              				 na.rm = TRUE) %>% 
-              			round(3),
-              		'\n')
-              cat('Average Centrality:',
-              		mean(object@accurateMZ$Centrality,
-              				 na.rm = TRUE) %>% 
-              			round(3),
-              		'\n')
+              if (length(object@accurateMZ) > 0) {
+              	cat('Average Purity:',
+              			mean(object@accurateMZ$purity,
+              					 na.rm = TRUE) %>% 
+              				round(3),
+              			'\n')
+              	cat('Average Centrality:',
+              			mean(object@accurateMZ$centrality,
+              					 na.rm = TRUE) %>% 
+              				round(3),
+              			'\n')	
+              }
               cat('\n')
           })

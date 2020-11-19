@@ -14,7 +14,12 @@ setClass('BinParameters',
              cls = 'character',
              nCores = 'numeric',
              clusterType = 'character'
-         )
+         ),
+				 prototype = list(
+				 	scans = 5:12,
+				 	nCores = 2,
+				 	clusterType = 'FORK'
+				 )
 )
 
 #' Binalysis
