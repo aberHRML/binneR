@@ -1,13 +1,13 @@
 #' @importFrom dplyr group_by summarise arrange inner_join select 
-#' @importFrom dplyr left_join filter distinct rename
-#' @importFrom tibble tibble
+#' @importFrom dplyr left_join filter distinct rename vars all_of
+#' @importFrom dplyr group_by_at
+#' @importFrom tibble tibble deframe
 #' @importFrom purrr map
 #' @importFrom tidyr spread
 #' @importFrom stringr str_c
 
 setMethod("spectralBinning", signature = "Binalysis",
 					function(x){
-						
 						parameters <- x@binParameters
 						
 						info <- info(x)
@@ -29,20 +29,21 @@ setMethod("spectralBinning", signature = "Binalysis",
 							inner_join(binList,by = c("polarity", "bin"))
 						
 						if (length(cls(parameters)) > 0) {
+							cls <- cls(parameters)
 							classes <- info %>%
-								select(all_of(cls(parameters))) %>%
-								deframe()
+								select(fileName,all_of(cls(parameters)))
 						} else {
-							classes <- rep(NA,nrow(info))
+							cls <- 'class'
+							classes <- info %>%
+								select(fileName) %>%
+								mutate(class = NA)
 						}
 						
-						cls <- tibble(fileName = files, class = classes) 
-						
-						nScans <- pks$scan %>%
+						nScans <- scans(parameters) %>%
 							unique() %>%
 							length()
 						
-						clus <- makeCluster(nSlaves,type = parameters@clusterType)
+						clus <- makeCluster(nSlaves,type = clusterType(parameters))
 						
 						binnedData <- pks %>%
 							split(.$fileName) %>%
@@ -56,32 +57,27 @@ setMethod("spectralBinning", signature = "Binalysis",
 							bind_rows()
 						
 						pks <- pks %>%
-							left_join(cls,by = "fileName") %>%
+							left_join(classes,by = "fileName") %>%
 							split(.$fileName) %>%
 							parLapply(clus,.,function(x,nScans){
 								x %>%
-									group_by(class,fileName,polarity,mz,bin) %>%
+									group_by_at(vars(all_of(c('fileName',cls,'polarity','mz','bin')))) %>%
 									summarise(intensity = sum(intensity)/nScans)
 							},nScans = nScans) %>%
 							bind_rows()
 						
 						stopCluster(clus)
 						
-						pks <- pks %>%
-							group_by(class,polarity,mz,bin) %>%
-							summarise(intensity = sum(intensity),.groups = 'drop')
-						
 						binMeasures <- calcBinMeasures(pks,
+																					 cls,
 																					 parameters@nCores,
 																					 parameters@clusterType)
 						
 						accurateMZ <- pks %>%
-							group_by(class,polarity,bin) %>%
+							group_by_at(vars(all_of(c('fileName',cls,'polarity','bin')))) %>%
 							filter(intensity == max(intensity)) %>%
-							arrange(bin)
-						
-						accurateMZ <- accurateMZ %>%
-							left_join(binMeasures,by = c("class", "polarity", "bin"))
+							arrange(bin) %>%
+							left_join(binMeasures,by = c('fileName',cls, "polarity", "bin"))
 						
 						mz <- accurateMZ %>%
 							group_by(polarity,bin) %>%
