@@ -3,8 +3,8 @@ calcBinMeasures <- function(pks,nCores,clusterType){
     
         binMeasures <- pks %>%
             group_by(class,polarity,bin) %>%
-            summarise(Purity = binPurity(mz,intensity),
-            					Centrality = binCentrality(mz,intensity))
+            summarise(purity = binPurity(mz,intensity),
+            					centrality = binCentrality(mz,intensity))
 
     return(binMeasures)
 }
