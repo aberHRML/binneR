@@ -17,9 +17,12 @@
 #' 
 #' info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
 #' 
+#' parameters <- detectParameters(files)
+#' cls(parameters) <- 'class'
+#' 
 #' analysis <- binneRlyse(files, 
 #'                        info, 
-#'                        parameters = detectParameters(files))
+#'                        parameters = parameters)
 #'    }
 #' @export
 
