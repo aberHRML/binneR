@@ -295,7 +295,7 @@ plotTIC(analysis)
 Density profiles for individual bins can be plotted by:
 
 ```{r plotBin, fig.width=7,fig.height=5,fig.align='center'}
-plotBin(analysis,'n133.01',cls = TRUE)
+plotBin(analysis,'n133.01',type = 'cls')
 ```
 
 #### Data Extraction

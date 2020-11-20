@@ -7,6 +7,7 @@
 #' @importFrom ggplot2 ggplot geom_density theme_bw xlim xlab ggtitle theme
 #' @importFrom ggplot2 element_text facet_wrap aes
 #' @importFrom stringr str_replace_all str_sub
+#' @importFrom stats as.formula
 #' @export
 
 setMethod('plotBin',signature = 'Binalysis',
