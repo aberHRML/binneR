@@ -51,6 +51,7 @@ Collate:
     singleSample.R
     plotMeasures.R
     readBinningParameters.R
+    reexports.R
 Suggests: 
     knitr,
     rmarkdown,
