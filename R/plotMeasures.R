@@ -1,4 +1,4 @@
-#' plotPurity
+#' Plot bin purity histogram
 #' @rdname plotPurity
 #' @description Plot the bin purity distribution for a Binalysis object.
 #' @param x S4 object of class Binalysis
@@ -29,7 +29,7 @@ setMethod('plotPurity',signature = 'Binalysis',function(x,histBins = 30){
 
 })
 
-#' plotCentrality
+#' Plot bin centrality histogram
 #' @rdname plotCentrality
 #' @description Plot the bin centrality distribution for a Binalysis object.
 #' @param x S4 object of class Binalysis

@@ -2,7 +2,7 @@
 % Please edit documentation in R/detect.R
 \name{detectInfusionScans}
 \alias{detectInfusionScans}
-\title{detectInfusionScans}
+\title{Detect infusion profile scan range}
 \usage{
 detectInfusionScans(
   files,
@@ -22,7 +22,7 @@ infusion profile}
 \item{clusterType}{the type of cluster to use for parallel processing}
 }
 \description{
-detect infusion scans for a set of FIE-MS infusion profiles.
+Detect infusion scans for a set of FIE-MS infusion profiles.
 }
 \examples{
 if (requireNamespace("metaboData", quietly = TRUE)) {

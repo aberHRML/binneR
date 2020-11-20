@@ -3,7 +3,7 @@
 \docType{class}
 \name{BinParameters-class}
 \alias{BinParameters-class}
-\title{BinParameters}
+\title{Spectral binning parameters class}
 \description{
 An S4 class to store spectral binning parameters.
 }

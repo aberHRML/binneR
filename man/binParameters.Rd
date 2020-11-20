@@ -2,7 +2,7 @@
 % Please edit documentation in R/binParameters.R
 \name{binParameters}
 \alias{binParameters}
-\title{binParameters}
+\title{Set spectral binning parameters}
 \usage{
 binParameters(
   scans = 5:12,
@@ -23,7 +23,7 @@ accross all samples}
 \item{clusterType}{the type of cluster to use for parallel processing}
 }
 \description{
-selection of parameters to use for spectral binning.
+Selection of parameters to use for spectral binning.
 }
 \examples{
 p <- binParameters(scans = 6:17,nCores = 2,clusterType = detectClusterType())

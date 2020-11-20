@@ -3,7 +3,7 @@
 \name{binnedData}
 \alias{binnedData}
 \alias{binnedData,Binalysis-method}
-\title{binnedData-Binalysis}
+\title{Extract spectrally binned data}
 \usage{
 binnedData(x)
 

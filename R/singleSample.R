@@ -1,5 +1,5 @@
-#' singleSample
-#' @description perform spectral binning on a single sample
+#' Perform single sample spectral binning
+#' @description Perform spectral binning on a single sample.
 #' @param file file path
 #' @param class optional class name
 #' @param nCores number of cores to use for parallel processing

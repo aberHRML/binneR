@@ -1,5 +1,5 @@
-#' detectInfusionScans
-#' @description detect infusion scans for a set of FIE-MS infusion profiles.
+#' Detect infusion profile scan range
+#' @description Detect infusion scans for a set of FIE-MS infusion profiles.
 #' @param files character vector of file paths to use
 #' @param thresh detection threshold as a proportion of the peak of the 
 #' infusion profile
@@ -73,8 +73,10 @@ detectInfusionScans <- function(files,
 	return(min(scans):max(scans))
 }
 
-#' detectClusterType
-#' @description Detect appropriate cluster type from OS.
+#' Detect suitable cluster type
+#' @description Detect appropriate cluster type from OS for parallel processing.
+#' @examples 
+#' detectClusterType()
 #' @export
 
 detectClusterType <- function(){
@@ -86,8 +88,8 @@ detectClusterType <- function(){
 	return(type)
 }
 
-#' detectParameters
-#' @description Detect binning parameters from file list.
+#' Detect suitable spectral binning parameters
+#' @description Detect binning parameters from a given list of file paths.
 #' @param files character vector of file paths
 #' @param nCores the number of cores to use for parallel processing
 #' @param clusterType the type of cluster to use for parallel processing

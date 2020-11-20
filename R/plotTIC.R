@@ -1,4 +1,4 @@
-#' plotTIC
+#' Plot sample total ion counts
 #' @rdname plotTIC
 #' @description Plot sample total ion counts.
 #' @param x S4 object of class Binalysis

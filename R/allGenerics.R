@@ -42,24 +42,44 @@ setGeneric('plotFingerprint',function(x){
 	standardGeneric('plotFingerprint')
 })
 
-#' @rdname scans
+#' @rdname parameters
 setGeneric('scans',function(x){
 	standardGeneric('scans')
 })
 
-#' @rdname cls
+#' @rdname parameters
+setGeneric('scans<-',function(x,value){
+	standardGeneric('scans<-')
+})
+
+#' @rdname parameters
 setGeneric('cls',function(x){
 	standardGeneric('cls')
 })
 
-#' @rdname nCores
+#' @rdname parameters
+setGeneric('cls<-',function(x,value){
+	standardGeneric('cls<-')
+})
+
+#' @rdname parameters
 setGeneric('nCores',function(x){
 	standardGeneric('nCores')
 })
 
-#' @rdname clusterType
+#' @rdname parameters
+setGeneric('nCores<-',function(x,value){
+	standardGeneric('nCores<-')
+})
+
+#' @rdname parameters
 setGeneric('clusterType',function(x){
 	standardGeneric('clusterType')
+})
+
+#' @rdname parameters
+setGeneric('clusterType<-',function(x,value){
+	standardGeneric('clusterType<-')
 })
 
 #' @rdname plotPurity

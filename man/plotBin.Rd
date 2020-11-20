@@ -3,7 +3,7 @@
 \name{plotBin}
 \alias{plotBin}
 \alias{plotBin,Binalysis-method}
-\title{plotBin}
+\title{Plot a spectral bin feature}
 \usage{
 plotBin(x, bin, type = c("all", "cls", "sample"))
 
@@ -17,5 +17,5 @@ plotBin(x, bin, type = c("all", "cls", "sample"))
 \item{type}{bin to be plotted as a total (all), class (cls) or sample spectra.}
 }
 \description{
-kernal density plot of a specified bin.
+Kernal density plot of a specified spectral bin feature.
 }

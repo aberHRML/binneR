@@ -3,7 +3,7 @@
 \name{plotCentrality}
 \alias{plotCentrality}
 \alias{plotCentrality,Binalysis-method}
-\title{plotCentrality}
+\title{Plot bin centrality histogram}
 \usage{
 plotCentrality(x, histBins = 30)
 

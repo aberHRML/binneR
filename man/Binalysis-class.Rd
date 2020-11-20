@@ -3,7 +3,7 @@
 \docType{class}
 \name{Binalysis-class}
 \alias{Binalysis-class}
-\title{Binalysis}
+\title{Spectral binning analysis class}
 \description{
 An S4 class to store spectrally binned data and accurate 
 mass information.

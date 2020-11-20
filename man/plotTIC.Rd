@@ -3,7 +3,7 @@
 \name{plotTIC}
 \alias{plotTIC}
 \alias{plotTIC,Binalysis-method}
-\title{plotTIC}
+\title{Plot sample total ion counts}
 \usage{
 plotTIC(x, by = "injOrder", colour = "block")
 

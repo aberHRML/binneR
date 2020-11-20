@@ -3,7 +3,7 @@
 \name{plotPurity}
 \alias{plotPurity}
 \alias{plotPurity,Binalysis-method}
-\title{plotPurity}
+\title{Plot bin purity histogram}
 \usage{
 plotPurity(x, histBins = 30)
 

@@ -3,17 +3,17 @@
 \name{accurateData}
 \alias{accurateData}
 \alias{accurateData,Binalysis-method}
-\title{accurateData-Binalysis}
+\title{Extract accurate mass data}
 \usage{
 accurateData(x)
 
 \S4method{accurateData}{Binalysis}(x)
 }
 \arguments{
-\item{x}{Binalysis object}
+\item{x}{S4 object of class Binalysis}
 }
 \description{
-Extract accurate data from a Binalysis object.
+Extract accurate data mass from a Binalysis object.
 }
 \author{
 Jasen Finch \email{jsf9@aber.ac.uk}

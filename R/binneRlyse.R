@@ -1,4 +1,4 @@
-#' binneRlyse
+#' Perform spectral binning
 #' @description perform spectral binning.
 #' @param files character vector of file paths to use for spectral binning
 #' @param info tibble containing sample information

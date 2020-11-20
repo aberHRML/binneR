@@ -1,6 +1,6 @@
-#' plotBin
+#' Plot a spectral bin feature
 #' @rdname plotBin
-#' @description kernal density plot of a specified bin.
+#' @description Kernal density plot of a specified spectral bin feature.
 #' @param x S4 object of class Binalysis
 #' @param bin 0.01amu bin to plot
 #' @param type bin to be plotted as a total (all), class (cls) or sample spectra.

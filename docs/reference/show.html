@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot an infusion profile chromatogram — plotChromatogram • binneR</title>
+<title>Show methods for spectral binning classes — show,BinParameters-method • binneR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Plot an infusion profile chromatogram — plotChromatogram" />
-<meta property="og:description" content="Plot an averaged infusion profile chromatogram from a Binalysis object." />
+<meta property="og:title" content="Show methods for spectral binning classes — show,BinParameters-method" />
+<meta property="og:description" content="Show methods for spectral binning classes." />
 
 
 
@@ -111,29 +111,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot an infusion profile chromatogram</h1>
-    <small class="dont-index">Source: <a href='https://github.com/aberHRML/binneR/blob/master/R/allGenerics.R'><code>R/allGenerics.R</code></a>, <a href='https://github.com/aberHRML/binneR/blob/master/R/plotChromatogram.R'><code>R/plotChromatogram.R</code></a></small>
-    <div class="hidden name"><code>plotChromatogram.Rd</code></div>
+    <h1>Show methods for spectral binning classes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/aberHRML/binneR/blob/master/R/show-method.R'><code>R/show-method.R</code></a></small>
+    <div class="hidden name"><code>show.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot an averaged infusion profile chromatogram from a Binalysis object.</p>
+    <p>Show methods for spectral binning classes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotChromatogram</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+    <pre class="usage"><span class='co'># S4 method for BinParameters</span>
+<span class='fu'>show</span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Binalysis</span>
-<span class='fu'>plotChromatogram</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+<span class='fu'>show</span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>S4 object of class <code>Binalysis</code></p></td>
+      <th>object</th>
+      <td><p>S4 objects of class BinParameters or Binanalysi</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Jasen Finch <a href='mailto:jsf9@aber.ac.uk'>jsf9@aber.ac.uk</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

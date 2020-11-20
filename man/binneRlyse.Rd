@@ -2,7 +2,7 @@
 % Please edit documentation in R/binneRlyse.R
 \name{binneRlyse}
 \alias{binneRlyse}
-\title{binneRlyse}
+\title{Perform spectral binning}
 \usage{
 binneRlyse(files, info, parameters = binParameters(), verbose = TRUE)
 }

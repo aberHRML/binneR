@@ -1,6 +1,6 @@
-#' plotChromatogram
+#' Plot an infusion profile chromatogram
 #' @rdname plotChromatogram
-#' @description plot an averaged infusion profile from a Binalysis object. 
+#' @description Plot an averaged infusion profile chromatogram from a Binalysis object. 
 #' @param x S4 object of class \code{Binalysis}
 #' @importFrom ggplot2 geom_vline geom_line labs ylab
 #' @export
@@ -56,8 +56,8 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 					}
 )
 
-#' plotChromFromFile
-#' @description plot and averaged infusion profile from a vector of specified 
+#' Plot an infusion profile chromatogram from a file
+#' @description Plot and averaged infusion profile from a vector of specified 
 #' file paths.
 #' @param files character vector of file paths to use
 #' @param scans specify scans to highlight within the plot

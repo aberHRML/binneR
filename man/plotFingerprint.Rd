@@ -3,7 +3,7 @@
 \name{plotFingerprint}
 \alias{plotFingerprint}
 \alias{plotFingerprint,Binalysis-method}
-\title{plotFingerprint}
+\title{Plot a fingerprint mass spectrum}
 \usage{
 plotFingerprint(x)
 

@@ -2,15 +2,18 @@
 % Please edit documentation in R/show-method.R
 \name{show,BinParameters-method}
 \alias{show,BinParameters-method}
-\title{show-BinParameters}
+\alias{show,Binalysis-method}
+\title{Show methods for spectral binning classes}
 \usage{
 \S4method{show}{BinParameters}(object)
+
+\S4method{show}{Binalysis}(object)
 }
 \arguments{
-\item{object}{BinParameters Object}
+\item{object}{S4 objects of class BinParameters or Binanalysi}
 }
 \description{
-show method for BinParameters class
+Show methods for spectral binning classes.
 }
 \author{
 Jasen Finch \email{jsf9@aber.ac.uk}

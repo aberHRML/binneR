@@ -1,4 +1,4 @@
-#' plotFingerprint
+#' Plot a fingerprint mass spectrum
 #' @rdname plotFingerprint
 #' @description Plot averaged spectrum fingerprint.
 #' @param x S4 object of class Binalysis

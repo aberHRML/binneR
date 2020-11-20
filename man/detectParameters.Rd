@@ -2,7 +2,7 @@
 % Please edit documentation in R/detect.R
 \name{detectParameters}
 \alias{detectParameters}
-\title{detectParameters}
+\title{Detect suitable spectral binning parameters}
 \usage{
 detectParameters(
   files,
@@ -18,7 +18,7 @@ detectParameters(
 \item{clusterType}{the type of cluster to use for parallel processing}
 }
 \description{
-Detect binning parameters from file list.
+Detect binning parameters from a given list of file paths.
 }
 \examples{
 files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')

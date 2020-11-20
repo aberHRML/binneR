@@ -2,10 +2,13 @@
 % Please edit documentation in R/detect.R
 \name{detectClusterType}
 \alias{detectClusterType}
-\title{detectClusterType}
+\title{Detect suitable cluster type}
 \usage{
 detectClusterType()
 }
 \description{
-Detect appropriate cluster type from OS.
+Detect appropriate cluster type from OS for parallel processing.
+}
+\examples{
+detectClusterType()
 }

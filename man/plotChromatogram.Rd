@@ -3,7 +3,7 @@
 \name{plotChromatogram}
 \alias{plotChromatogram}
 \alias{plotChromatogram,Binalysis-method}
-\title{plotChromatogram}
+\title{Plot an infusion profile chromatogram}
 \usage{
 plotChromatogram(x)
 
@@ -13,5 +13,5 @@ plotChromatogram(x)
 \item{x}{S4 object of class \code{Binalysis}}
 }
 \description{
-plot an averaged infusion profile from a Binalysis object.
+Plot an averaged infusion profile chromatogram from a Binalysis object.
 }

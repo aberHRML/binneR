@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotChromatogram.R
 \name{plotChromFromFile}
 \alias{plotChromFromFile}
-\title{plotChromFromFile}
+\title{Plot an infusion profile chromatogram from a file}
 \usage{
 plotChromFromFile(files, scans = c())
 }
@@ -12,7 +12,7 @@ plotChromFromFile(files, scans = c())
 \item{scans}{specify scans to highlight within the plot}
 }
 \description{
-plot and averaged infusion profile from a vector of specified 
+Plot and averaged infusion profile from a vector of specified 
 file paths.
 }
 \examples{

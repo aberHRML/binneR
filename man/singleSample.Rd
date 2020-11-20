@@ -2,7 +2,7 @@
 % Please edit documentation in R/singleSample.R
 \name{singleSample}
 \alias{singleSample}
-\title{singleSample}
+\title{Perform single sample spectral binning}
 \usage{
 singleSample(
   file,
@@ -24,7 +24,7 @@ singleSample(
 \item{verbose}{show console output}
 }
 \description{
-perform spectral binning on a single sample
+Perform spectral binning on a single sample.
 }
 \examples{
 filePath <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]

@@ -1,4 +1,4 @@
-#' BinParameters
+#' Spectral binning parameters class
 #' @description An S4 class to store spectral binning parameters.
 #' @slot scans numeric vector containing the scan indexes to use for binning
 #' @slot cls the column of class labels to use for aggregating accurate 
@@ -22,7 +22,7 @@ setClass('BinParameters',
 				 )
 )
 
-#' Binalysis
+#' Spectral binning analysis class
 #' @description An S4 class to store spectrally binned data and accurate 
 #' mass information.
 #' @slot binLog date and time of initiation of spectral binning

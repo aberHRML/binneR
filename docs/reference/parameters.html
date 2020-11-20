@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot an infusion profile chromatogram — plotChromatogram • binneR</title>
+<title>Get and set spectral binning parameters — scans • binneR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Plot an infusion profile chromatogram — plotChromatogram" />
-<meta property="og:description" content="Plot an averaged infusion profile chromatogram from a Binalysis object." />
+<meta property="og:title" content="Get and set spectral binning parameters — scans" />
+<meta property="og:description" content="Get and set spectral binning parameters." />
 
 
 
@@ -111,26 +111,65 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot an infusion profile chromatogram</h1>
-    <small class="dont-index">Source: <a href='https://github.com/aberHRML/binneR/blob/master/R/allGenerics.R'><code>R/allGenerics.R</code></a>, <a href='https://github.com/aberHRML/binneR/blob/master/R/plotChromatogram.R'><code>R/plotChromatogram.R</code></a></small>
-    <div class="hidden name"><code>plotChromatogram.Rd</code></div>
+    <h1>Get and set spectral binning parameters</h1>
+    <small class="dont-index">Source: <a href='https://github.com/aberHRML/binneR/blob/master/R/allGenerics.R'><code>R/allGenerics.R</code></a>, <a href='https://github.com/aberHRML/binneR/blob/master/R/binParameters.R'><code>R/binParameters.R</code></a></small>
+    <div class="hidden name"><code>parameters.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot an averaged infusion profile chromatogram from a Binalysis object.</p>
+    <p>Get and set spectral binning parameters.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotChromatogram</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>scans</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='co'># S4 method for Binalysis</span>
-<span class='fu'>plotChromatogram</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+<span class='fu'>scans</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
+
+<span class='fu'>cls</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='fu'>cls</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
+
+<span class='fu'>nCores</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='fu'>nCores</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
+
+<span class='fu'>clusterType</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='fu'>clusterType</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
+
+<span class='co'># S4 method for BinParameters</span>
+<span class='fu'>scans</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S4 method for BinParameters</span>
+<span class='fu'>scans</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
+
+<span class='co'># S4 method for BinParameters</span>
+<span class='fu'>cls</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S4 method for BinParameters</span>
+<span class='fu'>cls</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
+
+<span class='co'># S4 method for BinParameters</span>
+<span class='fu'>nCores</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S4 method for BinParameters</span>
+<span class='fu'>nCores</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span>
+
+<span class='co'># S4 method for BinParameters</span>
+<span class='fu'>clusterType</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S4 method for BinParameters</span>
+<span class='fu'>clusterType</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>value</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>S4 object of class <code>Binalysis</code></p></td>
+      <td><p>S4 object of class BinParameters</p></td>
+    </tr>
+    <tr>
+      <th>value</th>
+      <td><p>parameter value to set</p></td>
     </tr>
     </table>
 

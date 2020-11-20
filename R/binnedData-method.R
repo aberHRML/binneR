@@ -1,4 +1,4 @@
-#' binnedData-Binalysis
+#' Extract spectrally binned data
 #' @rdname binnedData
 #' @description Extract binned data from a Binalysis object.
 #' @param x Binalysis object

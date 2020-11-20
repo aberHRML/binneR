@@ -51,7 +51,7 @@ file <- filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 ms <- openMSfile(file)
 chrom <- mzR::header(ms)
 
-is <- detectInfusionScans(file)
+is <- detectInfusionScans(file,nCores = 2)
 buffer <- 10
 is <- c(1,is[2] + buffer)
 

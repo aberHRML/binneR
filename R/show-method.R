@@ -1,6 +1,7 @@
-#' show-BinParameters
-#' @description show method for BinParameters class
-#' @param object BinParameters Object
+#' Show methods for spectral binning classes
+#' @rdname show
+#' @description Show methods for spectral binning classes.
+#' @param object S4 objects of class BinParameters or Binanalysi
 #' @author Jasen Finch \email{jsf9@aber.ac.uk}
 #' @importFrom methods show
 #' @importFrom purrr map_chr
@@ -20,11 +21,7 @@ setMethod('show',signature = 'BinParameters',
               cat('Cluster Type:',object@clusterType,'\n')
           })
 
-#' show-Binalysis
-#' @description show method for Binalysis class
-#' @param object Binalysis Object
-#' @author Jasen Finch \email{jsf9@aber.ac.uk}
-#' @importFrom methods show
+#' @rdname show
 #' @export
 
 setMethod('show',signature = 'Binalysis',

@@ -1,7 +1,7 @@
-#' info-Binalysis
+#' Extract sample information
 #' @rdname info
 #' @description Extract runinfo data from a Binalysis object.
-#' @param x Binalysis object
+#' @param x S4 object of class Binalysis
 #' @author Jasen Finch \email{jsf9@aber.ac.uk}
 #' @export
 
