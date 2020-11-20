@@ -4,10 +4,14 @@
 #' @importFrom magrittr %>%
 
 sampProcess <- function(file,scans,dp){
+    
+    `%>%` <- getFromNamespace('%>%','magrittr')
+    
     pl <- getFile(file,scans) %>%
-        mutate(mz = round(mz,dp)) %>% 
-        group_by(polarity,mz) %>% 
-        summarise(intensity = sum(intensity)/length(scans)) 
+        dplyr::mutate(mz = round(mz,dp)) %>% 
+        dplyr::group_by(polarity,mz) %>% 
+        dplyr::summarise(intensity = sum(intensity)/length(scans)) 
+    
     return(pl)
 }
 
@@ -18,34 +22,37 @@ sampProcess <- function(file,scans,dp){
 #' @importFrom magrittr set_colnames set_names
 
 getFile <- function(file,scans){
-    ms <- openMSfile(file,backend = 'pwiz')
     
-    hd <- header(ms) %>%
-        select(seqNum,polarity,filterString) %>%
-        group_by(polarity,filterString) %>%
-        mutate(scan = 1:n()) %>%
-        filter(scan %in% scans) 
+    `%>%` <- getFromNamespace('%>%','magrittr')
+    
+    ms <- mzR::openMSfile(file,backend = 'pwiz')
+    
+    hd <- mzR::header(ms) %>%
+        dplyr::select(seqNum,polarity,filterString) %>%
+        dplyr::group_by(polarity,filterString) %>%
+        dplyr::mutate(scan = 1:dplyr::n()) %>%
+        dplyr::filter(scan %in% scans) 
         
     hd$polarity[hd$polarity == 0] <- 'n'
     hd$polarity[hd$polarity == 1] <- 'p'
     
     ms %>%
-        peaks() %>%
+        mzR::peaks() %>%
         .[hd$seqNum] %>%
-        map(~{
+        purrr::map(~{
             d <- .
             d %>%
-                set_colnames(c('mz','intensity')) %>%
-                as_tibble()
+                magrittr::set_colnames(c('mz','intensity')) %>%
+                tibble::as_tibble()
         }) %>%
-        set_names(hd$seqNum) %>%
-        bind_rows(.id = 'seqNum') %>%
-        mutate(seqNum = as.numeric(seqNum)) %>%
-        left_join(hd, by = "seqNum") %>%
-        select(-filterString,-seqNum)
+        magrittr::set_names(hd$seqNum) %>%
+        dplyr::bind_rows(.id = 'seqNum') %>%
+        dplyr::mutate(seqNum = as.numeric(seqNum)) %>%
+        dplyr::left_join(hd, by = "seqNum") %>%
+        dplyr::select(-filterString,-seqNum)
 }
 
-#' @importFrom parallel makeCluster stopCluster parLapply
+#' @importFrom parallel makeCluster stopCluster parLapply clusterExport
 #' @importFrom dplyr mutate
 
 getPeaks <- function(files,scans,nCores,clusterType){
@@ -53,6 +60,7 @@ getPeaks <- function(files,scans,nCores,clusterType){
        pks <- map(files,getFile,scans)
    } else {
        clus <- makeCluster(nCores,type = clusterType)
+       
        pks <- parLapply(clus,files,getFile,scans = scans)
        stopCluster(clus)
    }

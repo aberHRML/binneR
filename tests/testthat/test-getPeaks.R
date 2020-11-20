@@ -19,4 +19,5 @@ test_that('getPeaks works single core',{
 
 test_that('getHeaders works single core',{
 	h <- getHeaders(file,0,detectClusterType())
+	expect_s3_class(h,'data.frame')
 })

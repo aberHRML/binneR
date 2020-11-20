@@ -30,9 +30,11 @@ detectInfusionScans <- function(files,
 	
 	ms <- files %>%
 		parLapply(clus,.,function(d){
+			`%>%` <- getFromNamespace('%>%','magrittr')
+			
 			d %>%
-				openMSfile() %>%
-				header()
+				mzR::openMSfile() %>%
+				mzR::header()
 		}) %>%
 		set_names(files)
 	

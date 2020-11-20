@@ -26,7 +26,11 @@ readFiles <- function(files,
 											scans, 
 											nCores = 1, 
 											clusterType = detectClusterType()){ 
+	
 	clust <- makeCluster(nCores, type = clusterType) 
+	
+	clusterExport(clust,varlist = 'getFile')
+	
 	pl <- parLapplyLB(clust,
 										files,
 										fun = sampProcess,
@@ -37,11 +41,15 @@ readFiles <- function(files,
 		mutate(mz = str_c(polarity,mz)) %>%
 		split(.$polarity) %>%
 		parLapplyLB(cl = clust,function(x){
-		x <- spread(x,key = 'mz',value = 'intensity',fill = 0) %>%
-			ungroup() %>%
-			select(-file,-polarity)
-		return(x)
-	})
+			
+			`%>%` <- getFromNamespace('%>%','magrittr')
+			
+			x <- spread(x,key = 'mz',value = 'intensity',fill = 0) %>%
+				ungroup() %>%
+				select(-file,-polarity)
+			
+			return(x)
+		})
 	stopCluster(clust)
 	return(pl)
 }  
