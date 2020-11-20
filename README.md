@@ -1,4 +1,4 @@
-# binneR
+# binneR <img align = "right" src="man/figures/binneRsticker.png" height = "200" />
 
 <!-- badges: start -->
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
@@ -9,9 +9,7 @@
 [![DOI](https://zenodo.org/badge/33118371.svg)](https://zenodo.org/badge/latestdoi/33118371)
 <!-- badges: end -->
 
-<img align = "right" src="inst/sticker/binneRsticker.png" height = "200">
-
-### Spectral Processing for High Resolution Flow Infusion Mass Spectrometry
+> **Spectral Processing for High Resolution Flow Infusion Mass Spectrometry**
 
 A spectral binning approach for flow infusion  electrospray high resolution mass spectrometry (FIE-HRMS) data.
 Includes tools for generating intensity matrices converted raw data file formats such as `.mzML` and `.mzXML`, plotting chromatograms and total ion counts.

@@ -1,19 +1,16 @@
 ---
 title: "binneR"
-subtitle: "`r paste0('v',packageVersion('binneR'))`"
-author: "Jasen Finch"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   prettydoc::html_pretty:
     toc: true
     highlight: github
     theme: tactile
 vignette: >
-  %\VignetteIndexEntry{binneR}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+ %\VignetteIndexEntry{binneR usage}
+ %\VignetteEngine{knitr::rmarkdown}
+ %\VignetteEncoding{UTF-8}
 ---
-
+  
 ```{r echo = FALSE, message = TRUE}
 hasData <- requireNamespace("metaboData", quietly = TRUE) 
 if (!hasData) {
@@ -38,16 +35,16 @@ library(magrittr)
 
 ```{r sticker, echo=FALSE}
 htmltools::img(src = knitr::image_uri(system.file('sticker/binneRsticker.png',package = 'binneR')),
-  style = 'display:block;margin-left:auto;margin-right:auto; height:200px;') 
+							 style = 'display:block;margin-left:auto;margin-right:auto; height:200px;') 
 ```
-  
+
 ## Introduction
-  
+
 The *binneR* package provides a spectral binning approach for routine processing of flow infusion electrospray - high resolution mass spectrometry (FIE-HRMS) metabolomics fingerprinting experiments, the results of which can then be used for subsequent statistical analyses.
-  
+
 Spectral binning rounds high resolution fingerprinting data by a specified amu bin width.
 FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can be averaged to provide a metabolome fingerprint. Below shows an animation of the spectrum change across ‘plug flow’ region of an example FIE-HRMS injection acquired in negative ionisation mode. 
- 
+
 ```{r FIEfingerprint, echo=FALSE, fig.width=7,fig.height=5,fig.align='center',fig.show='animate',animation.hook = 'gifski',interval=0.1,dev='png',aniopts=('controls,loop')}
 
 file <- filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
@@ -59,9 +56,11 @@ buffer <- 10
 is <- c(1,is[2] + buffer)
 
 spectrum <- peaks(ms) %>%
-	purrr::map(as_tibble) %>%
+	purrr::map(~{
+		as_tibble(.x,.name_repair = 'minimal') %>%
+			set_colnames(c('m/z','Abundance'))
+	}) %>%
 	bind_rows(.id = 'seqNum') %>%
-	rename(`m/z` = V1,Abundance = V2) %>%
 	mutate(seqNum = as.numeric(seqNum)) %>%
 	left_join(chrom %>%
 							select(seqNum,polarity),by = 'seqNum') %>%
@@ -70,7 +69,7 @@ spectrum <- peaks(ms) %>%
 	filter(Scan >= is[1] & Scan <= is[2]) %>%
 	mutate(Bin = `m/z` %>% round(2)) %>%
 	group_by(Scan,Bin) %>%
-	summarise(Abundance = sum(Abundance))
+	summarise(Abundance = sum(Abundance),.groups = 'drop')
 
 lim <- max(spectrum$Abundance) + 1000
 
@@ -78,7 +77,7 @@ chrom <- chrom %>%
 	filter(polarity == 0)
 chrom$acquisitionNum <- 1:nrow(chrom)
 
-	for (i in is[1]:is[2]) {
+for (i in is[1]:is[2]) {
 	p <- list()
 	
 	p$chromatogram <- ggplot(chrom,aes(x = acquisitionNum,y = totIonCurrent)) + 
@@ -132,7 +131,7 @@ For a set of specified file paths, the range of infusion scans can be detected u
 
 ```{r infusionScanDetection}
 infusionScans <- detectInfusionScans(
-		metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
+	metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
 	thresh = 0.5
 )
 infusionScans
@@ -169,10 +168,6 @@ res <- readFiles(file,
 ```
 
 This will return a list containing the intensity matrices for each ionisation mode, with the rows being the individual samples and columns the spectral bins.
-
-```{r readFiles}
-str(res)
-```
 
 ## binneRlyse - metabolomics fingerprinting experiments
 
@@ -319,7 +314,9 @@ dat <- readFiles(files[1],scans = detectInfusionScans(files[1]),dp = 5) %>%
 				 bin = round(mz,2))
 measures <- dat %>%
 	group_by(bin,mode) %>%
-	summarise(purity = binneR:::binPurity(mz,Intensity),centrality = binneR:::binCentrality(mz,Intensity),Intensity = mean(Intensity))
+	summarise(purity = binneR:::binPurity(mz,Intensity),
+						centrality = binneR:::binCentrality(mz,Intensity),
+						Intensity = mean(Intensity),.groups = 'drop')
 ```
 
 #### Purity

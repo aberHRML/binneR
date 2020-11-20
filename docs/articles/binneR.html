@@ -72,10 +72,7 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>binneR</h1>
-            <h3 class="subtitle">v2.4.0</h3>
-                        <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">20 November, 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/aberHRML/binneR/blob/master/vignettes/binneR.Rmd"><code>vignettes/binneR.Rmd</code></a></small>
       <div class="hidden name"><code>binneR.Rmd</code></div>
@@ -89,11 +86,6 @@
 <a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>The <em>binneR</em> package provides a spectral binning approach for routine processing of flow infusion electrospray - high resolution mass spectrometry (FIE-HRMS) metabolomics fingerprinting experiments, the results of which can then be used for subsequent statistical analyses.</p>
 <p>Spectral binning rounds high resolution fingerprinting data by a specified amu bin width. FIE-HRMS data consists of a ‘plug flow’, across which MS signal intensities can be averaged to provide a metabolome fingerprint. Below shows an animation of the spectrum change across ‘plug flow’ region of an example FIE-HRMS injection acquired in negative ionisation mode.</p>
-<pre><code>## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair` is omitted as of tibble 2.0.0.
-## Using compatibility `.name_repair`.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
-<pre><code>## `summarise()` regrouping output by 'Scan' (override with `.groups` argument)</code></pre>
 <p><img src="binneR_files/figure-html/FIEfingerprint-.gif" width="672" style="display: block; margin: auto;"></p>
 <p>Spectral binning is applied on a scan by scan basis where the data is rounded to the specified bin width, the signals are then sum aggregated and their intensities are averaged across the specified scans.</p>
 <p>Prior to the use of <em>binneR</em>, vendor specific raw data files need to be converted to one of the open source file formats such as <em>.mzXML</em> or <em>.mzML</em> so that they can be parsed into R. Data should also be centroided to reduce bin splitting artifacts that profile data can introduce during spectral binning. The <em><a href="http://proteowizard.sourceforge.net/tools.shtml">msconvert</a></em> tool can be used for both data conversion and centroiding, allowing the use of vendor specific algorithms.</p>
@@ -104,7 +96,7 @@
 </ul>
 <p>The subsequent sections will outline the use of these two main functionalities.</p>
 <p>Before we begin, the necessary packages need to be loaded.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/aberHRML/binneR">binneR</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/aberHRML/metaboData">metaboData</a></span><span class="op">)</span></code></pre></div>
 </div>
@@ -112,15 +104,15 @@
 <h2 class="hasAnchor">
 <a href="#infusion-scan-detection" class="anchor"></a>Infusion Scan Detection</h2>
 <p>In order to apply the spectral binning approach for FIE-HRMS data, the infusion scans need to be detected. For a set of specified file paths, the range of infusion scans can be detected using the following:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">infusionScans</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/detectInfusionScans.html">detectInfusionScans</a></span><span class="op">(</span>
-        <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/metaboData/man/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonEcotypes'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
+    <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/metaboData/man/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonEcotypes'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
     thresh <span class="op">=</span> <span class="fl">0.5</span>
 <span class="op">)</span>
 <span class="va">infusionScans</span></code></pre></div>
 <pre><code>## [1]  5  6  7  8  9 10 11 12 13</code></pre>
 <p>The detected scans can then be checked by plotting an averaged chromatogram for these files. The infusion scans can also be plotted by supplying the range to the scans argument.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotChromFromFile.html">plotChromFromFile</a></span><span class="op">(</span>
     <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/metaboData/man/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonEcotypes'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
     scans <span class="op">=</span> <span class="va">infusionScans</span>
@@ -131,220 +123,15 @@
 <h2 class="hasAnchor">
 <a href="#simple-intensity-matrix-production---quick-fie-hrms-matrix-investigations" class="anchor"></a>Simple Intensity Matrix Production - quick FIE-HRMS matrix investigations</h2>
 <p>The simplest funtionality of <em>binneR</em> is to read raw data vector of specified file paths, bin these to a given amu and aggregate across a given scan window. This can be useful for a quick assessment of FIE-HRMS data structures. Spectral binning can be performed using the <code><a href="../reference/readFiles.html">readFiles()</a></code> function as shown below. The example file within the package can be specified using the following.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/metaboData/man/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonEcotypes'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></code></pre></div>
 <p>Then the data can be spectrally binned using:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readFiles.html">readFiles</a></span><span class="op">(</span><span class="va">file</span>,
                                  dp <span class="op">=</span> <span class="fl">2</span>,
                                  scans <span class="op">=</span> <span class="va">infusionScans</span>,
                                  nCores <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p>This will return a list containing the intensity matrices for each ionisation mode, with the rows being the individual samples and columns the spectral bins.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
-<pre><code>## List of 2
-##  $ n: tibble [1 × 1,739] (S3: tbl_df/tbl/data.frame)
-##   ..$ n100   : num 1558
-##   ..$ n100.13: num 102
-##   ..$ n101.01: num 23508
-##   ..$ n101.02: num 8375
-##   ..$ n101.06: num 1145
-##   ..$ n101.51: num 754
-##   ..$ n102.01: num 86.2
-##   ..$ n102.03: num 102
-##   ..$ n102.06: num 79342
-##   ..$ n102.57: num 103
-##   ..$ n103   : num 19075
-##   ..$ n103.04: num 947
-##   ..$ n103.06: num 1063
-##   ..$ n103.64: num 124
-##   ..$ n103.73: num 94.5
-##   ..$ n103.94: num 120
-##   ..$ n103.96: num 1416
-##   ..$ n104.03: num 155376
-##   ..$ n105   : num 233
-##   ..$ n105.02: num 158493
-##   ..$ n105.04: num 2713
-##   ..$ n105.43: num 84.7
-##   ..$ n105.99: num 141
-##   ..$ n106.02: num 2243
-##   ..$ n107.02: num 541
-##   ..$ n107.09: num 81.2
-##   ..$ n107.15: num 99
-##   ..$ n107.16: num 130
-##   ..$ n107.94: num 215
-##   ..$ n108.82: num 69.1
-##   ..$ n108.9 : num 789
-##   ..$ n108.94: num 112
-##   ..$ n109   : num 3162
-##   ..$ n109.03: num 138
-##   ..$ n109.5 : num 92.3
-##   ..$ n109.9 : num 92.5
-##   ..$ n110.01: num 149
-##   ..$ n110.43: num 107
-##   ..$ n110.9 : num 317
-##   ..$ n110.94: num 306
-##   ..$ n110.98: num 2606
-##   ..$ n111.01: num 336744
-##   ..$ n111.04: num 2034
-##   ..$ n112.01: num 10108
-##   ..$ n112.02: num 150
-##   ..$ n112.94: num 112
-##   ..$ n112.99: num 7601
-##   ..$ n113.01: num 290
-##   ..$ n113.02: num 1543
-##   ..$ n113.04: num 365
-##   ..$ n113.06: num 427
-##   ..$ n113.81: num 116
-##   ..$ n114.02: num 4341
-##   ..$ n114.06: num 5652
-##   ..$ n115   : num 390696
-##   ..$ n115.04: num 3123
-##   ..$ n115.06: num 115
-##   ..$ n115.08: num 982
-##   ..$ n115.72: num 140
-##   ..$ n115.99: num 67.9
-##   ..$ n116.01: num 9536
-##   ..$ n116.03: num 618
-##   ..$ n116.07: num 7965
-##   ..$ n116.28: num 111
-##   ..$ n116.91: num 334741
-##   ..$ n116.96: num 88.9
-##   ..$ n117.01: num 878
-##   ..$ n117.02: num 56226
-##   ..$ n117.06: num 776
-##   ..$ n117.64: num 89.9
-##   ..$ n117.91: num 1386
-##   ..$ n118.02: num 1764
-##   ..$ n118.05: num 27712
-##   ..$ n118.25: num 98.2
-##   ..$ n118.28: num 110
-##   ..$ n118.9 : num 326873
-##   ..$ n118.94: num 969
-##   ..$ n118.98: num 132
-##   ..$ n119.01: num 128
-##   ..$ n119.03: num 2064
-##   ..$ n119.05: num 716
-##   ..$ n119.91: num 1127
-##   ..$ n119.94: num 1813
-##   ..$ n119.95: num 296
-##   ..$ n120.9 : num 98925
-##   ..$ n120.94: num 788
-##   ..$ n121   : num 399
-##   ..$ n121.02: num 211
-##   ..$ n121.03: num 378
-##   ..$ n121.83: num 106
-##   ..$ n121.9 : num 319
-##   ..$ n121.94: num 384
-##   ..$ n121.97: num 190
-##   ..$ n121.99: num 726
-##   ..$ n122   : num 26204
-##   ..$ n122.02: num 138
-##   ..$ n122.49: num 158
-##   ..$ n122.5 : num 2725
-##   ..$ n122.51: num 1608
-##   .. [list output truncated]
-##  $ p: tibble [1 × 1,942] (S3: tbl_df/tbl/data.frame)
-##   ..$ p100   : num 158
-##   ..$ p100.02: num 53838
-##   ..$ p100.03: num 314
-##   ..$ p100.04: num 44.9
-##   ..$ p100.05: num 94316
-##   ..$ p100.08: num 80.8
-##   ..$ p100.11: num 17.6
-##   ..$ p100.52: num 695
-##   ..$ p100.53: num 301
-##   ..$ p100.54: num 74.4
-##   ..$ p100.55: num 11175
-##   ..$ p100.56: num 206
-##   ..$ p100.84: num 13.7
-##   ..$ p100.96: num 78.9
-##   ..$ p100.98: num 1827
-##   ..$ p100.99: num 137
-##   ..$ p101.01: num 5348
-##   ..$ p101.02: num 2057
-##   ..$ p101.03: num 3338
-##   ..$ p101.04: num 1055
-##   ..$ p101.05: num 9504
-##   ..$ p101.06: num 487
-##   ..$ p101.16: num 6.69
-##   ..$ p101.52: num 86.9
-##   ..$ p101.53: num 88.9
-##   ..$ p101.54: num 301
-##   ..$ p101.55: num 793
-##   ..$ p101.56: num 39.7
-##   ..$ p101.95: num 1062
-##   ..$ p101.98: num 6278
-##   ..$ p101.99: num 125
-##   ..$ p102.01: num 499
-##   ..$ p102.02: num 5749
-##   ..$ p102.03: num 126
-##   ..$ p102.04: num 149
-##   ..$ p102.05: num 1255
-##   ..$ p102.09: num 7387
-##   ..$ p102.13: num 46.2
-##   ..$ p102.51: num 126
-##   ..$ p102.52: num 43.1
-##   ..$ p102.53: num 79.7
-##   ..$ p102.54: num 55.1
-##   ..$ p102.55: num 11.3
-##   ..$ p102.56: num 95.9
-##   ..$ p102.94: num 236
-##   ..$ p102.98: num 597
-##   ..$ p103.01: num 1385
-##   ..$ p103.02: num 318
-##   ..$ p103.03: num 71.5
-##   ..$ p103.04: num 475
-##   ..$ p103.05: num 5687
-##   ..$ p103.06: num 35
-##   ..$ p103.09: num 193
-##   ..$ p103.51: num 26.5
-##   ..$ p103.54: num 726
-##   ..$ p103.55: num 17.6
-##   ..$ p103.95: num 391
-##   ..$ p103.97: num 458
-##   ..$ p103.98: num 499
-##   ..$ p104.01: num 15.7
-##   ..$ p104.03: num 184
-##   ..$ p104.04: num 162
-##   ..$ p104.05: num 1638
-##   ..$ p104.06: num 732
-##   ..$ p104.11: num 19977
-##   ..$ p104.53: num 342
-##   ..$ p104.54: num 56.2
-##   ..$ p104.55: num 1155
-##   ..$ p104.56: num 421
-##   ..$ p104.68: num 8.73
-##   ..$ p104.93: num 106
-##   ..$ p104.94: num 7
-##   ..$ p104.98: num 12.6
-##   ..$ p105.01: num 74.6
-##   ..$ p105.02: num 197
-##   ..$ p105.03: num 84.7
-##   ..$ p105.04: num 30317
-##   ..$ p105.05: num 104
-##   ..$ p105.06: num 482
-##   ..$ p105.07: num 2183
-##   ..$ p105.11: num 383
-##   ..$ p105.46: num 52.2
-##   ..$ p105.48: num 45.7
-##   ..$ p105.51: num 284
-##   ..$ p105.53: num 105
-##   ..$ p105.54: num 2454
-##   ..$ p105.55: num 148
-##   ..$ p105.56: num 233
-##   ..$ p105.94: num 113
-##   ..$ p105.96: num 6608
-##   ..$ p105.98: num 31.8
-##   ..$ p106.01: num 255
-##   ..$ p106.03: num 1390
-##   ..$ p106.04: num 2334
-##   ..$ p106.05: num 1152
-##   ..$ p106.06: num 162
-##   ..$ p106.25: num 14.6
-##   ..$ p106.5 : num 55.2
-##   ..$ p106.54: num 362
-##   .. [list output truncated]</code></pre>
 </div>
 <div id="binnerlyse---metabolomics-fingerprinting-experiments" class="section level2">
 <h2 class="hasAnchor">
@@ -356,7 +143,7 @@
 <h3 class="hasAnchor">
 <a href="#basic-usage" class="anchor"></a>Basic Usage</h3>
 <p>Firstly the file paths and sample information can be loaded for the example data set using the following:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">files</span> <span class="op">&lt;-</span>  <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/metaboData/man/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonEcotypes'</span><span class="op">)</span>
 
 <span class="va">info</span> <span class="op">&lt;-</span> <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/metaboData/man/runinfo.html">runinfo</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonEcotypes'</span><span class="op">)</span></code></pre></div>
@@ -394,7 +181,7 @@
 <h4 class="hasAnchor">
 <a href="#parameters" class="anchor"></a>Parameters</h4>
 <p>Prior to spectral binning the processing parameters first need to be selected. The binning parameter can be detected using the <code><a href="../reference/detectParameters.html">detectParameters()</a></code> function as shown below.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">parameters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/detectParameters.html">detectParameters</a></span><span class="op">(</span><span class="va">files</span>,nCores <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="va">parameters</span></code></pre></div>
 <pre><code>## 
@@ -413,14 +200,14 @@
 <code>clusterType</code> - the cluster type to use for parallelisation</li>
 </ul>
 <p>Alternatively, parameters can be initialised using the <code>binParameters</code> function as shown below. Parameter values can be specified using this function.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/binParameters.html">binParameters</a></span><span class="op">(</span>scans <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">14</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Scans: 6:14 
 ## No. Cores: 96 
 ## Cluster Type: FORK</code></pre>
 <p>For and already initialised <code>BinParameters</code> object, parameters can be changed using the methods named after the parameter of interest. For example to change the scans of a given object:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">alternativeParameters</span> <span class="op">&lt;-</span> <span class="va">parameters</span>
 <span class="fu"><a href="../reference/scans.html">scans</a></span><span class="op">(</span><span class="va">alternativeParameters</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">6</span><span class="op">:</span><span class="fl">14</span>
 <span class="va">alternativeParameters</span></code></pre></div>
@@ -434,42 +221,42 @@
 <a href="#processing" class="anchor"></a>Processing</h4>
 <p>Processing is simple and requires only the use of the <code><a href="../reference/binneRlyse.html">binneRlyse()</a></code> function. The input of this function is a vector of the paths of the data files to process, a tibble containing the sample info and a <code>BinParameters</code> object.</p>
 <p>It is crucial that the positions of the sample information in the info file match the sample positions within the files vector. Below shows an example of how this can be checked by matching the file names present in the info with those in the vector.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="cn">TRUE</span> <span class="op">%in%</span> <span class="op">(</span><span class="va">info</span><span class="op">$</span><span class="va">fileName</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 <p>Spectral binning can then be performed with the following.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/binneRlyse.html">binneRlyse</a></span><span class="op">(</span><span class="va">files</span>,<span class="va">info</span>,<span class="va">parameters</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-##  binneR v2.4.0 Fri Nov 20 00:38:10 2020</code></pre>
+##  binneR v2.4.0 Fri Nov 20 01:14:34 2020</code></pre>
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Scans: 5:13 
 ## Class: class 
 ## No. Cores: 2 
 ## Cluster Type: PSOCK</code></pre>
 <pre><code>## ________________________________________________________________________________</code></pre>
-<pre><code>## Completed! [53.8S]</code></pre>
+<pre><code>## Completed! [52.5S]</code></pre>
 <pre><code>## 
-## Fri Nov 20 00:39:04 2020
+## Fri Nov 20 01:15:27 2020
 ## Samples: 68
 ## n: 7828 features
 ## p: 9406 features
 ## Average Purity: 0.925 
 ## Average Centrality: 0.517</code></pre>
 <p>For data quality inspection, the infusion profiles this data can be plotted using:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotChromatogram.html">plotChromatogram</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <p><img src="binneR_files/figure-html/analysisChromatogram-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>The spectrum fingerprints using:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotFingerprint.html">plotFingerprint</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <p><img src="binneR_files/figure-html/analysisFingerprints-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>And the total ion counts using:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotTIC.html">plotTIC</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <p><img src="binneR_files/figure-html/analysisTICs-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>Density profiles for individual bins can be plotted by:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotBin.html">plotBin</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="st">'n133.01'</span>,type <span class="op">=</span> <span class="st">'cls'</span><span class="op">)</span></code></pre></div>
 <p><img src="binneR_files/figure-html/plotBin-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
@@ -491,7 +278,6 @@
 <h3 class="hasAnchor">
 <a href="#bin-measures" class="anchor"></a>Bin Measures</h3>
 <p>There are a number of measures that can be computed that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate <em>m/z</em> peaks present within its boundaries. These include both purity and centrality.</p>
-<pre><code>## `summarise()` regrouping output by 'bin' (override with `.groups` argument)</code></pre>
 <div id="purity" class="section level4">
 <h4 class="hasAnchor">
 <a href="#purity" class="anchor"></a>Purity</h4>

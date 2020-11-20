@@ -69,15 +69,15 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="binner" class="section level1">
+<div id="binner-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#binner" class="anchor"></a>binneR</h1></div>
-<p><img align="right" src="inst/sticker/binneRsticker.png" height="200"></p>
+<a href="#binner-" class="anchor"></a>binneR <img align="right" src="reference/figures/binneRsticker.png" height="200">
+</h1></div>
 <!-- badges: start -->
-<p><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a> <a href="https://github.com/aberHRML/binneR/actions"><img src="https://github.com/aberHRML/binneR/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://codecov.io/github/aberHRML/binneR?branch=master"><img src="https://codecov.io/gh/aberHRML/binneR/branch/master/graph/badge.svg" alt="Coverage status"></a> <a href="https://cran.r-project.org/web/packages/binneR/index.html"><img src="https://www.r-pkg.org/badges/version/binneR" alt="CRAN"></a> <img src="https://cranlogs.r-pkg.org/badges/binneR" alt="downloads"><a href="https://zenodo.org/badge/latestdoi/33118371"><img src="https://zenodo.org/badge/33118371.svg" alt="DOI"></a> <!-- badges: end --></p>
-<div id="spectral-processing-for-high-resolution-flow-infusion-mass-spectrometry" class="section level3">
-<h3 class="hasAnchor">
-<a href="#spectral-processing-for-high-resolution-flow-infusion-mass-spectrometry" class="anchor"></a>Spectral Processing for High Resolution Flow Infusion Mass Spectrometry</h3>
+
+<blockquote>
+<p><strong>Spectral Processing for High Resolution Flow Infusion Mass Spectrometry</strong></p>
+</blockquote>
 <p>A spectral binning approach for flow infusion electrospray high resolution mass spectrometry (FIE-HRMS) data. Includes tools for generating intensity matrices converted raw data file formats such as <code>.mzML</code> and <code>.mzXML</code>, plotting chromatograms and total ion counts.</p>
 <div id="installation" class="section level4">
 <h4 class="hasAnchor">
@@ -88,10 +88,10 @@
 <p>The CRAN version can be found on the <a href="https://github.com/aberHRML/binneR/tree/cran">cran</a> branch of this repository.</p>
 <p>The example data used in this package are from the <a href="https://github.com/aberHRML/metaboData">metaboData</a> package that can be installed using:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">'aberHRML/metaboData'</span>,build_opts <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"--no-resave-data"</span>, <span class="st">"--no-manual"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">'aberHRML/metaboData'</span>,build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>To download and install this development vesion run:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">'aberHRML/binneR'</span>,build_opts <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"--no-resave-data"</span>, <span class="st">"--no-manual"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">'aberHRML/binneR'</span>,build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="vignette" class="section level4">
 <h4 class="hasAnchor">
@@ -99,7 +99,6 @@
 <p>The vignette outlining the package usage and features can be found using:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">'binneR'</span>,package <span class="op">=</span> <span class="st">'binneR'</span><span class="op">)</span></code></pre></div>
-</div>
 </div>
 </div>
   </div>
@@ -130,7 +129,17 @@
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></li>
+<li><a href="https://github.com/aberHRML/binneR/actions"><img src="https://github.com/aberHRML/binneR/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://codecov.io/github/aberHRML/binneR?branch=master"><img src="https://codecov.io/gh/aberHRML/binneR/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
+<li><a href="https://cran.r-project.org/web/packages/binneR/index.html"><img src="https://www.r-pkg.org/badges/version/binneR" alt="CRAN"></a></li>
+<li><a href="https://zenodo.org/badge/latestdoi/33118371"><img src="https://zenodo.org/badge/33118371.svg" alt="DOI"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
