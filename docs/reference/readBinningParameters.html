@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>detectParameters — detectParameters • binneR</title>
+<title>Read binning parameters from file — readBinningParameters • binneR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="detectParameters — detectParameters" />
-<meta property="og:description" content="Detect binning parameters from file list." />
+<meta property="og:title" content="Read binning parameters from file — readBinningParameters" />
+<meta property="og:description" content="Parse binning parameters from a YAML formatted file." />
 
 
 
@@ -111,42 +111,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>detectParameters</h1>
-    <small class="dont-index">Source: <a href='https://github.com/aberHRML/binneR/blob/master/R/detect.R'><code>R/detect.R</code></a></small>
-    <div class="hidden name"><code>detectParameters.Rd</code></div>
+    <h1>Read binning parameters from file</h1>
+    <small class="dont-index">Source: <a href='https://github.com/aberHRML/binneR/blob/master/R/readBinningParameters.R'><code>R/readBinningParameters.R</code></a></small>
+    <div class="hidden name"><code>readBinningParameters.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Detect binning parameters from file list.</p>
+    <p>Parse binning parameters from a YAML formatted file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>detectParameters</span><span class='op'>(</span>
-  <span class='va'>files</span>,
-  nCores <span class='op'>=</span> <span class='fu'>detectCores</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>0.75</span>,
-  clusterType <span class='op'>=</span> <span class='fu'><a href='detectClusterType.html'>detectClusterType</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>readBinningParameters</span><span class='op'>(</span><span class='va'>file</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>files</th>
-      <td><p>character vector of file paths</p></td>
-    </tr>
-    <tr>
-      <th>nCores</th>
-      <td><p>the number of cores to use for parallel processing</p></td>
-    </tr>
-    <tr>
-      <th>clusterType</th>
-      <td><p>the type of cluster to use for parallel processing</p></td>
+      <th>file</th>
+      <td><p>file path</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'>metaboData</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/metaboData/man/filePaths.html'>filePaths</a></span><span class='op'>(</span><span class='st'>'FIE-HRMS'</span>,<span class='st'>'BdistachyonEcotypes'</span><span class='op'>)</span>
-<span class='va'>parameters</span> <span class='op'>&lt;-</span> <span class='fu'>detectParameters</span><span class='op'>(</span><span class='va'>files</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'binning_parameters.yml'</span>,package <span class='op'>=</span> <span class='st'>'binneR'</span><span class='op'>)</span>
+<span class='va'>parameters</span> <span class='op'>&lt;-</span> <span class='fu'>readBinningParameters</span><span class='op'>(</span><span class='va'>file</span><span class='op'>)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

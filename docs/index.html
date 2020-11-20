@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">binneR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.0</span>
       </span>
     </div>
 
@@ -73,7 +73,8 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#binner" class="anchor"></a>binneR</h1></div>
 <p><img align="right" src="inst/sticker/binneRsticker.png" height="200"></p>
-<p><a href="http://www.repostatus.org/#active"><img src="http://www.repostatus.org/badges/0.1.0/active.svg" alt="Project Status: Active - The project has reached a stable, usable state and is being actively developed."></a> <a href="https://travis-ci.org/aberHRML/binneR"><img src="https://travis-ci.org/aberHRML/binneR.svg?branch=master" alt="Build Status"></a> <a href="https://github.com/aberHRML/binneR/actions"><img src="https://github.com/aberHRML/binneR/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://ci.appveyor.com/project/aberHRML/binneR"><img src="https://ci.appveyor.com/api/projects/status/github/aberHRML/binneR?branch=master&amp;svg=true" alt="AppVeyor build status"></a> <a href="https://codecov.io/github/aberHRML/binneR?branch=master"><img src="https://codecov.io/gh/aberHRML/binneR/branch/master/graph/badge.svg" alt="Coverage status"></a> <a href="https://cran.r-project.org/web/packages/binneR/index.html"><img src="https://www.r-pkg.org/badges/version/binneR" alt="CRAN"></a> <img src="https://cranlogs.r-pkg.org/badges/binneR" alt="downloads"><a href="https://zenodo.org/badge/latestdoi/33118371"><img src="https://zenodo.org/badge/33118371.svg" alt="DOI"></a></p>
+<!-- badges: start -->
+<p><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a> <a href="https://github.com/aberHRML/binneR/actions"><img src="https://github.com/aberHRML/binneR/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://codecov.io/github/aberHRML/binneR?branch=master"><img src="https://codecov.io/gh/aberHRML/binneR/branch/master/graph/badge.svg" alt="Coverage status"></a> <a href="https://cran.r-project.org/web/packages/binneR/index.html"><img src="https://www.r-pkg.org/badges/version/binneR" alt="CRAN"></a> <img src="https://cranlogs.r-pkg.org/badges/binneR" alt="downloads"><a href="https://zenodo.org/badge/latestdoi/33118371"><img src="https://zenodo.org/badge/33118371.svg" alt="DOI"></a> <!-- badges: end --></p>
 <div id="spectral-processing-for-high-resolution-flow-infusion-mass-spectrometry" class="section level3">
 <h3 class="hasAnchor">
 <a href="#spectral-processing-for-high-resolution-flow-infusion-mass-spectrometry" class="anchor"></a>Spectral Processing for High Resolution Flow Infusion Mass Spectrometry</h3>
@@ -82,22 +83,22 @@
 <h4 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h4>
 <p>Download and install from <a href="https://cran.r-project.org/web/packages/binneR/index.html">CRAN</a>, run the following in an R console:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'binneR'</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'binneR'</span><span class="op">)</span></code></pre></div>
 <p>The CRAN version can be found on the <a href="https://github.com/aberHRML/binneR/tree/cran">cran</a> branch of this repository.</p>
 <p>The example data used in this package are from the <a href="https://github.com/aberHRML/metaboData">metaboData</a> package that can be installed using:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">'aberHRML/metaboData'</span>,build_opts <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"--no-resave-data"</span>, <span class="st">"--no-manual"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">'aberHRML/metaboData'</span>,build_opts <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"--no-resave-data"</span>, <span class="st">"--no-manual"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>To download and install this development vesion run:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">'aberHRML/binneR'</span>,build_opts <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"--no-resave-data"</span>, <span class="st">"--no-manual"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">'aberHRML/binneR'</span>,build_opts <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"--no-resave-data"</span>, <span class="st">"--no-manual"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="vignette" class="section level4">
 <h4 class="hasAnchor">
 <a href="#vignette" class="anchor"></a>Vignette</h4>
 <p>The vignette outlining the package usage and features can be found using:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">'binneR'</span>,package <span class="op">=</span> <span class="st">'binneR'</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">'binneR'</span>,package <span class="op">=</span> <span class="st">'binneR'</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 </div>

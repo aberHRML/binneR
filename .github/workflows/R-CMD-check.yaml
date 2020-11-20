@@ -77,7 +77,7 @@ jobs:
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
         
-      - name: Goodpractice
+      - name: Good practice
         run: goodpractice::goodpractice()
         shell: Rscript {0}
         

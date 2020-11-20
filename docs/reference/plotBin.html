@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">binneR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.0</span>
       </span>
     </div>
 
@@ -120,10 +120,10 @@
     <p>kernal density plot of a specified bin.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotBin</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>bin</span>, cls <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>plotBin</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>bin</span>, type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"all"</span>, <span class='st'>"cls"</span>, <span class='st'>"sample"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Binalysis</span>
-<span class='fu'>plotBin</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>bin</span>, cls <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span></pre>
+<span class='fu'>plotBin</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>bin</span>, type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"all"</span>, <span class='st'>"cls"</span>, <span class='st'>"sample"</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,8 +137,8 @@
       <td><p>0.01amu bin to plot</p></td>
     </tr>
     <tr>
-      <th>cls</th>
-      <td><p><code>TRUE</code> or <code>FALSE</code>. Should bins be plotted by class?</p></td>
+      <th>type</th>
+      <td><p>bin to be plotted as a total (all), class (cls) or sample spectra.</p></td>
     </tr>
     </table>
 
