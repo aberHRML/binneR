@@ -5,16 +5,16 @@
 \alias{plotBin,Binalysis-method}
 \title{plotBin}
 \usage{
-plotBin(x, bin, cls = TRUE)
+plotBin(x, bin, type = c("all", "cls", "sample"))
 
-\S4method{plotBin}{Binalysis}(x, bin, cls = TRUE)
+\S4method{plotBin}{Binalysis}(x, bin, type = c("all", "cls", "sample"))
 }
 \arguments{
 \item{x}{S4 object of class Binalysis}
 
 \item{bin}{0.01amu bin to plot}
 
-\item{cls}{\code{TRUE} or \code{FALSE}. Should bins be plotted by class?}
+\item{type}{bin to be plotted as a total (all), class (cls) or sample spectra.}
 }
 \description{
 kernal density plot of a specified bin.

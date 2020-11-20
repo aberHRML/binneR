@@ -161,22 +161,17 @@ setMethod('ss',signature = 'Binalysis',
 						binMeasures <- calcBinMeasures(pks,
 																					 'class',
 																					 parameters@nCores,
-																					 parameters@clusterType) %>%
-							group_by(class,polarity,bin) %>%
-							summarise(purity = mean(purity),
-												centrality = mean(centrality))
-						
-						pks  <- pks %>%
-							group_by(class,polarity,mz,bin) %>%
-							summarise(intensity = sum(intensity))
+																					 parameters@clusterType)
 						
 						accurateMZ <- pks %>%
-							group_by(class,polarity,bin) %>%
+							group_by(fileName,scan,class,polarity,bin) %>%
 							filter(intensity == max(intensity)) %>%
 							arrange(bin)
 						
 						accurateMZ <- accurateMZ %>%
-							left_join(binMeasures,by = c("class", "polarity", "bin"))
+							left_join(binMeasures,by = c('fileName',"class", "polarity", "bin")) %>%
+							ungroup() %>%
+							select(scan,polarity,bin,mz,intensity,purity,centrality)
 						
 						mz <- accurateMZ %>%
 							group_by(polarity,bin) %>%
@@ -208,6 +203,7 @@ setMethod('ss',signature = 'Binalysis',
 						
 						headers <- getHeaders(file,parameters@nCores,parameters@clusterType)
 						
+						x@binParameters@cls <- 'scan'
 						x@binLog <- date()
 						x@binnedData <- binnedData
 						x@accurateMZ <- accurateMZ %>%

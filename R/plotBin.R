@@ -3,18 +3,21 @@
 #' @description kernal density plot of a specified bin.
 #' @param x S4 object of class Binalysis
 #' @param bin 0.01amu bin to plot
-#' @param cls \code{TRUE} or \code{FALSE}. Should bins be plotted by class?
+#' @param type bin to be plotted as a total (all), class (cls) or sample spectra.
 #' @importFrom ggplot2 ggplot geom_density theme_bw xlim xlab ggtitle theme
 #' @importFrom ggplot2 element_text facet_wrap aes
 #' @importFrom stringr str_replace_all str_sub
 #' @export
 
 setMethod('plotBin',signature = 'Binalysis',
-					function(x,bin,cls = TRUE){
+					function(x,bin,type = c('all','cls','sample')){
+						
+						type <- match.arg(type,c('all','cls','sample'))
 						
 						m <- bin %>%
 							str_replace_all('[:alpha:]','') %>%
 							as.numeric()
+						
 						mode <- bin %>%
 							str_sub(1,1)
 						
@@ -22,6 +25,10 @@ setMethod('plotBin',signature = 'Binalysis',
 							.@spectra %>%
 							.$fingerprints %>%
 							filter(polarity == mode & bin == m)
+						
+						if (nrow(dat) == 0) {
+							stop('Bin not found.',call. = FALSE)
+						}
 						
 						pl <- ggplot(dat,aes(x = mz)) +
 							geom_density() +
@@ -35,10 +42,22 @@ setMethod('plotBin',signature = 'Binalysis',
 									 x = 'm/z',
 									 y = 'Density')
 						
-						if (cls == TRUE) {
+						if (type == 'cls') {
+							class <- cls(x@binParameters)
+							
+							if (length(class) == 0) {
+								stop('No "cls" parameter found for this Binalysis class object.',call. = FALSE)
+							}
+								
 							pl <- pl +
-								facet_wrap(~class)
+								facet_wrap(as.formula(paste("~", class)))
 						}
+						
+						if (type == 'sample') {
+							pl <- pl +
+								facet_wrap(~fileName)
+						}
+						
 						return(pl)
 					}
 )
