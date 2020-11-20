@@ -1,7 +1,5 @@
 # binneR
 
-<img align = "right" src="inst/sticker/binneRsticker.png" height = "200">
-
 <!-- badges: start -->
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R build status](https://github.com/aberHRML/binneR/workflows/R-CMD-check/badge.svg)](https://github.com/aberHRML/binneR/actions)
@@ -10,6 +8,8 @@
 ![downloads](https://cranlogs.r-pkg.org/badges/binneR)
 [![DOI](https://zenodo.org/badge/33118371.svg)](https://zenodo.org/badge/latestdoi/33118371)
 <!-- badges: end -->
+
+<img align = "right" src="inst/sticker/binneRsticker.png" height = "200">
 
 ### Spectral Processing for High Resolution Flow Infusion Mass Spectrometry
 
@@ -29,13 +29,13 @@ The CRAN version can be found on the [cran](https://github.com/aberHRML/binneR/t
 The example data used in this package are from the [metaboData](https://github.com/aberHRML/metaboData) package that can be installed using:
 
 ``` r
-remotes::install_github('aberHRML/metaboData',build_opts =c("--no-resave-data", "--no-manual"))
+remotes::install_github('aberHRML/metaboData',build_vignettes = TRUE)
 ```
 
 To download and install this development vesion run:
 
 ``` r
-remotes::install_github('aberHRML/binneR',build_opts =c("--no-resave-data", "--no-manual"))
+remotes::install_github('aberHRML/binneR',build_vignettes = TRUE)
 ```
 
 #### Vignette
