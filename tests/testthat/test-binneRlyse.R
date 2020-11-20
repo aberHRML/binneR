@@ -11,13 +11,13 @@ info <- tibble::tibble(fileOrder = 1,
 											 name = '1',
 											 class = 1)
 
-p <- binParameters(scans = 5:13,nCores = 2,clusterType = detectClusterType())
+p <- binParameters(scans = 5:13,cls = 'class',nCores = 2,clusterType = detectClusterType())
 
 pars <- list(scans = scans(p),nCores = nCores(p),clusterType = clusterType(p))
 
 analysis <- binneRlyse(file, 
 											 info, 
-											 parameters = p,verbose = F)
+											 parameters = p,verbose = TRUE)
 
 inf <- info(analysis)
 bd <- binnedData(analysis)
@@ -25,7 +25,11 @@ ad <- accurateData(analysis)
 
 chrPl <- plotChromatogram(analysis)
 ticPl <- plotTIC(analysis)
-binPl <- plotBin(analysis,'n133.01')
+
+binPl_all <- plotBin(analysis,'n133.01',type = 'all')
+binPl_cls <- plotBin(analysis,'n133.01',type = 'cls')
+binPl_sample <- plotBin(analysis,'n133.01',type = 'sample')
+
 fingPl <- plotFingerprint(analysis)
 
 test_that('binParameters works',{
@@ -54,8 +58,33 @@ test_that('binneRlyse works',{
 })
 
 test_that('plots work',{
-	expect_true(identical(class(chrPl),c('gg','ggplot')))
-	expect_true(identical(class(ticPl),c('gg','ggplot')))
-	expect_true(identical(class(binPl),c('gg','ggplot')))
-	expect_true(identical(class(fingPl),c('gg','ggplot')))
+	expect_s3_class(chrPl,'ggplot')
+	expect_s3_class(ticPl,'ggplot')
+	
+	expect_s3_class(binPl_all,'ggplot')
+	expect_s3_class(binPl_cls,'ggplot')
+	expect_s3_class(binPl_sample,'ggplot')
+	
+	expect_s3_class(fingPl,'ggplot')
+})
+
+test_that('BinParameters class show method works',{
+	expect_output(print(p),'Scans:')
+})
+
+test_that('Binalysis class show method works',{
+	expect_output(print(analysis),'Samples:')
+})
+
+test_that('binParameters can be correctly set',{
+	bp <- new('BinParameters')
+	scans(bp) <- 1
+	cls(bp) <- 'class'
+	nCores(bp) <- 1
+	clusterType(bp) <- 'PSOCK'
+	
+	expect_equal(scans(bp),1)
+	expect_equal(cls(bp),'class')
+	expect_equal(nCores(bp),1)
+	expect_equal(clusterType(bp),'PSOCK')
 })

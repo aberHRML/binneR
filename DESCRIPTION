@@ -40,7 +40,6 @@ Collate:
     getHeaders.R
     calcBinMeasures.R
     readFiles.R
-    sampProcess.R
     binneR.R
     plotBin.R
     detect.R
