@@ -5,6 +5,7 @@
 #' @param nCores number of cores to use for parallel processing
 #' @param clusterType cluster type to use for parallel processing
 #' @param verbose show console output
+#' @examples 
 #' filePath <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 #' 
 #' bd <- singleSample(filePath)

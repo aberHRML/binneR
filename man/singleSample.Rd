@@ -21,11 +21,13 @@ singleSample(
 
 \item{clusterType}{cluster type to use for parallel processing}
 
-\item{verbose}{show console output
-filePath <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
-
-bd <- singleSample(filePath)}
+\item{verbose}{show console output}
 }
 \description{
 perform spectral binning on a single sample
+}
+\examples{
+filePath <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+
+bd <- singleSample(filePath)
 }
