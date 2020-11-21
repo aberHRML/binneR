@@ -2,10 +2,12 @@
 #' @importFrom stats aggregate
 #' @importFrom dplyr bind_rows group_by summarise
 #' @importFrom magrittr %>%
+#' @importFrom utils getFromNamespace
 
 sampProcess <- function(file,scans,dp){
     
     `%>%` <- getFromNamespace('%>%','magrittr')
+    getFile <- getFromNamespace('getFile','binneR')
     
     pl <- getFile(file,scans)
     pl$mz <- round(pl$mz,dp)
@@ -67,7 +69,7 @@ getFile <- function(file,scans){
         dplyr::select(-filterString,-seqNum)
 }
 
-#' @importFrom parallel makeCluster stopCluster parLapply clusterExport
+#' @importFrom parallel makeCluster stopCluster parLapply
 #' @importFrom dplyr mutate
 
 getPeaks <- function(files,scans,nCores,clusterType){
