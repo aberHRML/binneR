@@ -53,10 +53,22 @@ setMethod("spectralBinning",
 								`%>%` <- getFromNamespace('%>%','magrittr')
 								
 								x %>%
-									dplyr::group_by(fileName,polarity,bin,scan) %>%
-									dplyr::summarise(intensity = sum(intensity))	%>%
-									dplyr::group_by(fileName,polarity,bin) %>%
-									dplyr::summarise(intensity = sum(intensity)/nScans)
+									split(stringr::str_c(.$fileName,.$polarity,.$bin,.$scan)) %>%
+									purrr::map(~{
+										.x$intensity <- sum(.x$intensity)
+										return(.x)
+									}) %>%
+									dplyr::bind_rows() %>%
+									dplyr::select(fileName,polarity,bin,scan,intensity) %>%
+									dplyr::distinct() %>%
+									split(stringr::str_c(.$fileName,.$polarity,.$bin)) %>%
+									purrr::map(~{
+										.x$intensity <- sum(.x$intensity)/nScans
+										return(.x)
+									}) %>%
+									dplyr::bind_rows() %>%
+									dplyr::select(fileName,polarity,bin,intensity) %>%
+									dplyr::distinct()
 							},nScans = nScans) %>%
 							bind_rows()
 						
@@ -66,14 +78,15 @@ setMethod("spectralBinning",
 							parLapply(clus,.,function(x,nScans){
 								
 								`%>%` <- getFromNamespace('%>%','magrittr')
-								
 								x %>%
-									dplyr::group_by_at(
-										dplyr::vars(
-											dplyr::all_of(c('fileName',
-																			cls,
-																			'polarity','mz','bin')))) %>%
-									dplyr::summarise(intensity = sum(intensity)/nScans)
+									split(stringr::str_c(.$fileName,.[,cls],.$polarity,.$mz,.$bin)) %>%
+									purrr::map(~{
+										.x$intensity = sum(.x$intensity)/nScans
+										return(.x)
+									}) %>%
+									dplyr::bind_rows() %>%
+									dplyr::select(fileName,dplyr::all_of(cls),polarity,mz,bin,intensity) %>%
+									dplyr::distinct()
 							},nScans = nScans) %>%
 							bind_rows()
 						
@@ -107,14 +120,15 @@ setMethod("spectralBinning",
 						binnedData <- binnedData %>%
 							left_join(mz,by = c("polarity", "bin")) %>%
 							select(-bin) %>%
+							dplyr::ungroup() %>%
 							split(.$polarity) %>%
 							parLapply(clus,.,function(x){
 								
 								`%>%` <- getFromNamespace('%>%','magrittr')
 								
+								x$mz <- stringr::str_c(x$polarity,x$mz)
+								
 								x %>%
-									dplyr::ungroup() %>%
-									dplyr::mutate(mz = stringr::str_c(polarity,mz)) %>%
 									tidyr::spread(mz,intensity,fill = 0) %>%
 									dplyr::select(-fileName,-polarity)
 							})
@@ -164,9 +178,17 @@ setMethod('ss',signature = 'Binalysis',
 						binnedData <- pks %>%
 							split(.$fileName) %>%
 							parLapply(clus,.,function(x){
+								`%>%` <- getFromNamespace('%>%','magrittr')
+								
 								x %>%
-									group_by(fileName,polarity,bin) %>%
-									summarise(intensity = sum(intensity))
+									split(stringr::str_c(.$fileName,.$polarity,.$bin)) %>%
+									purrr::map(~{
+										.x$intensity <- sum(.x$intensity)
+										return(.x)
+									}) %>%
+									dplyr::bind_rows() %>%
+									dplyr::select(fileName,polarity,bin,intensity) %>%
+									dplyr::distinct()
 							}) %>%
 							bind_rows()
 						
@@ -204,13 +226,15 @@ setMethod('ss',signature = 'Binalysis',
 						binnedData <- binnedData %>%
 							left_join(mz,by = c("polarity", "bin")) %>%
 							select(-bin) %>%
+							ungroup() %>%
 							split(.$polarity) %>%
 							parLapply(clus,.,function(x){
+								`%>%` <- getFromNamespace('%>%','magrittr')
+								
+								x$mz <- stringr::str_c(x$polarity,x$mz)
 								x %>%
-									ungroup() %>%
-									mutate(mz = str_c(polarity,mz)) %>%
-									spread(mz,intensity,fill = 0) %>%
-									select(-fileName,-polarity)
+									tidyr::spread(mz,intensity,fill = 0) %>%
+									dplyr::select(-fileName,-polarity)
 							})
 						
 						stopCluster(clus)
