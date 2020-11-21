@@ -29,7 +29,7 @@ readFiles <- function(files,
 	
 	clust <- makeCluster(nCores, type = clusterType) 
 	
-	clusterExport(clust,varlist = 'getFile')
+	clusterExport(clust, 'sampProcess')
 	
 	pl <- parLapplyLB(clust,
 										files,

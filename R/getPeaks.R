@@ -7,7 +7,7 @@ sampProcess <- function(file,scans,dp){
     
     `%>%` <- getFromNamespace('%>%','magrittr')
     
-    pl <- getFile(file,scans) %>%
+    pl <- binneR::getFile(file,scans) %>%
         dplyr::mutate(mz = round(mz,dp)) %>% 
         dplyr::group_by(polarity,mz) %>% 
         dplyr::summarise(intensity = sum(intensity)/length(scans)) 
@@ -62,6 +62,7 @@ getPeaks <- function(files,scans,nCores,clusterType){
        clus <- makeCluster(nCores,type = clusterType)
        
        pks <- parLapply(clus,files,getFile,scans = scans)
+       
        stopCluster(clus)
    }
     names(pks) <- files

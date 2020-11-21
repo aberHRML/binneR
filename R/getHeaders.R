@@ -18,8 +18,11 @@ getHeaders <- function(files,nCores,clusterType){
         
         clus <- makeCluster(nSlaves,type = clusterType)
         headers <- parLapply(clus,files,function(x){
+            
+            `%>%` <- getFromNamespace('%>%','magrittr')
+            
             x %>%
-                openMSfile(backend = 'pwiz') %>%
+                mzR::openMSfile(backend = 'pwiz') %>%
                 mzR::header()
         })
         stopCluster(clus)

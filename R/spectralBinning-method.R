@@ -6,7 +6,8 @@
 #' @importFrom tidyr spread
 #' @importFrom stringr str_c
 
-setMethod("spectralBinning", signature = "Binalysis",
+setMethod("spectralBinning", 
+					signature = "Binalysis",
 					function(x){
 						parameters <- x@binParameters
 						
@@ -48,11 +49,14 @@ setMethod("spectralBinning", signature = "Binalysis",
 						binnedData <- pks %>%
 							split(.$fileName) %>%
 							parLapply(clus,.,function(x,nScans){
+								
+								`%>%` <- getFromNamespace('%>%','magrittr')
+								
 								x %>%
-									group_by(fileName,polarity,bin,scan) %>%
-									summarise(intensity = sum(intensity))	%>%
-									group_by(fileName,polarity,bin) %>%
-									summarise(intensity = sum(intensity)/nScans)
+									dplyr::group_by(fileName,polarity,bin,scan) %>%
+									dplyr::summarise(intensity = sum(intensity))	%>%
+									dplyr::group_by(fileName,polarity,bin) %>%
+									dplyr::summarise(intensity = sum(intensity)/nScans)
 							},nScans = nScans) %>%
 							bind_rows()
 						
@@ -60,9 +64,16 @@ setMethod("spectralBinning", signature = "Binalysis",
 							left_join(classes,by = "fileName") %>%
 							split(.$fileName) %>%
 							parLapply(clus,.,function(x,nScans){
+								
+								`%>%` <- getFromNamespace('%>%','magrittr')
+								
 								x %>%
-									group_by_at(vars(all_of(c('fileName',cls,'polarity','mz','bin')))) %>%
-									summarise(intensity = sum(intensity)/nScans)
+									dplyr::group_by_at(
+										dplyr::vars(
+											dplyr::all_of(c('fileName',
+																			cls,
+																			'polarity','mz','bin')))) %>%
+									dplyr::summarise(intensity = sum(intensity)/nScans)
 							},nScans = nScans) %>%
 							bind_rows()
 						
@@ -98,11 +109,14 @@ setMethod("spectralBinning", signature = "Binalysis",
 							select(-bin) %>%
 							split(.$polarity) %>%
 							parLapply(clus,.,function(x){
+								
+								`%>%` <- getFromNamespace('%>%','magrittr')
+								
 								x %>%
-									ungroup() %>%
-									mutate(mz = str_c(polarity,mz)) %>%
-									spread(mz,intensity,fill = 0) %>%
-									select(-fileName,-polarity)
+									dplyr::ungroup() %>%
+									dplyr::mutate(mz = stringr::str_c(polarity,mz)) %>%
+									tidyr::spread(mz,intensity,fill = 0) %>%
+									dplyr::select(-fileName,-polarity)
 							})
 						
 						stopCluster(clus)
