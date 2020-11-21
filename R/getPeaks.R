@@ -7,10 +7,17 @@ sampProcess <- function(file,scans,dp){
     
     `%>%` <- getFromNamespace('%>%','magrittr')
     
-    pl <- binneR::getFile(file,scans) %>%
-        dplyr::mutate(mz = round(mz,dp)) %>% 
-        dplyr::group_by(polarity,mz) %>% 
-        dplyr::summarise(intensity = sum(intensity)/length(scans)) 
+    pl <- getFile(file,scans)
+    pl$mz <- round(pl$mz,dp)
+    pl <- pl %>%
+        split(stringr::str_c(.$polarity,.$mz)) %>%
+        purrr::map(~{
+            .x$intensity = sum(.x$intensity)/length(scans)
+            return(.x)
+        }) %>%
+        dplyr::bind_rows() %>%
+        dplyr::select(polarity,mz,intensity) %>%
+        dplyr::distinct()
     
     return(pl)
 }
@@ -30,13 +37,18 @@ getFile <- function(file,scans){
     hd <- mzR::header(ms) %>%
         dplyr::select(seqNum,polarity,filterString) %>%
         dplyr::group_by(polarity,filterString) %>%
-        dplyr::mutate(scan = 1:dplyr::n()) %>%
-        dplyr::filter(scan %in% scans) 
-        
+        split(stringr::str_c(.$polarity,.$filterString)) %>%
+        purrr::map(~{
+            .x$scan <- seq_len(nrow(.x))
+            return(.x)
+        }) %>%
+        dplyr::bind_rows() %>%
+        dplyr::filter(scan %in% scans)
+    
     hd$polarity[hd$polarity == 0] <- 'n'
     hd$polarity[hd$polarity == 1] <- 'p'
     
-    ms %>%
+    ms <- ms %>%
         mzR::peaks() %>%
         .[hd$seqNum] %>%
         purrr::map(~{
@@ -46,8 +58,11 @@ getFile <- function(file,scans){
                 tibble::as_tibble()
         }) %>%
         magrittr::set_names(hd$seqNum) %>%
-        dplyr::bind_rows(.id = 'seqNum') %>%
-        dplyr::mutate(seqNum = as.numeric(seqNum)) %>%
+        dplyr::bind_rows(.id = 'seqNum')
+    
+    ms$seqNum <- as.numeric(ms$seqNum)
+    
+    ms %>%
         dplyr::left_join(hd, by = "seqNum") %>%
         dplyr::select(-filterString,-seqNum)
 }
@@ -56,15 +71,19 @@ getFile <- function(file,scans){
 #' @importFrom dplyr mutate
 
 getPeaks <- function(files,scans,nCores,clusterType){
-   if (nCores < 1) {
-       pks <- map(files,getFile,scans)
-   } else {
-       clus <- makeCluster(nCores,type = clusterType)
-       
-       pks <- parLapply(clus,files,getFile,scans = scans)
-       
-       stopCluster(clus)
-   }
+    if (nCores < 1) {
+        pks <- map(files,getFile,scans)
+    } else {
+        
+        clus <- makeCluster(nCores,type = clusterType)
+        
+        pks <- parLapply(clus,
+                         files,
+                         getFile,
+                         scans = scans)
+        
+        stopCluster(clus)
+    }
     names(pks) <- files
     pks <- pks %>%
         bind_rows(.id = 'fileName') %>%

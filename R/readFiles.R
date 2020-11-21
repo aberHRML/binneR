@@ -29,7 +29,7 @@ readFiles <- function(files,
 	
 	clust <- makeCluster(nCores, type = clusterType) 
 	
-	clusterExport(clust, 'sampProcess')
+	clusterExport(clust, 'getFile')
 	
 	pl <- parLapplyLB(clust,
 										files,
@@ -44,9 +44,9 @@ readFiles <- function(files,
 			
 			`%>%` <- getFromNamespace('%>%','magrittr')
 			
-			x <- spread(x,key = 'mz',value = 'intensity',fill = 0) %>%
-				ungroup() %>%
-				select(-file,-polarity)
+			x <- tidyr::spread(x,key = 'mz',value = 'intensity',fill = 0) %>%
+				dplyr::ungroup() %>%
+				dplyr::select(-file,-polarity)
 			
 			return(x)
 		})
