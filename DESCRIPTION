@@ -64,4 +64,4 @@ Suggests:
     pacman
 LazyData: true
 VignetteBuilder: knitr
-Additional_repositories: https://aberhrml.github.io/drat/
+Remotes: aberHRML/metaboData
