@@ -55,20 +55,21 @@ setMethod("spectralBinning",
 								x %>%
 									split(stringr::str_c(.$fileName,.$polarity,.$bin,.$scan)) %>%
 									purrr::map(~{
-										.x$intensity <- sum(.x$intensity)
-										return(.x)
+										tibble(fileName = .x$fileName[1],
+													 polarity = .x$polarity[1],
+													 bin = .x$bin[1],
+													 scan = .x$scan[1],
+													 intensity = sum(.x$intensity))
 									}) %>%
 									dplyr::bind_rows() %>%
-									dplyr::select(fileName,polarity,bin,scan,intensity) %>%
-									dplyr::distinct() %>%
 									split(stringr::str_c(.$fileName,.$polarity,.$bin)) %>%
 									purrr::map(~{
-										.x$intensity <- sum(.x$intensity)/nScans
-										return(.x)
+										tibble(fileName = .x$fileName[1],
+													 polarity = .x$polarity[1],
+													 bin = .x$bin[1],
+													 intensity = sum(.x$intensity)/nScans)
 									}) %>%
-									dplyr::bind_rows() %>%
-									dplyr::select(fileName,polarity,bin,intensity) %>%
-									dplyr::distinct()
+									dplyr::bind_rows()
 							},nScans = nScans) %>%
 							bind_rows()
 						
@@ -81,12 +82,15 @@ setMethod("spectralBinning",
 								x %>%
 									split(stringr::str_c(.$fileName,.[,cls],.$polarity,.$mz,.$bin)) %>%
 									purrr::map(~{
-										.x$intensity = sum(.x$intensity)/nScans
+										d <- tibble(fileName = .x$fileName[1],
+													 polarity = .x$polarity[1],
+													 bin = .x$bin[1],
+													 intensity = sum(.x$intensity)/nScans)
+										d[,cls] <- cls
 										return(.x)
 									}) %>%
 									dplyr::bind_rows() %>%
-									dplyr::select(fileName,dplyr::all_of(cls),polarity,mz,bin,intensity) %>%
-									dplyr::distinct()
+									dplyr::select(fileName,dplyr::all_of(cls),polarity,mz,bin,intensity)
 							},nScans = nScans) %>%
 							bind_rows()
 						
@@ -183,8 +187,10 @@ setMethod('ss',signature = 'Binalysis',
 								x %>%
 									split(stringr::str_c(.$fileName,.$polarity,.$bin)) %>%
 									purrr::map(~{
-										.x$intensity <- sum(.x$intensity)
-										return(.x)
+										tibble(fileName = .x$fileName[1],
+													 polarity = .x$polarity[1],
+													 bin = .x$bin[1],
+													 intensity = sum(.x$intensity))
 									}) %>%
 									dplyr::bind_rows() %>%
 									dplyr::select(fileName,polarity,bin,intensity) %>%

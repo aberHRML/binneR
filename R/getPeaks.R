@@ -13,12 +13,11 @@ sampProcess <- function(file,scans,dp){
     pl <- pl %>%
         split(stringr::str_c(.$polarity,.$mz)) %>%
         purrr::map(~{
-            .x$intensity = sum(.x$intensity)/length(scans)
-            return(.x)
+            tibble(polarity = .x$polarity[1],
+                   mz = .x$mz[1],
+                   intensity = sum(.x$intensity)/length(scans))
         }) %>%
-        dplyr::bind_rows() %>%
-        dplyr::select(polarity,mz,intensity) %>%
-        dplyr::distinct()
+        dplyr::bind_rows()
     
     return(pl)
 }
