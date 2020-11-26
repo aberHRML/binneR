@@ -60,8 +60,7 @@ Suggests:
     htmltools,
     covr,
     testthat,
-    gifski,
-    pacman
+    gifski
 LazyData: true
 VignetteBuilder: knitr
 Remotes: aberHRML/metaboData

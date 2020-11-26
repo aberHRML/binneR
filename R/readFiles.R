@@ -10,7 +10,7 @@
 #' @return A list containing peak lists for the relevant scans with combined 
 #' scan ranges for each present mode in the data file. 
 #' @author Jasen Finch
-#' @importFrom parallel makeCluster parLapplyLB stopCluster
+#' @importFrom parallel makeCluster parLapplyLB stopCluster clusterExport
 #' @importFrom dplyr bind_rows 
 #' @importFrom tidyr spread
 #' @examples 
@@ -28,6 +28,8 @@ readFiles <- function(files,
 											clusterType = detectClusterType()){ 
 	
 	clust <- makeCluster(nCores, type = clusterType) 
+	
+	clusterExport(clust,'getFile',envir = environment())
 	
 	pl <- parLapplyLB(clust,
 										files,

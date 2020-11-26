@@ -7,8 +7,7 @@
 sampProcess <- function(file,scans,dp){
     
     `%>%` <- getFromNamespace('%>%','magrittr')
-    getFile <- getFromNamespace('getFile','binneR')
-    
+
     pl <- getFile(file,scans)
     pl$mz <- round(pl$mz,dp)
     pl <- pl %>%
