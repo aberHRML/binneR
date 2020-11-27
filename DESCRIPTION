@@ -37,9 +37,8 @@ Collate:
     info-method.R
     binnedData-method.R
     accurateData-method.R
-    getPeaks.R
+    get.R
     calcBinList.R
-    getHeaders.R
     calcBinMeasures.R
     readFiles.R
     binneR.R
