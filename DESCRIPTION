@@ -38,18 +38,13 @@ Collate:
     binnedData-method.R
     accurateData-method.R
     get.R
-    calcBinList.R
-    calcBinMeasures.R
+    calc.R
     readFiles.R
     binneR.R
-    plotBin.R
+    plot.R
     detect.R
-    plotChromatogram.R
-    plotTIC.R
-    plotFingerprint.R
     binMeasures.R
     singleSample.R
-    plotMeasures.R
     readBinningParameters.R
     reexports.R
 Suggests: 
