@@ -13,10 +13,6 @@ readFiles(files, dp, scans)
 binning}
 
 \item{scans}{A vector of scan numbers that should be retrieved}
-
-\item{nCores}{The number of cores on which to parallel process.}
-
-\item{clusterType}{the type of cluster to use for parallel processing}
 }
 \value{
 A list containing peak lists for the relevant scans with combined 
@@ -33,13 +29,14 @@ Parallel processing is managed by the \code{future} package. This can be specifi
 file_paths <- metaboData::filePaths('FIE-HRMS',
                                     'BdistachyonEcotypes')[1]
 
-## Optionally use declare parallel processing options
-plan(future::multisession,workers = 2)
+## Optionally declare parallel processing backend
+# plan(future::multisession,workers = 2)
                                                                         
 ## Process example file
 res <- readFiles(file_paths,
                  dp = 2,
                  scans = 6:17)
+
 }
 \author{
 Jasen Finch

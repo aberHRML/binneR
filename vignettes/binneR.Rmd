@@ -163,8 +163,7 @@ Then the data can be spectrally binned using:
 ```{r readFilesExample}
 res <- readFiles(file,
 								 dp = 2,
-								 scans = infusionScans,
-								 nCores = 1)
+								 scans = infusionScans)
 ```
 
 This will return a list containing the intensity matrices for each ionisation mode, with the rows being the individual samples and columns the spectral bins.

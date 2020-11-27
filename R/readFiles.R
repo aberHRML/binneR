@@ -5,8 +5,6 @@
 #' @param dp An integer denoting the number of decimal places for spectral 
 #' binning
 #' @param scans A vector of scan numbers that should be retrieved 
-#' @param nCores The number of cores on which to parallel process.
-#' @param clusterType the type of cluster to use for parallel processing
 #' @return A list containing peak lists for the relevant scans with combined 
 #' scan ranges for each present mode in the data file. 
 #' @details 
@@ -17,13 +15,14 @@
 #' file_paths <- metaboData::filePaths('FIE-HRMS',
 #'                                     'BdistachyonEcotypes')[1]
 #' 
-#' ## Optionally use declare parallel processing options
-#' plan(future::multisession,workers = 2)
+#' ## Optionally declare parallel processing backend
+#' # plan(future::multisession,workers = 2)
 #'                                                                         
 #' ## Process example file
 #' res <- readFiles(file_paths,
 #'                  dp = 2,
 #'                  scans = 6:17)
+#'
 #' @importFrom furrr future_map
 #' @importFrom dplyr bind_rows 
 #' @importFrom tidyr spread
