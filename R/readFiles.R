@@ -9,47 +9,44 @@
 #' @param clusterType the type of cluster to use for parallel processing
 #' @return A list containing peak lists for the relevant scans with combined 
 #' scan ranges for each present mode in the data file. 
+#' @details 
+#' Parallel processing is managed by the \code{future} package. This can be specified using the \code{plan() function}. See the example below and \code{?future::plan} for details on how this can be specified.
 #' @author Jasen Finch
-#' @importFrom parallel makeCluster parLapplyLB stopCluster
+#' @examples 
+#' ## Example file path
+#' file_paths <- metaboData::filePaths('FIE-HRMS',
+#'                                     'BdistachyonEcotypes')[1]
+#' 
+#' ## Optionally use declare parallel processing options
+#' plan(future::multisession,workers = 2)
+#'                                                                         
+#' ## Process example file
+#' res <- readFiles(file_paths,
+#'                  dp = 2,
+#'                  scans = 6:17)
+#' @importFrom furrr future_map
 #' @importFrom dplyr bind_rows 
 #' @importFrom tidyr spread
-#' @examples 
-#' res <- readFiles(
-#'     metaboData::filePaths('FIE-HRMS',
-#'                           'BdistachyonEcotypes')[1],
-#'                           dp = 2,
-#'                           scans = 6:17)
 #' @export
 
 readFiles <- function(files,
 											dp, 
-											scans, 
-											nCores = 1, 
-											clusterType = detectClusterType()){ 
+											scans){ 
 	
-	clust <- makeCluster(nCores, type = clusterType) 
-	
-	clusterExport(clust, 'sampProcess')
-	
-	pl <- parLapplyLB(clust,
-										files,
-										fun = sampProcess,
+	pl <- future_map(files,
+										sampProcess,
 										scans = scans,
 										dp = dp) %>%
 		set_names(files) %>%
 		bind_rows(.id = 'file') %>%
 		mutate(mz = str_c(polarity,mz)) %>%
 		split(.$polarity) %>%
-		parLapplyLB(cl = clust,function(x){
+		future_map(~{
 			
-			`%>%` <- getFromNamespace('%>%','magrittr')
-			
-			x <- spread(x,key = 'mz',value = 'intensity',fill = 0) %>%
+			.x %>%
+				spread(key = 'mz',value = 'intensity',fill = 0) %>%
 				ungroup() %>%
 				select(-file,-polarity)
-			
-			return(x)
 		})
-	stopCluster(clust)
 	return(pl)
 }  

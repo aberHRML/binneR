@@ -5,12 +5,10 @@
 
 sampProcess <- function(file,scans,dp){
     
-    `%>%` <- getFromNamespace('%>%','magrittr')
-    
-    pl <- binneR::getFile(file,scans) %>%
-        dplyr::mutate(mz = round(mz,dp)) %>% 
-        dplyr::group_by(polarity,mz) %>% 
-        dplyr::summarise(intensity = sum(intensity)/length(scans)) 
+    pl <- getFile(file,scans) %>%
+        mutate(mz = round(mz,dp)) %>% 
+        group_by(polarity,mz) %>% 
+        summarise(intensity = sum(intensity)/length(scans)) 
     
     return(pl)
 }

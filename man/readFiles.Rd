@@ -4,7 +4,7 @@
 \alias{readFiles}
 \title{Read and process mulitple data files}
 \usage{
-readFiles(files, dp, scans, nCores = 1, clusterType = detectClusterType())
+readFiles(files, dp, scans)
 }
 \arguments{
 \item{files}{A vector of converted data file paths}
@@ -25,12 +25,21 @@ scan ranges for each present mode in the data file.
 \description{
 Apply spectral binning on multiple data files.
 }
+\details{
+Parallel processing is managed by the \code{future} package. This can be specified using the \code{plan() function}. See the example below and \code{?future::plan} for details on how this can be specified.
+}
 \examples{
-res <- readFiles(
-    metaboData::filePaths('FIE-HRMS',
-                          'BdistachyonEcotypes')[1],
-                          dp = 2,
-                          scans = 6:17)
+## Example file path
+file_paths <- metaboData::filePaths('FIE-HRMS',
+                                    'BdistachyonEcotypes')[1]
+
+## Optionally use declare parallel processing options
+plan(future::multisession,workers = 2)
+                                                                        
+## Process example file
+res <- readFiles(file_paths,
+                 dp = 2,
+                 scans = 6:17)
 }
 \author{
 Jasen Finch
