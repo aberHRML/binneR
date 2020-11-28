@@ -26,7 +26,7 @@ remotes::install_github('aberHRML/binneR',build_vignettes = TRUE)
 
 The package documentation can be browsed online at <https://aberHRML.github.io/binneR/>. 
 
-If this is your first time using `binneR` see the [vignette](https://jasenfinch.github.io/binneR/articles/binneR.html) for information on how to get started.
+If this is your first time using `binneR` see the [vignette](https://aberHRML.github.io/binneR/articles/binneR.html) for information on how to get started.
 
 If you believe you've found a bug in `binneR`, please file a bug (and, if
 possible, a [reproducible example](https://reprex.tidyverse.org)) at

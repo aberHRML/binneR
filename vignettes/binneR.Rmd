@@ -126,7 +126,7 @@ library(metaboData)
 
 ## Parallel Processing
 
-The package supports parallel processing using the [future](https://cran.r-project.org/web/packages/future/index.html) package.
+The package supports parallel processing using the [future](https://CRAN.R-project.org/package=future) package.
 
 By default processing by `binneR` will be done seqentially.
 However, parallel processing can be activated prior to processing by specifying a parallel backend using `plan()`.
@@ -136,7 +136,7 @@ The following example specifies using the `multisession` backend (muliple backgr
 plan(future::multisession,workers = 2)
 ```
 
-See the future package [documentation](https://cran.r-project.org/web/packages/future/vignettes/future-1-overview.html) for more information on the types of parallel backends that are available.
+See the future package [documentation](https://CRAN.R-project.org/package=future) for more information on the types of parallel backends that are available.
 
 ## Infusion Scan Detection
 

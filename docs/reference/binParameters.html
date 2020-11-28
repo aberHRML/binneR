@@ -90,6 +90,9 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -120,12 +123,7 @@
     <p>Selection of parameters to use for spectral binning.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>binParameters</span><span class='op'>(</span>
-  scans <span class='op'>=</span> <span class='fl'>5</span><span class='op'>:</span><span class='fl'>12</span>,
-  cls <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
-  nCores <span class='op'>=</span> <span class='fu'>detectCores</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>0.75</span>,
-  clusterType <span class='op'>=</span> <span class='st'>"FORK"</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>binParameters</span><span class='op'>(</span>scans <span class='op'>=</span> <span class='fl'>5</span><span class='op'>:</span><span class='fl'>12</span>, cls <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,21 +138,18 @@
 mass data. Defaults to NULL where accurate mass data will be averaged 
 accross all samples</p></td>
     </tr>
-    <tr>
-      <th>nCores</th>
-      <td><p>the number of cores to use for parallel processing</p></td>
-    </tr>
-    <tr>
-      <th>clusterType</th>
-      <td><p>the type of cluster to use for parallel processing</p></td>
-    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>S4 object of class BinParameters</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='BinParameters-class.html'>BinParameters-class</a></code>, <code><a href='scans.html'>scans</a></code>, 
+<code><a href='scans.html'>cls</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>binParameters</span><span class='op'>(</span>scans <span class='op'>=</span> <span class='fl'>6</span><span class='op'>:</span><span class='fl'>17</span>,nCores <span class='op'>=</span> <span class='fl'>2</span>,clusterType <span class='op'>=</span> <span class='fu'><a href='detectClusterType.html'>detectClusterType</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-
+    <pre class="examples"><div class='input'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>binParameters</span><span class='op'>(</span>scans <span class='op'>=</span> <span class='fl'>6</span><span class='op'>:</span><span class='fl'>17</span><span class='op'>)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
