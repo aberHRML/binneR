@@ -23,15 +23,6 @@ inf <- info(analysis)
 bd <- binnedData(analysis)
 ad <- accurateData(analysis)
 
-chrPl <- plotChromatogram(analysis)
-ticPl <- plotTIC(analysis)
-
-binPl_all <- plotBin(analysis,'n133.01',type = 'all')
-binPl_cls <- plotBin(analysis,'n133.01',type = 'cls')
-binPl_sample <- plotBin(analysis,'n133.01',type = 'sample')
-
-fingPl <- plotFingerprint(analysis)
-
 test_that('binParameters works',{
 	expect_true(class(p) == 'BinParameters')
 	expect_true(identical(slotNames(p),c("scans","cls")))
@@ -53,17 +44,6 @@ test_that('binneRlyse works',{
 	expect_true(identical(class(ad),c('tbl_df','tbl','data.frame')))
 	expect_true(nrow(ad) == 1896)
 	expect_true(ncol(ad) == 8)
-})
-
-test_that('plots work',{
-	expect_s3_class(chrPl,'ggplot')
-	expect_s3_class(ticPl,'ggplot')
-	
-	expect_s3_class(binPl_all,'ggplot')
-	expect_s3_class(binPl_cls,'ggplot')
-	expect_s3_class(binPl_sample,'ggplot')
-	
-	expect_s3_class(fingPl,'ggplot')
 })
 
 test_that('BinParameters class show method works',{
