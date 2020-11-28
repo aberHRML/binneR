@@ -24,7 +24,7 @@ message(msg)
 }
 ```
 
-```{r libraryLoad,echo=FALSE,include=FALSE}
+```{r libraryLoad,echo=FALSE,include=FALSE,message=FALSE}
 library(binneR)
 library(metaboData)
 library(mzR)
@@ -40,12 +40,12 @@ htmltools::img(src = knitr::image_uri(system.file('sticker/binneRsticker.png',pa
 
 ## Introduction
 
-The *binneR* package provides a spectral binning approach for routine processing of flow infusion electrospray - high resolution mass spectrometry (FIE-HRMS) metabolomics fingerprinting experiments, the results of which can then be used for subsequent statistical analyses.
+The *binneR* package provides a spectral binning approach for routine processing of flow infusion electrospray - high resolution mass spectrometry (FIE-HRMS) metabolomic fingerprinting experiments, the results of which can then be used for subsequent statistical analyses.
 
 Spectral binning rounds high resolution fingerprinting data by a specified amu bin width.
 FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can be averaged to provide a metabolome fingerprint. Below shows an animation of the spectrum change across ‘plug flow’ region of an example FIE-HRMS injection acquired in negative ionisation mode. 
 
-```{r FIEfingerprint, echo=FALSE, fig.width=7,fig.height=5,fig.align='center',fig.show='animate',animation.hook = 'gifski',interval=0.1,dev='png',aniopts=('controls,loop')}
+```{r FIEfingerprint, echo=FALSE, fig.width=7,fig.height=5,fig.align='center',fig.show='animate',animation.hook = 'gifski',interval=0.1,dev='png',aniopts=('controls,loop'),message=FALSE}
 
 file <- filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 ms <- openMSfile(file)
@@ -123,6 +123,20 @@ Before we begin, the necessary packages need to be loaded.
 library(binneR)
 library(metaboData)
 ```
+
+## Parallel Processing
+
+The package supports parallel processing using the [future](https://cran.r-project.org/web/packages/future/index.html) package.
+
+By default processing by `binneR` will be done seqentially.
+However, parallel processing can be activated prior to processing by specifying a parallel backend using `plan()`.
+The following example specifies using the `multisession` backend (muliple background R sessions) with two worker processes.
+
+```{r plan,eval=FALSE}
+plan(future::multisession,workers = 2)
+```
+
+See the future package [documentation](https://cran.r-project.org/web/packages/future/vignettes/future-1-overview.html) for more information on the types of parallel backends that are available.
 
 ## Infusion Scan Detection
 
