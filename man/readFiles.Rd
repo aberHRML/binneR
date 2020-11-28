@@ -38,6 +38,3 @@ res <- readFiles(file_paths,
                  scans = 6:17)
 
 }
-\author{
-Jasen Finch
-}

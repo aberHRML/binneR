@@ -12,9 +12,12 @@ info(x)
 \arguments{
 \item{x}{S4 object of class Binalysis}
 }
-\description{
-Extract runinfo data from a Binalysis object.
+\value{
+A tibble containing sample meta information.
 }
-\author{
-Jasen Finch \email{jsf9@aber.ac.uk}
+\description{
+Extract sample meta information from a Binalysis object.
+}
+\seealso{
+\code{\link{Binalysis-class}}, \code{\link{binneRlyse}}
 }

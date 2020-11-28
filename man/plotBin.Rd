@@ -19,3 +19,6 @@ plotBin(x, bin, type = c("all", "cls", "sample"))
 \description{
 Kernal density plot of a specified spectral bin feature.
 }
+\seealso{
+\code{\link{accurateData}}, \code{\link{binneRlyse}}
+}

@@ -35,3 +35,6 @@ cls(x) <- value
 \description{
 Get and set spectral binning parameters.
 }
+\seealso{
+\code{\link{BinParameters-class}}, \code{\link{binParameters}}
+}

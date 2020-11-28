@@ -9,7 +9,6 @@
 #' scan ranges for each present mode in the data file. 
 #' @details 
 #' Parallel processing is managed by the \code{future} package. This can be specified using the \code{plan() function}. See the example below and \code{?future::plan} for details on how this can be specified.
-#' @author Jasen Finch
 #' @examples 
 #' ## Example file path
 #' file_paths <- metaboData::filePaths('FIE-HRMS',

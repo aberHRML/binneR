@@ -5,12 +5,8 @@
 #' @param parameters object of class BinParameters containing parameters 
 #' for spectral binning
 #' @param verbose show console output
-#' @importFrom dplyr ungroup n
-#' @importFrom magrittr %>%
-#' @importFrom crayon blue red green
-#' @importFrom cli console_width
-#' @importFrom utils packageVersion
-#' @importFrom lubridate seconds_to_period
+#' @return S4 object of class Binalysis.
+#' @seealso \code{\link{Binalysis-class}}, \code{\link{binParameters}}, \code{\link{info}}, \code{\link{binnedData}},  \code{\link{accurateData}}
 #' @examples 
 #' \dontrun{
 #' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
@@ -24,6 +20,12 @@
 #'                        info, 
 #'                        parameters = parameters)
 #'    }
+#' @importFrom dplyr ungroup n
+#' @importFrom magrittr %>%
+#' @importFrom crayon blue red green
+#' @importFrom cli console_width
+#' @importFrom utils packageVersion
+#' @importFrom lubridate seconds_to_period
 #' @export
 
 binneRlyse <- function(files, info, parameters = binParameters(), verbose = TRUE){

@@ -16,6 +16,9 @@ for spectral binning}
 
 \item{verbose}{show console output}
 }
+\value{
+S4 object of class Binalysis.
+}
 \description{
 perform spectral binning.
 }
@@ -32,4 +35,7 @@ analysis <- binneRlyse(files,
                        info, 
                        parameters = parameters)
    }
+}
+\seealso{
+\code{\link{Binalysis-class}}, \code{\link{binParameters}}, \code{\link{info}}, \code{\link{binnedData}},  \code{\link{accurateData}}
 }

@@ -15,3 +15,6 @@ plotFingerprint(x)
 \description{
 Plot averaged spectrum fingerprint.
 }
+\seealso{
+\code{\link{binneRlyse}}
+}

@@ -17,3 +17,6 @@ plotPurity(x, histBins = 30)
 \description{
 Plot the bin purity distribution for a Binalysis object.
 }
+\seealso{
+\code{\link{accurateData}}, \code{\link{binneRlyse}}, \code{\link{plotCentrality}}
+}

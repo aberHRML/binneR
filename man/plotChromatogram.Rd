@@ -15,3 +15,6 @@ plotChromatogram(x)
 \description{
 Plot an averaged infusion profile chromatogram from a Binalysis object.
 }
+\seealso{
+\code{\link{binneRlyse}}
+}

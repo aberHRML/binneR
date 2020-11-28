@@ -12,9 +12,12 @@ accurateData(x)
 \arguments{
 \item{x}{S4 object of class Binalysis}
 }
-\description{
-Extract accurate data mass from a Binalysis object.
+\value{
+A tibble containing sample wise accurate mass data.
 }
-\author{
-Jasen Finch \email{jsf9@aber.ac.uk}
+\description{
+Extract sample-wise accurate mass data and bin measures for each 0.01 amu bin from a Binalysis object.
+}
+\seealso{
+\code{\link{binneRlyse}}
 }

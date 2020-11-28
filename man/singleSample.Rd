@@ -13,6 +13,9 @@ singleSample(file, class = NA, verbose = TRUE)
 
 \item{verbose}{show console output}
 }
+\value{
+S4 object of class Binalysis.
+}
 \description{
 Perform spectral binning on a single sample.
 }
@@ -20,4 +23,7 @@ Perform spectral binning on a single sample.
 filePath <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 
 bd <- singleSample(filePath)
+}
+\seealso{
+\code{\link{Binalysis-class}}
 }

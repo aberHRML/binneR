@@ -4,6 +4,7 @@
 #' @param x S4 object of class Binalysis
 #' @param bin 0.01amu bin to plot
 #' @param type bin to be plotted as a total (all), class (cls) or sample spectra.
+#' @seealso \code{\link{accurateData}}, \code{\link{binneRlyse}}
 #' @importFrom ggplot2 ggplot geom_density theme_bw xlim xlab ggtitle theme
 #' @importFrom ggplot2 element_text facet_wrap aes
 #' @importFrom stringr str_replace_all str_sub
@@ -67,6 +68,7 @@ setMethod('plotBin',signature = 'Binalysis',
 #' @rdname plotChromatogram
 #' @description Plot an averaged infusion profile chromatogram from a Binalysis object. 
 #' @param x S4 object of class \code{Binalysis}
+#' @seealso \code{\link{binneRlyse}}
 #' @importFrom ggplot2 geom_vline geom_line labs ylab
 #' @export
 
@@ -182,6 +184,7 @@ plotChromFromFile <- function(files, scans = c()){
 #' @rdname plotFingerprint
 #' @description Plot averaged spectrum fingerprint.
 #' @param x S4 object of class Binalysis
+#' @seealso \code{\link{binneRlyse}}
 #' @importFrom ggplot2 geom_segment
 #' @importFrom stringr str_remove_all
 #' @importFrom dplyr summarise_all
@@ -219,6 +222,7 @@ setMethod('plotFingerprint',signature = 'Binalysis',
 #' @description Plot the bin purity distribution for a Binalysis object.
 #' @param x S4 object of class Binalysis
 #' @param histBins number of bins to use for histogram plotting
+#' @seealso \code{\link{accurateData}}, \code{\link{binneRlyse}}, \code{\link{plotCentrality}}
 #' @importFrom ggplot2 geom_histogram
 #' @export
 
@@ -250,6 +254,7 @@ setMethod('plotPurity',signature = 'Binalysis',function(x,histBins = 30){
 #' @description Plot the bin centrality distribution for a Binalysis object.
 #' @param x S4 object of class Binalysis
 #' @param histBins number of bins to use for histogram plotting
+#' @seealso \code{\link{accurateData}}, \code{\link{binneRlyse}}, \code{\link{plotPurity}}
 #' @export
 
 setMethod('plotCentrality',signature = 'Binalysis',function(x,histBins = 30){
@@ -281,6 +286,7 @@ setMethod('plotCentrality',signature = 'Binalysis',function(x,histBins = 30){
 #' @param x S4 object of class Binalysis
 #' @param by info column to plot against
 #' @param colour info column to provide colour labels  
+#' @seealso \code{\link{binneRlyse}}
 #' @importFrom stats IQR median
 #' @importFrom dplyr bind_cols
 #' @importFrom ggplot2 geom_point guide_legend guides geom_hline

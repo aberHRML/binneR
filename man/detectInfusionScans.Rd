@@ -12,6 +12,9 @@ detectInfusionScans(files, thresh = 0.5)
 \item{thresh}{detection threshold as a proportion of the peak of the 
 infusion profile}
 }
+\value{
+Numeric vector of detected infusion scans.
+}
 \description{
 Detect infusion scans for a set of FIE-MS infusion profiles.
 }
@@ -21,4 +24,7 @@ if (requireNamespace("metaboData", quietly = TRUE)) {
       metaboData::filePaths('FIE-HRMS',
                             'BdistachyonEcotypes')[1])
 }
+}
+\seealso{
+\code{\link{detectParameters}}
 }

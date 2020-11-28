@@ -19,3 +19,6 @@ plotTIC(x, by = "injOrder", colour = "block")
 \description{
 Plot sample total ion counts.
 }
+\seealso{
+\code{\link{binneRlyse}}
+}

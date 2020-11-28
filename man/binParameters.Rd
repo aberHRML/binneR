@@ -13,11 +13,15 @@ binParameters(scans = 5:12, cls = character())
 mass data. Defaults to NULL where accurate mass data will be averaged 
 accross all samples}
 }
+\value{
+S4 object of class BinParameters
+}
 \description{
 Selection of parameters to use for spectral binning.
 }
 \examples{
 p <- binParameters(scans = 6:17)
-
-
+}
+\seealso{
+\code{\link{BinParameters-class}}, \code{\link{scans}}, \code{\link{cls}}
 }

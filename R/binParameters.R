@@ -4,10 +4,10 @@
 #' @param cls the column of class labels to use for aggregating accurate 
 #' mass data. Defaults to NULL where accurate mass data will be averaged 
 #' accross all samples
+#' @return S4 object of class BinParameters
 #' @examples 
 #' p <- binParameters(scans = 6:17)
-#' 
-#' 
+#' @seealso \code{\link{BinParameters-class}}, \code{\link{scans}}, \code{\link{cls}}
 #' @importFrom parallel detectCores
 #' @export
 
@@ -27,6 +27,7 @@ binParameters <- function(scans = 5:12,
 #' @description Get and set spectral binning parameters.
 #' @param x S4 object of class BinParameters
 #' @param value parameter value to set
+#' @seealso \code{\link{BinParameters-class}}, \code{\link{binParameters}}
 #' @export
 
 setMethod('scans',signature = 'BinParameters',function(x){

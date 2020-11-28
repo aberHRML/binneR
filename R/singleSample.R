@@ -3,6 +3,8 @@
 #' @param file file path
 #' @param class optional class name
 #' @param verbose show console output
+#' @seealso \code{\link{Binalysis-class}}
+#' @return S4 object of class Binalysis.
 #' @examples 
 #' filePath <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 #' 

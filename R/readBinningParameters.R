@@ -1,6 +1,8 @@
 #' Read binning parameters from file
 #' @description Parse binning parameters from a YAML formatted file.
 #' @param file file path
+#' @return S4 object of class BinParameters.
+#' @seealso \code{\link{BinParameters-class}}
 #' @examples 
 #' file <- system.file('binning_parameters.yml',package = 'binneR')
 #' parameters <- readBinningParameters(file)

@@ -12,9 +12,12 @@ binnedData(x)
 \arguments{
 \item{x}{Binalysis object}
 }
+\value{
+A list containing tibbles of bin feature intensities for each ionisation mode.
+}
 \description{
 Extract binned data from a Binalysis object.
 }
-\author{
-Jasen Finch \email{jsf9@aber.ac.uk}
+\seealso{
+\code{\link{binneRlyse}}
 }

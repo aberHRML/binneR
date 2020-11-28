@@ -17,3 +17,6 @@ mass data. Defaults to NULL where accurate mass data will be averaged
 across all samples}
 }}
 
+\seealso{
+\code{\link{binParameters}}
+}

@@ -29,3 +29,6 @@ for each acquisition mode}
 mix fingerprints}
 }}
 
+\seealso{
+\code{\link{binneRlyse}}
+}

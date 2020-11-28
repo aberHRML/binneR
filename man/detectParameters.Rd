@@ -9,10 +9,16 @@ detectParameters(files)
 \arguments{
 \item{files}{character vector of file paths}
 }
+\value{
+S4 object of class BinParameters
+}
 \description{
 Detect binning parameters from a given list of file paths.
 }
 \examples{
 files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
 parameters <- detectParameters(files[1])
+}
+\seealso{
+\code{\link{BinParameters-class}}, \code{\link{binParameters}}
 }

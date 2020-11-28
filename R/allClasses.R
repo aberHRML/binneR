@@ -4,6 +4,7 @@
 #' @slot cls the column of class labels to use for aggregating accurate 
 #' mass data. Defaults to NULL where accurate mass data will be averaged 
 #' across all samples
+#' @seealso \code{\link{binParameters}}
 #' @export
 
 setClass('BinParameters',
@@ -26,7 +27,8 @@ setClass('BinParameters',
 #' @slot accurateMZ tibble containin accurate mass information
 #' @slot spectra list containing tibbles of headers and class master 
 #' mix fingerprints
-#'@export
+#' @seealso \code{\link{binneRlyse}} 
+#' @export
 
 setClass('Binalysis',
          slots = list(

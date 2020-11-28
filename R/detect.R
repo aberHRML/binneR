@@ -3,14 +3,16 @@
 #' @param files character vector of file paths to use
 #' @param thresh detection threshold as a proportion of the peak of the 
 #' infusion profile
-#' @importFrom mzR openMSfile header
-#' @importFrom dplyr group_by summarise
+#' @return Numeric vector of detected infusion scans.
+#' @seealso \code{\link{detectParameters}}
 #' @examples 
 #' if (requireNamespace("metaboData", quietly = TRUE)) {
 #'    detectInfusionScans(
 #'       metaboData::filePaths('FIE-HRMS',
 #'                             'BdistachyonEcotypes')[1])
 #' }
+#' @importFrom mzR openMSfile header
+#' @importFrom dplyr group_by summarise
 #' @export
 
 detectInfusionScans <- function(files, 
@@ -62,9 +64,11 @@ detectInfusionScans <- function(files,
 #' Detect suitable spectral binning parameters
 #' @description Detect binning parameters from a given list of file paths.
 #' @param files character vector of file paths
+#' @return S4 object of class BinParameters
 #' @examples 
 #' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
 #' parameters <- detectParameters(files[1])
+#' @seealso \code{\link{BinParameters-class}}, \code{\link{binParameters}}
 #' @export
 
 detectParameters <- function(files){

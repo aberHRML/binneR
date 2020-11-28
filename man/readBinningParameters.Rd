@@ -9,10 +9,16 @@ readBinningParameters(file)
 \arguments{
 \item{file}{file path}
 }
+\value{
+S4 object of class BinParameters.
+}
 \description{
 Parse binning parameters from a YAML formatted file.
 }
 \examples{
 file <- system.file('binning_parameters.yml',package = 'binneR')
 parameters <- readBinningParameters(file)
+}
+\seealso{
+\code{\link{BinParameters-class}}
 }
