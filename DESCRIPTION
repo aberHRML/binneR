@@ -4,7 +4,7 @@ Version: 2.4.0
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A spectral binning approach for high resolution flow infusion mass spectrometry data.
 biocViews: MassSpectrometry, Metabolomics
-URL: https://jasenfinch.github.io/binneR/
+URL: https://aberHRML.github.io/binneR/
 BugReports: https://github.com/aberHRML/binneR/issues
 Depends: R (>= 3.5)
 Imports: 
