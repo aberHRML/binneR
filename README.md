@@ -11,35 +11,23 @@
 
 > **Spectral Processing for High Resolution Flow Infusion Mass Spectrometry**
 
-A spectral binning approach for flow infusion  electrospray high resolution mass spectrometry (FIE-HRMS) data.
-Includes tools for generating intensity matrices converted raw data file formats such as `.mzML` and `.mzXML`, plotting chromatograms and total ion counts.
+A spectral binning approach for flow infusion electrospray high resolution mass spectrometry (FIE-HRMS) data.
+Includes tools for generating intensity matrices from converted raw data file formats such as `.mzML` and `.mzXML`, plotting chromatograms and total ion counts.
 
-#### Installation
+### Installation
 
-Download and install from [CRAN](https://cran.r-project.org/web/packages/binneR/index.html), run the following in an R console:
-
-``` r
-install.packages('binneR')
-```
-
-The CRAN version can be found on the [cran](https://github.com/aberHRML/binneR/tree/cran) branch of this repository.
-
-The example data used in this package are from the [metaboData](https://github.com/aberHRML/metaboData) package that can be installed using:
-
-``` r
-remotes::install_github('aberHRML/metaboData',build_vignettes = TRUE)
-```
-
-To download and install this development vesion run:
+To download and install this development version run:
 
 ``` r
 remotes::install_github('aberHRML/binneR',build_vignettes = TRUE)
 ```
 
-#### Vignette
+### Learn more
 
-The vignette outlining the package usage and features can be found using:
+The package documentation can be browsed online at <https://jasenfinch.github.io/binneR/>. 
 
-``` r
-vignette('binneR',package = 'binneR')
-```
+If this is your first time using `binneR` see the [vignette](https://jasenfinch.github.io/binneR/articles/binneR.html) for information on how to get started.
+
+If you believe you've found a bug in `binneR`, please file a bug (and, if
+possible, a [reproducible example](https://reprex.tidyverse.org)) at
+<https://github.com/jasenfinch/binneR/issues>.
