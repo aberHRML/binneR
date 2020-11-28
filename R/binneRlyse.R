@@ -6,7 +6,12 @@
 #' for spectral binning
 #' @param verbose show console output
 #' @return S4 object of class Binalysis.
-#' @seealso \code{\link{Binalysis-class}}, \code{\link{binParameters}}, \code{\link{info}}, \code{\link{binnedData}},  \code{\link{accurateData}}
+#' @details 
+#' Parallel processing is managed by the \code{future} package. This can 
+#' be specified using the \code{plan() function}. See the example below 
+#' and \code{?future::plan} for details on how this can be specified.
+#' @seealso \code{\link{Binalysis-class}}, \code{\link{binParameters}}, 
+#' \code{\link{info}}, \code{\link{binnedData}},  \code{\link{accurateData}}
 #' @examples 
 #' \dontrun{
 #' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
@@ -15,6 +20,9 @@
 #' 
 #' parameters <- detectParameters(files)
 #' cls(parameters) <- 'class'
+#' 
+#' #' ## Optionally declare parallel processing backend
+#' # plan(future::multisession,workers = 2)
 #' 
 #' analysis <- binneRlyse(files, 
 #'                        info, 
@@ -28,7 +36,10 @@
 #' @importFrom lubridate seconds_to_period
 #' @export
 
-binneRlyse <- function(files, info, parameters = binParameters(), verbose = TRUE){
+binneRlyse <- function(files, 
+											 info, 
+											 parameters = binParameters(), 
+											 verbose = TRUE){
 	pv <- packageVersion('binneR') %>% as.character()
 	
 	if (verbose == TRUE) {

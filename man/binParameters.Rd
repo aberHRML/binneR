@@ -23,5 +23,6 @@ Selection of parameters to use for spectral binning.
 p <- binParameters(scans = 6:17)
 }
 \seealso{
-\code{\link{BinParameters-class}}, \code{\link{scans}}, \code{\link{cls}}
+\code{\link{BinParameters-class}}, \code{\link{scans}}, 
+\code{\link{cls}}
 }

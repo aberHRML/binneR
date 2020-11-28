@@ -14,7 +14,8 @@ plotBin(x, bin, type = c("all", "cls", "sample"))
 
 \item{bin}{0.01amu bin to plot}
 
-\item{type}{bin to be plotted as a total (all), class (cls) or sample spectra.}
+\item{type}{bin to be plotted as a total (all), class (cls) or 
+sample spectra.}
 }
 \description{
 Kernal density plot of a specified spectral bin feature.

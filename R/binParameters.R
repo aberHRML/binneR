@@ -7,7 +7,8 @@
 #' @return S4 object of class BinParameters
 #' @examples 
 #' p <- binParameters(scans = 6:17)
-#' @seealso \code{\link{BinParameters-class}}, \code{\link{scans}}, \code{\link{cls}}
+#' @seealso \code{\link{BinParameters-class}}, \code{\link{scans}}, 
+#' \code{\link{cls}}
 #' @importFrom parallel detectCores
 #' @export
 

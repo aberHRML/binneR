@@ -3,7 +3,8 @@
 #' @description Kernal density plot of a specified spectral bin feature.
 #' @param x S4 object of class Binalysis
 #' @param bin 0.01amu bin to plot
-#' @param type bin to be plotted as a total (all), class (cls) or sample spectra.
+#' @param type bin to be plotted as a total (all), class (cls) or 
+#' sample spectra.
 #' @seealso \code{\link{accurateData}}, \code{\link{binneRlyse}}
 #' @importFrom ggplot2 ggplot geom_density theme_bw xlim xlab ggtitle theme
 #' @importFrom ggplot2 element_text facet_wrap aes
@@ -48,7 +49,8 @@ setMethod('plotBin',signature = 'Binalysis',
 							class <- cls(x@binParameters)
 							
 							if (length(class) == 0) {
-								stop('No "cls" parameter found for this Binalysis class object.',call. = FALSE)
+								stop('No "cls" parameter found for this Binalysis class object.',
+										 call. = FALSE)
 							}
 								
 							pl <- pl +
@@ -66,7 +68,8 @@ setMethod('plotBin',signature = 'Binalysis',
 
 #' Plot an infusion profile chromatogram
 #' @rdname plotChromatogram
-#' @description Plot an averaged infusion profile chromatogram from a Binalysis object. 
+#' @description Plot an averaged infusion profile chromatogram from a 
+#' Binalysis object. 
 #' @param x S4 object of class \code{Binalysis}
 #' @seealso \code{\link{binneRlyse}}
 #' @importFrom ggplot2 geom_vline geom_line labs ylab
@@ -222,7 +225,8 @@ setMethod('plotFingerprint',signature = 'Binalysis',
 #' @description Plot the bin purity distribution for a Binalysis object.
 #' @param x S4 object of class Binalysis
 #' @param histBins number of bins to use for histogram plotting
-#' @seealso \code{\link{accurateData}}, \code{\link{binneRlyse}}, \code{\link{plotCentrality}}
+#' @seealso \code{\link{accurateData}}, \code{\link{binneRlyse}}, 
+#' \code{\link{plotCentrality}}
 #' @importFrom ggplot2 geom_histogram
 #' @export
 
@@ -254,7 +258,8 @@ setMethod('plotPurity',signature = 'Binalysis',function(x,histBins = 30){
 #' @description Plot the bin centrality distribution for a Binalysis object.
 #' @param x S4 object of class Binalysis
 #' @param histBins number of bins to use for histogram plotting
-#' @seealso \code{\link{accurateData}}, \code{\link{binneRlyse}}, \code{\link{plotPurity}}
+#' @seealso \code{\link{accurateData}}, \code{\link{binneRlyse}}, 
+#' \code{\link{plotPurity}}
 #' @export
 
 setMethod('plotCentrality',signature = 'Binalysis',function(x,histBins = 30){

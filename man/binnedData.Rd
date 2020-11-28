@@ -13,7 +13,8 @@ binnedData(x)
 \item{x}{Binalysis object}
 }
 \value{
-A list containing tibbles of bin feature intensities for each ionisation mode.
+A list containing tibbles of bin feature intensities for each 
+ionisation mode.
 }
 \description{
 Extract binned data from a Binalysis object.

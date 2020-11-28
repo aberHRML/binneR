@@ -22,7 +22,9 @@ scan ranges for each present mode in the data file.
 Apply spectral binning on multiple data files.
 }
 \details{
-Parallel processing is managed by the \code{future} package. This can be specified using the \code{plan() function}. See the example below and \code{?future::plan} for details on how this can be specified.
+Parallel processing is managed by the \code{future} package. This can be specified 
+using the \code{plan() function}. See the example below and \code{?future::plan} 
+for details on how this can be specified.
 }
 \examples{
 ## Example file path

@@ -78,4 +78,3 @@ detectParameters <- function(files){
 	bp <- binParameters(scans = scans)
 	return(bp)
 }
-
