@@ -150,6 +150,11 @@ for spectral binning</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>S4 object of class Binalysis.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Parallel processing is managed by the <code>future</code> package. This can 
+be specified using the <code>plan() function</code>. See the example below 
+and <code><a href='https://rdrr.io/pkg/future/man/plan.html'>?future::plan</a></code> for details on how this can be specified.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='Binalysis-class.html'>Binalysis-class</a></code>, <code><a href='binParameters.html'>binParameters</a></code>, 
@@ -163,6 +168,9 @@ for spectral binning</p></td>
 
 <span class='va'>parameters</span> <span class='op'>&lt;-</span> <span class='fu'><a href='detectParameters.html'>detectParameters</a></span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span>
 <span class='fu'><a href='scans.html'>cls</a></span><span class='op'>(</span><span class='va'>parameters</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>'class'</span>
+
+<span class='co'>#' ## Optionally declare parallel processing backend</span>
+<span class='co'># plan(future::multisession,workers = 2)</span>
 
 <span class='va'>analysis</span> <span class='op'>&lt;-</span> <span class='fu'>binneRlyse</span><span class='op'>(</span><span class='va'>files</span>, 
                        <span class='va'>info</span>, 

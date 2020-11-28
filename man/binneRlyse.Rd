@@ -22,6 +22,11 @@ S4 object of class Binalysis.
 \description{
 perform spectral binning.
 }
+\details{
+Parallel processing is managed by the \code{future} package. This can 
+be specified using the \code{plan() function}. See the example below 
+and \code{?future::plan} for details on how this can be specified.
+}
 \examples{
 \dontrun{
 files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
@@ -30,6 +35,9 @@ info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
 
 parameters <- detectParameters(files)
 cls(parameters) <- 'class'
+
+#' ## Optionally declare parallel processing backend
+# plan(future::multisession,workers = 2)
 
 analysis <- binneRlyse(files, 
                        info, 

@@ -16,8 +16,8 @@ accurateData(x)
 A tibble containing sample wise accurate mass data.
 }
 \description{
-Extract sample-wise accurate mass data and bin measures for each 
-0.01 amu bin from a Binalysis object.
+Extract sample-wise accurate mass data and bin measures 
+for each 0.01 amu bin from a Binalysis object.
 }
 \seealso{
 \code{\link{binneRlyse}}

@@ -19,8 +19,16 @@ S4 object of class Binalysis.
 \description{
 Perform spectral binning on a single sample.
 }
+\details{
+Parallel processing is managed by the \code{future} package. This can 
+be specified using the \code{plan() function}. See the example below 
+and \code{?future::plan} for details on how this can be specified.
+}
 \examples{
 filePath <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+
+#' ## Optionally declare parallel processing backend
+# plan(future::multisession,workers = 2)
 
 bd <- singleSample(filePath)
 }
