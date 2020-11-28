@@ -3,8 +3,6 @@
 #' @param files character vector of file paths to use
 #' @param thresh detection threshold as a proportion of the peak of the 
 #' infusion profile
-#' @param nCores the number of cores to use for parallel processing
-#' @param clusterType the type of cluster to use for parallel processing
 #' @importFrom mzR openMSfile header
 #' @importFrom dplyr group_by summarise
 #' @examples 
@@ -16,29 +14,15 @@
 #' @export
 
 detectInfusionScans <- function(files, 
-																thresh = 0.5, 
-																nCores = detectCores() * 0.75, 
-																clusterType = detectClusterType()){
-	
-	nSlaves <- ceiling(length(files) / 10)
-	
-	if (nSlaves > nCores) {
-		nSlaves <- nCores	
-	}
-	
-	clus <- makeCluster(nSlaves,clusterType)
+																thresh = 0.5){
 	
 	ms <- files %>%
-		parLapply(clus,.,function(d){
-			`%>%` <- getFromNamespace('%>%','magrittr')
-			
-			d %>%
-				mzR::openMSfile() %>%
-				mzR::header()
+		future_map(~{
+			.x %>%
+				openMSfile() %>%
+				header()
 		}) %>%
 		set_names(files)
-	
-	stopCluster(clus)
 	
 	hd <- ms %>%
 		bind_rows(.id = 'Sample') %>%
@@ -75,38 +59,19 @@ detectInfusionScans <- function(files,
 	return(min(scans):max(scans))
 }
 
-#' Detect suitable cluster type
-#' @description Detect appropriate cluster type from OS for parallel processing.
-#' @examples 
-#' detectClusterType()
-#' @export
-
-detectClusterType <- function(){
-	if (.Platform$OS.type == 'windows') {
-		type <- 'PSOCK'
-	} else {
-		type <- 'FORK'
-	}
-	return(type)
-}
-
 #' Detect suitable spectral binning parameters
 #' @description Detect binning parameters from a given list of file paths.
 #' @param files character vector of file paths
-#' @param nCores the number of cores to use for parallel processing
-#' @param clusterType the type of cluster to use for parallel processing
 #' @examples 
 #' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
 #' parameters <- detectParameters(files[1])
 #' @export
 
-detectParameters <- function(files, 
-														 nCores = detectCores() * 0.75, 
-														 clusterType = detectClusterType()){
+detectParameters <- function(files){
 	
-	scans <- detectInfusionScans(files,nCores = nCores,clusterType = clusterType)
+	scans <- detectInfusionScans(files)
 	
-	bp <- binParameters(scans = scans,nCores = nCores,clusterType = clusterType)
+	bp <- binParameters(scans = scans)
 	return(bp)
 }
 

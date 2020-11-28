@@ -4,12 +4,7 @@
 \alias{binParameters}
 \title{Set spectral binning parameters}
 \usage{
-binParameters(
-  scans = 5:12,
-  cls = character(),
-  nCores = detectCores() * 0.75,
-  clusterType = "FORK"
-)
+binParameters(scans = 5:12, cls = character())
 }
 \arguments{
 \item{scans}{numeric vector containing the scan indexes to use for binning}
@@ -17,16 +12,12 @@ binParameters(
 \item{cls}{the column of class labels to use for aggregating accurate 
 mass data. Defaults to NULL where accurate mass data will be averaged 
 accross all samples}
-
-\item{nCores}{the number of cores to use for parallel processing}
-
-\item{clusterType}{the type of cluster to use for parallel processing}
 }
 \description{
 Selection of parameters to use for spectral binning.
 }
 \examples{
-p <- binParameters(scans = 6:17,nCores = 2,clusterType = detectClusterType())
+p <- binParameters(scans = 6:17)
 
 
 }

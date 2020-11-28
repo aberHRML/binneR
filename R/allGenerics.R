@@ -62,26 +62,6 @@ setGeneric('cls<-',function(x,value){
 	standardGeneric('cls<-')
 })
 
-#' @rdname parameters
-setGeneric('nCores',function(x){
-	standardGeneric('nCores')
-})
-
-#' @rdname parameters
-setGeneric('nCores<-',function(x,value){
-	standardGeneric('nCores<-')
-})
-
-#' @rdname parameters
-setGeneric('clusterType',function(x){
-	standardGeneric('clusterType')
-})
-
-#' @rdname parameters
-setGeneric('clusterType<-',function(x,value){
-	standardGeneric('clusterType<-')
-})
-
 #' @rdname plotPurity
 setGeneric('plotPurity',function(x,histBins = 30){
 	standardGeneric('plotPurity')

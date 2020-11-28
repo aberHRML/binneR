@@ -36,13 +36,10 @@ setMethod("spectralBinning",
 							unique() %>%
 							length()
 						
-						clus <- makeCluster(nSlaves,type = clusterType(parameters))
-						
 						binnedData <- pks %>%
 							split(.$fileName) %>%
 							future_map(~{
-								
-								x %>%
+								.x %>%
 									group_by(fileName,polarity,bin,scan) %>%
 									summarise(intensity = sum(intensity))	%>%
 									group_by(fileName,polarity,bin) %>%
@@ -54,8 +51,7 @@ setMethod("spectralBinning",
 							left_join(classes,by = "fileName") %>%
 							split(.$fileName) %>%
 							future_map(~{
-								
-								x %>%
+								.x %>%
 									group_by_at(
 										vars(
 											all_of(c('fileName',
@@ -86,15 +82,14 @@ setMethod("spectralBinning",
 							select(-bin) %>%
 							split(.$polarity) %>%
 							future_map(~{
-								
-								x %>%
+								.x %>%
 									ungroup() %>%
 									mutate(mz = stringr::str_c(polarity,mz)) %>%
 									spread(mz,intensity,fill = 0) %>%
 									select(-fileName,-polarity)
 							})
 						
-						headers <- getHeaders(files,parameters@nCores,parameters@clusterType)
+						headers <- getHeaders(files)
 						
 						x@binLog <- date()
 						x@info <- info
@@ -127,7 +122,7 @@ setMethod('ss',signature = 'Binalysis',
 						binnedData <- pks %>%
 							split(.$fileName) %>%
 							future_map(~{
-								x %>%
+								.x %>%
 									group_by(fileName,polarity,bin) %>%
 									summarise(intensity = sum(intensity))
 							}) %>%
@@ -158,14 +153,14 @@ setMethod('ss',signature = 'Binalysis',
 							select(-bin) %>%
 							split(.$polarity) %>%
 							future_map(~{
-								x %>%
+								.x %>%
 									ungroup() %>%
 									mutate(mz = str_c(polarity,mz)) %>%
 									spread(mz,intensity,fill = 0) %>%
 									select(-fileName,-polarity)
 							})
 						
-						headers <- getHeaders(file,parameters@nCores,parameters@clusterType)
+						headers <- getHeaders(file)
 						
 						x@binParameters@cls <- 'scan'
 						x@binLog <- date()

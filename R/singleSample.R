@@ -2,8 +2,6 @@
 #' @description Perform spectral binning on a single sample.
 #' @param file file path
 #' @param class optional class name
-#' @param nCores number of cores to use for parallel processing
-#' @param clusterType cluster type to use for parallel processing
 #' @param verbose show console output
 #' @examples 
 #' filePath <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
@@ -14,8 +12,6 @@
 
 singleSample <- function(file, 
 												 class = NA, 
-												 nCores = detectCores(), 
-												 clusterType = detectClusterType(), 
 												 verbose = TRUE){
 
 	if (length(file) > 1) {
@@ -26,7 +22,7 @@ singleSample <- function(file,
 		stop('Only a single class can be affiliated!')
 	}
 	
-	parameters <- detectParameters(file,nCores = nCores,clusterType = clusterType)
+	parameters <- detectParameters(file)
 	
 	i <- tibble(fileOrder = seq_len(length(scans(parameters))),
 							fileName = basename(file),

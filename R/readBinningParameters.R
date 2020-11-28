@@ -16,10 +16,6 @@ readBinningParameters <- function(file){
 		parameters$scans <- checkScans(parameters$scans)
 	}
 	
-	if ('nCores' %in% names(parameters)){
-		parameters$nCores <- as.numeric(parameters$nCores)
-	}
-	
 	bp <- do.call(binParameters,parameters)
 	
 	return(bp)

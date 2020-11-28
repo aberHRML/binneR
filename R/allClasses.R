@@ -4,22 +4,13 @@
 #' @slot cls the column of class labels to use for aggregating accurate 
 #' mass data. Defaults to NULL where accurate mass data will be averaged 
 #' across all samples
-#' @slot nCores the number of cores to use for parallel processing
-#' @slot clusterType the type of cluster to use for parallel processing
 #' @export
 
 setClass('BinParameters',
          slots = list(
              scans = 'numeric',
-             cls = 'character',
-             nCores = 'numeric',
-             clusterType = 'character'
+             cls = 'character'
          ),
-				 prototype = list(
-				 	scans = 5:12,
-				 	nCores = 2,
-				 	clusterType = 'FORK'
-				 )
 )
 
 #' Spectral binning analysis class

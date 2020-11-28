@@ -17,8 +17,6 @@ setMethod('show',signature = 'BinParameters',
               if (length(object@cls) > 0) {
                   cat('Class:',object@cls,'\n')
               }
-              cat('No. Cores:',object@nCores,'\n')
-              cat('Cluster Type:',object@clusterType,'\n')
           })
 
 #' @rdname show

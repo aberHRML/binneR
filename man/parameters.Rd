@@ -5,18 +5,10 @@
 \alias{scans<-}
 \alias{cls}
 \alias{cls<-}
-\alias{nCores}
-\alias{nCores<-}
-\alias{clusterType}
-\alias{clusterType<-}
 \alias{scans,BinParameters-method}
 \alias{scans<-,BinParameters-method}
 \alias{cls,BinParameters-method}
 \alias{cls<-,BinParameters-method}
-\alias{nCores,BinParameters-method}
-\alias{nCores<-,BinParameters-method}
-\alias{clusterType,BinParameters-method}
-\alias{clusterType<-,BinParameters-method}
 \title{Get and set spectral binning parameters}
 \usage{
 scans(x)
@@ -27,14 +19,6 @@ cls(x)
 
 cls(x) <- value
 
-nCores(x)
-
-nCores(x) <- value
-
-clusterType(x)
-
-clusterType(x) <- value
-
 \S4method{scans}{BinParameters}(x)
 
 \S4method{scans}{BinParameters}(x) <- value
@@ -42,14 +26,6 @@ clusterType(x) <- value
 \S4method{cls}{BinParameters}(x)
 
 \S4method{cls}{BinParameters}(x) <- value
-
-\S4method{nCores}{BinParameters}(x)
-
-\S4method{nCores}{BinParameters}(x) <- value
-
-\S4method{clusterType}{BinParameters}(x)
-
-\S4method{clusterType}{BinParameters}(x) <- value
 }
 \arguments{
 \item{x}{S4 object of class BinParameters}
