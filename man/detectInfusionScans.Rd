@@ -2,29 +2,29 @@
 % Please edit documentation in R/detect.R
 \name{detectInfusionScans}
 \alias{detectInfusionScans}
-\title{detectInfusionScans}
+\title{Detect infusion profile scan range}
 \usage{
-detectInfusionScans(
-  files,
-  thresh = 0.5,
-  nCores = detectCores() * 0.75,
-  clusterType = detectClusterType()
-)
+detectInfusionScans(files, thresh = 0.5)
 }
 \arguments{
 \item{files}{character vector of file paths to use}
 
-\item{thresh}{detection threshold as a proportion of  preak of the infusion profile}
-
-\item{nCores}{the number of cores to use for parallel processing}
-
-\item{clusterType}{the type of cluster to use for parallel processing}
+\item{thresh}{detection threshold as a proportion of the peak of the 
+infusion profile}
+}
+\value{
+Numeric vector of detected infusion scans.
 }
 \description{
-detect infusion scans for a set of FIE-MS infusion profiles.
+Detect infusion scans for a set of FIE-MS infusion profiles.
 }
 \examples{
 if (requireNamespace("metaboData", quietly = TRUE)) {
-   detectInfusionScans(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1])
+   detectInfusionScans(
+      metaboData::filePaths('FIE-HRMS',
+                            'BdistachyonEcotypes')[1])
 }
+}
+\seealso{
+\code{\link{detectParameters}}
 }

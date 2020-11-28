@@ -1,17 +1,27 @@
-#' singleSample
-#' @description perform spectral binning on a single sample
+#' Perform single sample spectral binning
+#' @description Perform spectral binning on a single sample.
 #' @param file file path
 #' @param class optional class name
-#' @param nCores number of cores to use for parallel processing
-#' @param clusterType cluster type to use for parallel processing
 #' @param verbose show console output
+#' @seealso \code{\link{Binalysis-class}}
+#' @return S4 object of class Binalysis.
+#' @details 
+#' Parallel processing is managed by the \code{future} package. This can 
+#' be specified using the \code{plan() function}. See the example below 
+#' and \code{?future::plan} for details on how this can be specified.
+#' @examples 
 #' filePath <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+#' 
+#' #' ## Optionally declare parallel processing backend
+#' # plan(future::multisession,workers = 2)
 #' 
 #' bd <- singleSample(filePath)
 #' @importFrom utils capture.output
 #' @export
 
-singleSample <- function(file, class = NA, nCores = detectCores(), clusterType = detectClusterType(), verbose = T){
+singleSample <- function(file, 
+												 class = NA, 
+												 verbose = TRUE){
 
 	if (length(file) > 1) {
 		stop('Only suitable for a single file!')	
@@ -21,11 +31,11 @@ singleSample <- function(file, class = NA, nCores = detectCores(), clusterType =
 		stop('Only a single class can be affiliated!')
 	}
 	
-	parameters <- detectParameters(file,nCores = nCores,clusterType = clusterType)
+	parameters <- detectParameters(file)
 	
-	i <- tibble(fileOrder = 1:length(scans(parameters)),
+	i <- tibble(fileOrder = seq_len(length(scans(parameters))),
 							fileName = basename(file),
-							injOrder = 1:length(scans(parameters)),
+							injOrder = seq_len(length(scans(parameters))),
 							name = str_c('Scan ',scans(parameters)),
 							class = class,
 							batch = 1,
@@ -37,7 +47,7 @@ singleSample <- function(file, class = NA, nCores = detectCores(), clusterType =
 	
 	pv <- packageVersion('binneR') %>% as.character()
 	
-	if (verbose == T) {
+	if (verbose == TRUE) {
 		startTime <- proc.time()
 		message(str_c('\n',blue('binneR'),red(str_c('v',pv)),date(),sep = ' '))		
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
@@ -60,7 +70,7 @@ singleSample <- function(file, class = NA, nCores = detectCores(), clusterType =
 	) %>%
 		ss()
 	
-	if (verbose == T) {
+	if (verbose == TRUE) {
 		endTime <- proc.time()
 		ellapsed <- {endTime - startTime} %>%
 			.[3] %>%

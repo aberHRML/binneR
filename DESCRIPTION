@@ -1,11 +1,11 @@
 Package: binneR
 Title: Spectral Processing for High Resolution Flow Infusion Mass Spectrometry
-Version: 2.3.4
+Version: 2.4.0
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A spectral binning approach for high resolution flow infusion mass spectrometry data.
 biocViews: MassSpectrometry, Metabolomics
-URL: https://github.com/aberHRML/binneR
-SystemRequirements: libnetcdf-dev
+URL: https://aberHRML.github.io/binneR/
+BugReports: https://github.com/aberHRML/binneR/issues
 Depends: R (>= 3.5)
 Imports: 
     dplyr,
@@ -20,10 +20,13 @@ Imports:
     cli,
     lubridate,
     ggplot2,
-    ggthemes
+    ggthemes,
+    yaml,
+    future,
+    furrr
 License: GPL-3
 Encoding: UTF-8
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Collate:
     allGenerics.R
     allClasses.R
@@ -34,21 +37,16 @@ Collate:
     info-method.R
     binnedData-method.R
     accurateData-method.R
-    getPeaks.R
-    calcBinList.R
-    getHeaders.R
-    calcBinMeasures.R
+    get.R
+    calc.R
     readFiles.R
-    sampProcess.R
     binneR.R
-    plotBin.R
+    plot.R
     detect.R
-    plotChromatogram.R
-    plotTIC.R
-    plotFingerprint.R
     binMeasures.R
     singleSample.R
-    plotMeasures.R
+    readBinningParameters.R
+    reexports.R
 Suggests: 
     knitr,
     rmarkdown,
@@ -58,8 +56,7 @@ Suggests:
     htmltools,
     covr,
     testthat,
-    gifski,
-    pacman
+    gifski
 LazyData: true
 VignetteBuilder: knitr
-Additional_repositories: https://aberhrml.github.io/drat/
+Remotes: aberHRML/metaboData

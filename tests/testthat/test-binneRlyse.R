@@ -11,29 +11,22 @@ info <- tibble::tibble(fileOrder = 1,
 											 name = '1',
 											 class = 1)
 
-p <- binParameters(scans = 5:13,nCores = 2,clusterType = detectClusterType())
+p <- binParameters(scans = 5:13,cls = 'class')
 
-pars <- list(scans = scans(p),nCores = nCores(p),clusterType = clusterType(p))
+pars <- list(scans = scans(p))
 
 analysis <- binneRlyse(file, 
 											 info, 
-											 parameters = p,verbose = F)
+											 parameters = p,verbose = TRUE)
 
 inf <- info(analysis)
 bd <- binnedData(analysis)
 ad <- accurateData(analysis)
 
-chrPl <- plotChromatogram(analysis)
-ticPl <- plotTIC(analysis)
-binPl <- plotBin(analysis,'n133.01')
-fingPl <- plotFingerprint(analysis)
-
 test_that('binParameters works',{
 	expect_true(class(p) == 'BinParameters')
-	expect_true(identical(slotNames(p),c("scans","cls","nCores","clusterType")))
+	expect_true(identical(slotNames(p),c("scans","cls")))
 	expect_true(identical(pars$scans,5:13))
-	expect_true(pars$nCores == 2)
-	expect_true(pars$clusterType == detectClusterType())
 })
 
 test_that('binneRlyse works',{
@@ -46,16 +39,26 @@ test_that('binneRlyse works',{
 	expect_true(class(bd) == 'list')
 	expect_true(identical(names(bd),c('n','p')))
 	expect_true(identical(purrr::map_dbl(bd,nrow),c(n = 1,p = 1)))
-	expect_true(identical(purrr::map_dbl(bd,ncol),c(n = 853,p = 1042)))
+	expect_true(identical(purrr::map_dbl(bd,ncol),c(n = 854,p = 1042)))
 	
 	expect_true(identical(class(ad),c('tbl_df','tbl','data.frame')))
-	expect_true(nrow(ad) == 1895)
-	expect_true(ncol(ad) == 7)
+	expect_true(nrow(ad) == 1896)
+	expect_true(ncol(ad) == 8)
 })
 
-test_that('plots work',{
-	expect_true(identical(class(chrPl),c('gg','ggplot')))
-	expect_true(identical(class(ticPl),c('gg','ggplot')))
-	expect_true(identical(class(binPl),c('gg','ggplot')))
-	expect_true(identical(class(fingPl),c('gg','ggplot')))
+test_that('BinParameters class show method works',{
+	expect_output(print(p),'Scans:')
+})
+
+test_that('Binalysis class show method works',{
+	expect_output(print(analysis),'Samples:')
+})
+
+test_that('binParameters can be correctly set',{
+	bp <- new('BinParameters')
+	scans(bp) <- 1
+	cls(bp) <- 'class'
+	
+	expect_equal(scans(bp),1)
+	expect_equal(cls(bp),'class')
 })

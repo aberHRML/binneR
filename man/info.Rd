@@ -3,18 +3,21 @@
 \name{info}
 \alias{info}
 \alias{info,Binalysis-method}
-\title{info-Binalysis}
+\title{Extract sample information}
 \usage{
 info(x)
 
 \S4method{info}{Binalysis}(x)
 }
 \arguments{
-\item{x}{Binalysis object}
+\item{x}{S4 object of class Binalysis}
+}
+\value{
+A tibble containing sample meta information.
 }
 \description{
-Extract runinfo data from a Binalysis object.
+Extract sample meta information from a Binalysis object.
 }
-\author{
-Jasen Finch \email{jsf9@aber.ac.uk}
+\seealso{
+\code{\link{Binalysis-class}}, \code{\link{binneRlyse}}
 }

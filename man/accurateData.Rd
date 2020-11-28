@@ -3,18 +3,22 @@
 \name{accurateData}
 \alias{accurateData}
 \alias{accurateData,Binalysis-method}
-\title{accurateData-Binalysis}
+\title{Extract accurate mass data}
 \usage{
 accurateData(x)
 
 \S4method{accurateData}{Binalysis}(x)
 }
 \arguments{
-\item{x}{Binalysis object}
+\item{x}{S4 object of class Binalysis}
+}
+\value{
+A tibble containing sample wise accurate mass data.
 }
 \description{
-Extract accurate data from a Binalysis object.
+Extract sample-wise accurate mass data and bin measures 
+for each 0.01 amu bin from a Binalysis object.
 }
-\author{
-Jasen Finch \email{jsf9@aber.ac.uk}
+\seealso{
+\code{\link{binneRlyse}}
 }

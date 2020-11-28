@@ -3,7 +3,7 @@
 \docType{class}
 \name{BinParameters-class}
 \alias{BinParameters-class}
-\title{BinParameters}
+\title{Spectral binning parameters class}
 \description{
 An S4 class to store spectral binning parameters.
 }
@@ -12,10 +12,11 @@ An S4 class to store spectral binning parameters.
 \describe{
 \item{\code{scans}}{numeric vector containing the scan indexes to use for binning}
 
-\item{\code{cls}}{the column of class labels to use for aggregating accurate mass data. Defaults to NULL where accurate mass data will be averaged accross all samples}
-
-\item{\code{nCores}}{the number of cores to use for parallel processing}
-
-\item{\code{clusterType}}{the type of cluster to use for parallel processing}
+\item{\code{cls}}{the column of class labels to use for aggregating accurate 
+mass data. Defaults to NULL where accurate mass data will be averaged 
+across all samples}
 }}
 
+\seealso{
+\code{\link{binParameters}}
+}

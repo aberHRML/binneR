@@ -1,31 +1,48 @@
-#' binneRlyse
+#' Perform spectral binning
 #' @description perform spectral binning.
 #' @param files character vector of file paths to use for spectral binning
 #' @param info tibble containing sample information
-#' @param parameters object of class BinParameters containing parameters for spectral binning
+#' @param parameters object of class BinParameters containing parameters 
+#' for spectral binning
 #' @param verbose show console output
-#' @importFrom dplyr tbl_df n
-#' @importFrom magrittr %>%
-#' @importFrom crayon blue red green
-#' @importFrom cli console_width
-#' @importFrom utils packageVersion
-#' @importFrom lubridate seconds_to_period
+#' @return S4 object of class Binalysis.
+#' @details 
+#' Parallel processing is managed by the \code{future} package. This can 
+#' be specified using the \code{plan() function}. See the example below 
+#' and \code{?future::plan} for details on how this can be specified.
+#' @seealso \code{\link{Binalysis-class}}, \code{\link{binParameters}}, 
+#' \code{\link{info}}, \code{\link{binnedData}},  \code{\link{accurateData}}
 #' @examples 
 #' \dontrun{
 #' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
 #' 
 #' info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
 #' 
+#' parameters <- detectParameters(files)
+#' cls(parameters) <- 'class'
+#' 
+#' #' ## Optionally declare parallel processing backend
+#' # plan(future::multisession,workers = 2)
+#' 
 #' analysis <- binneRlyse(files, 
 #'                        info, 
-#'                        parameters = detectParameters(files))
+#'                        parameters = parameters)
 #'    }
+#' @importFrom dplyr ungroup n
+#' @importFrom magrittr %>%
+#' @importFrom crayon blue red green
+#' @importFrom cli console_width
+#' @importFrom utils packageVersion
+#' @importFrom lubridate seconds_to_period
 #' @export
 
-binneRlyse <- function(files, info, parameters = binParameters(), verbose = T){
+binneRlyse <- function(files, 
+											 info, 
+											 parameters = binParameters(), 
+											 verbose = TRUE){
 	pv <- packageVersion('binneR') %>% as.character()
 	
-	if (verbose == T) {
+	if (verbose == TRUE) {
 		startTime <- proc.time()
 		message(str_c('\n',blue('binneR'),red(str_c('v',pv)),date(),sep = ' '))		
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
@@ -43,11 +60,11 @@ binneRlyse <- function(files, info, parameters = binParameters(), verbose = T){
 									files = files,
 									info = info,
 									binnedData = list(),
-									accurateMZ = tbl_df(data.frame()),
+									accurateMZ = tibble(),
 									spectra = list()
 	) %>% spectralBinning()
 	
-	if (verbose == T) {
+	if (verbose == TRUE) {
 		endTime <- proc.time()
 		ellapsed <- {endTime - startTime} %>%
 			.[3] %>%

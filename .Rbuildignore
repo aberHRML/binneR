@@ -6,3 +6,9 @@
 appveyor.yml
 README.md
 ^LICENSE\.md$
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^doc$
+^Meta$

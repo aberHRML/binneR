@@ -1,6 +1,7 @@
-#' show-BinParameters
-#' @description show method for BinParameters class
-#' @param object BinParameters Object
+#' Show methods for spectral binning classes
+#' @rdname show
+#' @description Show methods for spectral binning classes.
+#' @param object S4 objects of class BinParameters or Binanalysi
 #' @author Jasen Finch \email{jsf9@aber.ac.uk}
 #' @importFrom methods show
 #' @importFrom purrr map_chr
@@ -9,19 +10,16 @@
 setMethod('show',signature = 'BinParameters',
           function(object){
               cat('\n')
-              cat('Scans:',paste(min(object@scans),':',max(object@scans),sep = ''),'\n')
+              cat('Scans:',
+              		paste(min(object@scans),':',
+              					max(object@scans),sep = ''),
+              		'\n')
               if (length(object@cls) > 0) {
                   cat('Class:',object@cls,'\n')
               }
-              cat('No. Cores:',object@nCores,'\n')
-              cat('Cluster Type:',object@clusterType,'\n')
           })
 
-#' show-Binalysis
-#' @description show method for Binalysis class
-#' @param object Binalysis Object
-#' @author Jasen Finch \email{jsf9@aber.ac.uk}
-#' @importFrom methods show
+#' @rdname show
 #' @export
 
 setMethod('show',signature = 'Binalysis',
@@ -41,7 +39,17 @@ setMethod('show',signature = 'Binalysis',
                   	str_c(collapse = '\n')
                   cat(var,sep = '\n')
               }
-              cat('Average Purity:',mean(object@accurateMZ$Purity,na.rm = T) %>% round(3),'\n')
-              cat('Average Centrality:',mean(object@accurateMZ$Centrality,na.rm = T) %>% round(3),'\n')
+              if (length(object@accurateMZ) > 0) {
+              	cat('Average Purity:',
+              			mean(object@accurateMZ$purity,
+              					 na.rm = TRUE) %>% 
+              				round(3),
+              			'\n')
+              	cat('Average Centrality:',
+              			mean(object@accurateMZ$centrality,
+              					 na.rm = TRUE) %>% 
+              				round(3),
+              			'\n')	
+              }
               cat('\n')
           })

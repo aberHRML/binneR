@@ -23,7 +23,7 @@ setGeneric("accurateData", function(x) {
 })
 
 #' @rdname plotBin
-setGeneric('plotBin',function(x,bin,cls = T) {
+setGeneric('plotBin',function(x,bin,type = c('all','cls','sample')) {
 	standardGeneric('plotBin')
 })
 
@@ -42,24 +42,24 @@ setGeneric('plotFingerprint',function(x){
 	standardGeneric('plotFingerprint')
 })
 
-#' @rdname scans
+#' @rdname parameters
 setGeneric('scans',function(x){
 	standardGeneric('scans')
 })
 
-#' @rdname cls
+#' @rdname parameters
+setGeneric('scans<-',function(x,value){
+	standardGeneric('scans<-')
+})
+
+#' @rdname parameters
 setGeneric('cls',function(x){
 	standardGeneric('cls')
 })
 
-#' @rdname nCores
-setGeneric('nCores',function(x){
-	standardGeneric('nCores')
-})
-
-#' @rdname clusterType
-setGeneric('clusterType',function(x){
-	standardGeneric('clusterType')
+#' @rdname parameters
+setGeneric('cls<-',function(x,value){
+	standardGeneric('cls<-')
 })
 
 #' @rdname plotPurity

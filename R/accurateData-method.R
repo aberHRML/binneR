@@ -1,8 +1,10 @@
-#' accurateData-Binalysis
+#' Extract accurate mass data
 #' @rdname accurateData
-#' @description Extract accurate data from a Binalysis object.
-#' @param x Binalysis object
-#' @author Jasen Finch \email{jsf9@aber.ac.uk}
+#' @description Extract sample-wise accurate mass data and bin measures 
+#' for each 0.01 amu bin from a Binalysis object.
+#' @param x S4 object of class Binalysis
+#' @return A tibble containing sample wise accurate mass data.
+#' @seealso \code{\link{binneRlyse}}
 #' @export
 
 setMethod('accurateData',signature = 'Binalysis',

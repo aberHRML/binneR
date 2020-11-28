@@ -1,36 +1,30 @@
-#' detectInfusionScans
-#' @description detect infusion scans for a set of FIE-MS infusion profiles.
+#' Detect infusion profile scan range
+#' @description Detect infusion scans for a set of FIE-MS infusion profiles.
 #' @param files character vector of file paths to use
-#' @param thresh detection threshold as a proportion of  preak of the infusion profile
-#' @param nCores the number of cores to use for parallel processing
-#' @param clusterType the type of cluster to use for parallel processing
-#' @importFrom mzR openMSfile header
-#' @importFrom dplyr group_by summarise
+#' @param thresh detection threshold as a proportion of the peak of the 
+#' infusion profile
+#' @return Numeric vector of detected infusion scans.
+#' @seealso \code{\link{detectParameters}}
 #' @examples 
 #' if (requireNamespace("metaboData", quietly = TRUE)) {
-#'    detectInfusionScans(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1])
+#'    detectInfusionScans(
+#'       metaboData::filePaths('FIE-HRMS',
+#'                             'BdistachyonEcotypes')[1])
 #' }
+#' @importFrom mzR openMSfile header
+#' @importFrom dplyr group_by summarise
 #' @export
 
-detectInfusionScans <- function(files, thresh = 0.5, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
-	
-	nSlaves <- ceiling(length(files) / 10)
-	
-	if (nSlaves > nCores) {
-		nSlaves <- nCores	
-	}
-	
-	clus <- makeCluster(nSlaves,clusterType)
+detectInfusionScans <- function(files, 
+																thresh = 0.5){
 	
 	ms <- files %>%
-		parLapply(clus,.,function(d){
-			d %>%
+		future_map(~{
+			.x %>%
 				openMSfile() %>%
 				header()
 		}) %>%
 		set_names(files)
-	
-	stopCluster(clus)
 	
 	hd <- ms %>%
 		bind_rows(.id = 'Sample') %>%
@@ -48,7 +42,7 @@ detectInfusionScans <- function(files, thresh = 0.5, nCores = detectCores() * 0.
 						map(~{
 							b <- .
 							b %>%
-								mutate(acquisitionNum = 1:nrow(.))
+								mutate(acquisitionNum = seq_len(nrow(.)))
 						}) %>%
 						bind_rows()
 				}) %>%
@@ -67,34 +61,20 @@ detectInfusionScans <- function(files, thresh = 0.5, nCores = detectCores() * 0.
 	return(min(scans):max(scans))
 }
 
-#' detectClusterType
-#' @description Detect appropriate cluster type from OS.
-#' @export
-
-detectClusterType <- function(){
-	if (.Platform$OS.type == 'windows') {
-		type <- 'PSOCK'
-	} else {
-		type <- 'FORK'
-	}
-	return(type)
-}
-
-#' detectParameters
-#' @description Detect binning parameters from file list.
+#' Detect suitable spectral binning parameters
+#' @description Detect binning parameters from a given list of file paths.
 #' @param files character vector of file paths
-#' @param nCores the number of cores to use for parallel processing
-#' @param clusterType the type of cluster to use for parallel processing
+#' @return S4 object of class BinParameters
 #' @examples 
 #' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
 #' parameters <- detectParameters(files[1])
+#' @seealso \code{\link{BinParameters-class}}, \code{\link{binParameters}}
 #' @export
 
-detectParameters <- function(files, nCores = detectCores() * 0.75, clusterType = detectClusterType()){
+detectParameters <- function(files){
 	
-	scans <- detectInfusionScans(files,nCores = nCores,clusterType = clusterType)
+	scans <- detectInfusionScans(files)
 	
-	bp <- binParameters(scans = scans,nCores = nCores,clusterType = clusterType)
+	bp <- binParameters(scans = scans)
 	return(bp)
 }
-
