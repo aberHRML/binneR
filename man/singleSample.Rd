@@ -4,22 +4,12 @@
 \alias{singleSample}
 \title{Perform single sample spectral binning}
 \usage{
-singleSample(
-  file,
-  class = NA,
-  nCores = detectCores(),
-  clusterType = detectClusterType(),
-  verbose = TRUE
-)
+singleSample(file, class = NA, verbose = TRUE)
 }
 \arguments{
 \item{file}{file path}
 
 \item{class}{optional class name}
-
-\item{nCores}{number of cores to use for parallel processing}
-
-\item{clusterType}{cluster type to use for parallel processing}
 
 \item{verbose}{show console output}
 }

@@ -11,13 +11,13 @@ test_that('sampProcess works',{
 })
 
 test_that('getPeaks works single core',{
-	pks <- getPeaks(file,5:13,0,detectClusterType())
+	pks <- getPeaks(file,5:13)
 	
 	expect_s3_class(pks,'tbl_df')
 	expect_equal(ncol(pks),6)
 })
 
 test_that('getHeaders works single core',{
-	h <- getHeaders(file,0,detectClusterType())
+	h <- getHeaders(file)
 	expect_s3_class(h,'data.frame')
 })

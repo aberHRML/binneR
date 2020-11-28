@@ -51,7 +51,7 @@ file <- filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 ms <- openMSfile(file)
 chrom <- mzR::header(ms)
 
-is <- detectInfusionScans(file,nCores = 2)
+is <- detectInfusionScans(file)
 buffer <- 10
 is <- c(1,is[2] + buffer)
 
@@ -163,8 +163,7 @@ Then the data can be spectrally binned using:
 ```{r readFilesExample}
 res <- readFiles(file,
 								 dp = 2,
-								 scans = infusionScans,
-								 nCores = 1)
+								 scans = infusionScans)
 ```
 
 This will return a list containing the intensity matrices for each ionisation mode, with the rows being the individual samples and columns the spectral bins.
@@ -217,7 +216,7 @@ Prior to spectral binning the processing parameters first need to be selected.
 The binning parameter can be detected using the `detectParameters()` function as shown below.
 
 ```{r binParameterExample}
-parameters <- detectParameters(files,nCores = 2)
+parameters <- detectParameters(files)
 parameters
 ```
 
@@ -262,7 +261,7 @@ analysis <- binneRlyse(files,info,parameters)
 ```
 
 ```{r processing,echo=FALSE}
-analysis <- binneRlyse(files,info,binParameters(scans = detectInfusionScans(files,nCores = 2),cls = 'class',nCores = 2,clusterType = 'PSOCK'))
+analysis <- binneRlyse(files,info,binParameters(scans = detectInfusionScans(files),cls = 'class'))
 ```
 
 ```{r printAnalysis,echo=FALSE}

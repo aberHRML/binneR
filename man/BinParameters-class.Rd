@@ -15,9 +15,5 @@ An S4 class to store spectral binning parameters.
 \item{\code{cls}}{the column of class labels to use for aggregating accurate 
 mass data. Defaults to NULL where accurate mass data will be averaged 
 across all samples}
-
-\item{\code{nCores}}{the number of cores to use for parallel processing}
-
-\item{\code{clusterType}}{the type of cluster to use for parallel processing}
 }}
 

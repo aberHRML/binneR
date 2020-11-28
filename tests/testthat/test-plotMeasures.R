@@ -11,9 +11,9 @@ info <- tibble::tibble(fileOrder = 1,
 											 name = '1',
 											 class = 1)
 
-p <- binParameters(scans = 5:13,nCores = 2,clusterType = detectClusterType())
+p <- binParameters(scans = 5:13)
 
-pars <- list(scans = scans(p),nCores = nCores(p),clusterType = clusterType(p))
+pars <- list(scans = scans(p))
 
 analysis <- binneRlyse(file, 
 											 info, 

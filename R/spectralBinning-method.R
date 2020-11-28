@@ -14,15 +14,7 @@ setMethod("spectralBinning",
 						info <- info(x)
 						files <- x@files
 						
-						nSlaves <- ceiling(length(files) / 20)
-						
-						if (nSlaves > nCores(parameters)) {
-							nSlaves <- nCores(parameters)
-						}
-						
-						pks <- getPeaks(files,scans(parameters),
-														nSlaves,
-														clusterType(parameters))
+						pks <- getPeaks(files,scans(parameters))
 						
 						binList <- calcBinList(pks)
 						
@@ -44,57 +36,31 @@ setMethod("spectralBinning",
 							unique() %>%
 							length()
 						
-						clus <- makeCluster(nSlaves,type = clusterType(parameters))
-						
 						binnedData <- pks %>%
 							split(.$fileName) %>%
-							parLapply(clus,.,function(x,nScans){
-								
-								`%>%` <- getFromNamespace('%>%','magrittr')
-								
-								x %>%
-									split(stringr::str_c(.$fileName,.$polarity,.$bin,.$scan)) %>%
-									purrr::map(~{
-										tibble(fileName = .x$fileName[1],
-													 polarity = .x$polarity[1],
-													 bin = .x$bin[1],
-													 scan = .x$scan[1],
-													 intensity = sum(.x$intensity))
-									}) %>%
-									dplyr::bind_rows() %>%
-									split(stringr::str_c(.$fileName,.$polarity,.$bin)) %>%
-									purrr::map(~{
-										tibble(fileName = .x$fileName[1],
-													 polarity = .x$polarity[1],
-													 bin = .x$bin[1],
-													 intensity = sum(.x$intensity)/nScans)
-									}) %>%
-									dplyr::bind_rows()
-							},nScans = nScans) %>%
+
+							future_map(~{
+								.x %>%
+									group_by(fileName,polarity,bin,scan) %>%
+									summarise(intensity = sum(intensity))	%>%
+									group_by(fileName,polarity,bin) %>%
+									summarise(intensity = sum(intensity)/nScans)
+							}) %>%
 							bind_rows()
 						
 						pks <- pks %>%
 							left_join(classes,by = "fileName") %>%
 							split(.$fileName) %>%
-							parLapply(clus,.,function(x,nScans){
-								
-								`%>%` <- getFromNamespace('%>%','magrittr')
-								x %>%
-									split(stringr::str_c(.$fileName,.[,cls],.$polarity,.$mz,.$bin)) %>%
-									purrr::map(~{
-										d <- tibble(fileName = .x$fileName[1],
-													 polarity = .x$polarity[1],
-													 bin = .x$bin[1],
-													 intensity = sum(.x$intensity)/nScans)
-										d[,cls] <- cls
-										return(.x)
-									}) %>%
-									dplyr::bind_rows() %>%
-									dplyr::select(fileName,dplyr::all_of(cls),polarity,mz,bin,intensity)
-							},nScans = nScans) %>%
+							future_map(~{
+								.x %>%
+									group_by_at(
+										vars(
+											all_of(c('fileName',
+																			cls,
+																			'polarity','mz','bin')))) %>%
+									summarise(intensity = sum(intensity)/nScans)
+							}) %>%
 							bind_rows()
-						
-						stopCluster(clus)
 						
 						binMeasures <- calcBinMeasures(pks,
 																					 cls,
@@ -112,34 +78,20 @@ setMethod("spectralBinning",
 							filter(intensity == max(intensity)) %>%
 							select(polarity,bin,mz)
 						
-						nSlaves <- ceiling(length(accurateMZ$polarity %>%
-																				unique()))
-						
-						if (nSlaves > nCores(parameters)) {
-							nSlaves <- nCores(parameters)
-						}
-						
-						clus <- makeCluster(nSlaves,type = parameters@clusterType)
-						
 						binnedData <- binnedData %>%
 							left_join(mz,by = c("polarity", "bin")) %>%
 							select(-bin) %>%
 							dplyr::ungroup() %>%
 							split(.$polarity) %>%
-							parLapply(clus,.,function(x){
-								
-								`%>%` <- getFromNamespace('%>%','magrittr')
-								
-								x$mz <- stringr::str_c(x$polarity,x$mz)
-								
-								x %>%
-									tidyr::spread(mz,intensity,fill = 0) %>%
-									dplyr::select(-fileName,-polarity)
+							future_map(~{
+								.x %>%
+									ungroup() %>%
+									mutate(mz = stringr::str_c(polarity,mz)) %>%
+									spread(mz,intensity,fill = 0) %>%
+									select(-fileName,-polarity)
 							})
 						
-						stopCluster(clus)
-						
-						headers <- getHeaders(files,parameters@nCores,parameters@clusterType)
+						headers <- getHeaders(files)
 						
 						x@binLog <- date()
 						x@info <- info
@@ -160,9 +112,7 @@ setMethod('ss',signature = 'Binalysis',
 						class <- x@info$class[1]
 						parameters <- x@binParameters
 						
-						pks <- getPeaks(file,scans(parameters),
-														1,
-														clusterType(parameters)) %>%
+						pks <- getPeaks(file,scans(parameters)) %>%
 							mutate(fileName = str_c('Scan ',scan))
 						
 						binList <- calcBinList(pks)
@@ -171,34 +121,14 @@ setMethod('ss',signature = 'Binalysis',
 							inner_join(binList,by = c("polarity", "bin")) %>%
 							mutate(class = class)
 						
-						nSlaves <- ceiling(length(scans(parameters)) / 20)
-						
-						if (nSlaves > nCores(parameters)) {
-							nSlaves <- nCores(parameters)
-						}
-						
-						clus <- makeCluster(nSlaves,type = parameters@clusterType)
-						
 						binnedData <- pks %>%
 							split(.$fileName) %>%
-							parLapply(clus,.,function(x){
-								`%>%` <- getFromNamespace('%>%','magrittr')
-								
-								x %>%
-									split(stringr::str_c(.$fileName,.$polarity,.$bin)) %>%
-									purrr::map(~{
-										tibble(fileName = .x$fileName[1],
-													 polarity = .x$polarity[1],
-													 bin = .x$bin[1],
-													 intensity = sum(.x$intensity))
-									}) %>%
-									dplyr::bind_rows() %>%
-									dplyr::select(fileName,polarity,bin,intensity) %>%
-									dplyr::distinct()
+							future_map(~{
+								.x %>%
+									group_by(fileName,polarity,bin) %>%
+									summarise(intensity = sum(intensity))
 							}) %>%
 							bind_rows()
-						
-						stopCluster(clus)
 						
 						binMeasures <- calcBinMeasures(pks,
 																					 'class',
@@ -220,32 +150,20 @@ setMethod('ss',signature = 'Binalysis',
 							filter(intensity == max(intensity)) %>%
 							select(polarity,bin,mz)
 						
-						nSlaves <- ceiling(length(accurateMZ$polarity %>%
-																				unique()))
-						
-						if (nSlaves > nCores(parameters)) {
-							nSlaves <- nCores(parameters)
-						}
-						
-						clus <- makeCluster(nSlaves,type = parameters@clusterType)
-						
 						binnedData <- binnedData %>%
 							left_join(mz,by = c("polarity", "bin")) %>%
 							select(-bin) %>%
 							ungroup() %>%
 							split(.$polarity) %>%
-							parLapply(clus,.,function(x){
-								`%>%` <- getFromNamespace('%>%','magrittr')
-								
-								x$mz <- stringr::str_c(x$polarity,x$mz)
-								x %>%
-									tidyr::spread(mz,intensity,fill = 0) %>%
-									dplyr::select(-fileName,-polarity)
+							future_map(~{
+								.x %>%
+									ungroup() %>%
+									mutate(mz = str_c(polarity,mz)) %>%
+									spread(mz,intensity,fill = 0) %>%
+									select(-fileName,-polarity)
 							})
 						
-						stopCluster(clus)
-						
-						headers <- getHeaders(file,parameters@nCores,parameters@clusterType)
+						headers <- getHeaders(file)
 						
 						x@binParameters@cls <- 'scan'
 						x@binLog <- date()

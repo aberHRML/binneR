@@ -21,7 +21,9 @@ Imports:
     lubridate,
     ggplot2,
     ggthemes,
-    yaml
+    yaml,
+    future,
+    furrr
 License: GPL-3
 Encoding: UTF-8
 RoxygenNote: 7.1.1
@@ -35,20 +37,14 @@ Collate:
     info-method.R
     binnedData-method.R
     accurateData-method.R
-    getPeaks.R
-    calcBinList.R
-    getHeaders.R
-    calcBinMeasures.R
+    get.R
+    calc.R
     readFiles.R
     binneR.R
-    plotBin.R
+    plot.R
     detect.R
-    plotChromatogram.R
-    plotTIC.R
-    plotFingerprint.R
     binMeasures.R
     singleSample.R
-    plotMeasures.R
     readBinningParameters.R
     reexports.R
 Suggests: 

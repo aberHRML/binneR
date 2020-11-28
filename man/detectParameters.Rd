@@ -4,18 +4,10 @@
 \alias{detectParameters}
 \title{Detect suitable spectral binning parameters}
 \usage{
-detectParameters(
-  files,
-  nCores = detectCores() * 0.75,
-  clusterType = detectClusterType()
-)
+detectParameters(files)
 }
 \arguments{
 \item{files}{character vector of file paths}
-
-\item{nCores}{the number of cores to use for parallel processing}
-
-\item{clusterType}{the type of cluster to use for parallel processing}
 }
 \description{
 Detect binning parameters from a given list of file paths.

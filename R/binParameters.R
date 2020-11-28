@@ -4,29 +4,19 @@
 #' @param cls the column of class labels to use for aggregating accurate 
 #' mass data. Defaults to NULL where accurate mass data will be averaged 
 #' accross all samples
-#' @param nCores the number of cores to use for parallel processing
-#' @param clusterType the type of cluster to use for parallel processing
 #' @examples 
-#' p <- binParameters(scans = 6:17,nCores = 2,clusterType = detectClusterType())
+#' p <- binParameters(scans = 6:17)
 #' 
 #' 
 #' @importFrom parallel detectCores
 #' @export
 
 binParameters <- function(scans = 5:12, 
-                          cls = character(), 
-                          nCores = detectCores() * 0.75, 
-                          clusterType = 'FORK'){
+                          cls = character()){
    p <- new('BinParameters',
         scans = scans,
-        cls = cls,
-        nCores = nCores,
-        clusterType = clusterType
+        cls = cls
         )
-   
-   if (.Platform$OS.type == 'windows') {
-       p@clusterType <- 'PSOCK'    
-   }
    
    return(p)
 }
@@ -66,38 +56,3 @@ setMethod('cls<-',signature = 'BinParameters',function(x,value){
         x@cls <- value
         return(x)
 })
-
-#' @rdname parameters
-#' @export
-
-setMethod('nCores',signature = 'BinParameters',function(x){
-        x@nCores
-})
-
-#' @rdname parameters
-#' @export
-
-setMethod('nCores<-',signature = 'BinParameters',function(x,value){
-        x@nCores <- value
-        return(x)
-})
-
-#' @rdname parameters
-#' @export
-
-setMethod('clusterType',signature = 'BinParameters',function(x){
-        x@clusterType
-})
-
-#' @rdname parameters
-#' @export
-
-setMethod('clusterType<-',signature = 'BinParameters',function(x,value){
-        x@clusterType <- value
-        return(x)
-})
-
-
-
-
-

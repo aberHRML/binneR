@@ -11,9 +11,9 @@ info <- tibble::tibble(fileOrder = 1,
 											 name = '1',
 											 class = 1)
 
-p <- binParameters(scans = 5:13,cls = 'class',nCores = 2,clusterType = detectClusterType())
+p <- binParameters(scans = 5:13,cls = 'class')
 
-pars <- list(scans = scans(p),nCores = nCores(p),clusterType = clusterType(p))
+pars <- list(scans = scans(p))
 
 analysis <- binneRlyse(file, 
 											 info, 
@@ -34,10 +34,8 @@ fingPl <- plotFingerprint(analysis)
 
 test_that('binParameters works',{
 	expect_true(class(p) == 'BinParameters')
-	expect_true(identical(slotNames(p),c("scans","cls","nCores","clusterType")))
+	expect_true(identical(slotNames(p),c("scans","cls")))
 	expect_true(identical(pars$scans,5:13))
-	expect_true(pars$nCores == 2)
-	expect_true(pars$clusterType == detectClusterType())
 })
 
 test_that('binneRlyse works',{
@@ -80,11 +78,7 @@ test_that('binParameters can be correctly set',{
 	bp <- new('BinParameters')
 	scans(bp) <- 1
 	cls(bp) <- 'class'
-	nCores(bp) <- 1
-	clusterType(bp) <- 'PSOCK'
 	
 	expect_equal(scans(bp),1)
 	expect_equal(cls(bp),'class')
-	expect_equal(nCores(bp),1)
-	expect_equal(clusterType(bp),'PSOCK')
 })

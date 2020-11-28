@@ -4,22 +4,13 @@
 \alias{detectInfusionScans}
 \title{Detect infusion profile scan range}
 \usage{
-detectInfusionScans(
-  files,
-  thresh = 0.5,
-  nCores = detectCores() * 0.75,
-  clusterType = detectClusterType()
-)
+detectInfusionScans(files, thresh = 0.5)
 }
 \arguments{
 \item{files}{character vector of file paths to use}
 
 \item{thresh}{detection threshold as a proportion of the peak of the 
 infusion profile}
-
-\item{nCores}{the number of cores to use for parallel processing}
-
-\item{clusterType}{the type of cluster to use for parallel processing}
 }
 \description{
 Detect infusion scans for a set of FIE-MS infusion profiles.
