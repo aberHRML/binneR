@@ -1,3 +1,7 @@
+# binneR v2.4.1
+
+* Fixed errors in [`binneR::plotCentrality()`](https://aberHRML.github.io/binneR/reference/plotCentrality.html) and [`binneR::plotPurity()`](https://aberHRML.github.io/binneR/reference/plotPurity.html).
+
 # binneR v2.4.0
 
 * Added a [`NEWS.md`](https://aberHRML.github.io/binneR/news/index.html) file to track changes to the package.
