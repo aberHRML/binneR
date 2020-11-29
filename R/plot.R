@@ -241,7 +241,7 @@ setMethod('plotPurity',signature = 'Binalysis',function(x,histBins = 30){
 	pur$polarity[pur$polarity == 'p'] <- 'Positive mode'
 	
 	pur %>%
-		ggplot(aes(x = Purity)) +
+		ggplot(aes(x = purity)) +
 		geom_histogram(fill = "#88CCEE",colour = 'black',bins = histBins) +
 		theme_bw() +
 		facet_wrap(~polarity) +
@@ -273,7 +273,7 @@ setMethod('plotCentrality',signature = 'Binalysis',function(x,histBins = 30){
 	pur$polarity[pur$polarity == 'p'] <- 'Positive mode'
 	
 	pur %>%
-		ggplot(aes(x = Centrality)) +
+		ggplot(aes(x = centrality)) +
 		geom_histogram(fill = "#88CCEE",colour = 'black',bins = histBins) +
 		theme_bw() +
 		facet_wrap(~polarity) +
