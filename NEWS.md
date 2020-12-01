@@ -1,3 +1,7 @@
+# binneR v2.4.2
+
+* Bin measures are now correctly averaged across samples in [`binneR::plotCentrality()`](https://aberHRML.github.io/binneR/reference/plotCentrality.html) and [`binneR::plotPurity()`](https://aberHRML.github.io/binneR/reference/plotPurity.html).
+
 # binneR v2.4.1
 
 * Fixed errors in [`binneR::plotCentrality()`](https://aberHRML.github.io/binneR/reference/plotCentrality.html) and [`binneR::plotPurity()`](https://aberHRML.github.io/binneR/reference/plotPurity.html).
