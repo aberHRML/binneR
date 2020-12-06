@@ -21,13 +21,22 @@ setGeneric("filePaths", function(x)
 setGeneric("sampleInfo", function(x)
 	standardGeneric("sampleInfo"))
 
+setGeneric("sampleInfo<-", function(x,value)
+	standardGeneric("sampleInfo<-"))
+
 #' @rdname results
 setGeneric("binnedData", function(x)
 	standardGeneric("binnedData"))
 
+setGeneric("binnedData<-", function(x,value)
+	standardGeneric("binnedData<-"))
+
 #' @rdname results
 setGeneric("accurateData", function(x)
 	standardGeneric("accurateData"))
+
+setGeneric("accurateData<-", function(x,value)
+	standardGeneric("accurateData<-"))
 
 #' @rdname plotBin
 setGeneric('plotBin',

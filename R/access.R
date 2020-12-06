@@ -41,12 +41,23 @@ setMethod('sampleInfo',signature = 'Binalysis',
 						x@sample_info
 					})
 
+setMethod('sampleInfo<-',signature = 'Binalysis',
+					function(x,value){
+						x@sample_info <- value
+						return(x)
+					})
+
 #' @rdname results
 #' @export
 
 setMethod('binnedData',signature = 'Binalysis',
 					function(x){
-						return(x@binnedData)
+						x@binned_data
+					})
+
+setMethod('binnedData<-',signature = 'Binalysis',
+					function(x,value){
+						x@binned_data <- value
 					})
 
 #' @rdname results
@@ -54,7 +65,13 @@ setMethod('binnedData',signature = 'Binalysis',
 
 setMethod('accurateData',signature = 'Binalysis',
 					function(x){
-						return(x@accurateMZ)
+						x@accurate_mz
+					})
+
+setMethod('accurateData<-',signature = 'Binalysis',
+					function(x,value){
+						x@accurate_mz <- value
+						return(x)
 					})
 
 # setMethod('binningParameters',signature = 'Binalysis',
