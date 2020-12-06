@@ -3,7 +3,7 @@ library(metaboData)
 context('detectParameters')
 
 test_that('detectParameters works',{
-	files <- filePaths('FIE-HRMS','BdistachyonEcotypes')
+	files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
 	
 	parameters <- detectParameters(files[1])
 	
