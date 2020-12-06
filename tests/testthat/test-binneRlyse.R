@@ -19,7 +19,7 @@ analysis <- binneRlyse(file,
 											 info, 
 											 parameters = p,verbose = TRUE)
 
-inf <- info(analysis)
+inf <- sampleInfo(analysis)
 bd <- binnedData(analysis)
 ad <- accurateData(analysis)
 
