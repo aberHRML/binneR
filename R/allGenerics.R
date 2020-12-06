@@ -6,6 +6,18 @@ setGeneric("ss", function(x)
 	standardGeneric("ss"))
 
 #' @rdname results
+setGeneric("version", function(x)
+	standardGeneric("version"))
+
+#' @rdname results
+setGeneric("creationDate", function(x)
+	standardGeneric("creationDate"))
+
+#' @rdname results
+setGeneric("filePaths", function(x)
+	standardGeneric("filePaths"))
+
+#' @rdname results
 setGeneric("sampleInfo", function(x)
 	standardGeneric("sampleInfo"))
 
