@@ -5,9 +5,9 @@
 #' @param value value to set
 #' @details 
 #' \itemize{
-#'  \item{sampleInfo}{Extract sample meta information.}
-#'  \item{binnedData}{Extract a binned data intensity matrix.}
-#'  \iten{accurateData}{Extract sample-wise accurate mass data and bin measures.}
+#'  \item{sampleInfo}{ - Extract sample meta information.}
+#'  \item{binnedData}{ - Extract a binned data intensity matrix.}
+#'  \item{accurateData}{ - Extract sample-wise accurate mass data and bin measures.}
 #' }
 #' @seealso \code{\link{Binalysis-class}}, \code{\link{binneRlyse}}
 #' @export
