@@ -38,6 +38,10 @@ setGeneric("accurateData", function(x)
 setGeneric("accurateData<-", function(x,value)
 	standardGeneric("accurateData<-"))
 
+#' @rdname results
+setGeneric("binningParameters", function(x)
+	standardGeneric("binningParameters"))
+
 #' @rdname plotBin
 setGeneric('plotBin',
 					 function(x,bin,

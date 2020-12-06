@@ -7,12 +7,14 @@
 \alias{sampleInfo}
 \alias{binnedData}
 \alias{accurateData}
+\alias{binningParameters}
 \alias{version,Binalysis-method}
 \alias{creationDate,Binalysis-method}
 \alias{filePaths,Binalysis-method}
 \alias{sampleInfo,Binalysis-method}
 \alias{binnedData,Binalysis-method}
 \alias{accurateData,Binalysis-method}
+\alias{binningParameters,Binalysis-method}
 \title{Binalysis class get methods}
 \usage{
 version(x)
@@ -27,6 +29,8 @@ binnedData(x)
 
 accurateData(x)
 
+binningParameters(x)
+
 \S4method{version}{Binalysis}(x)
 
 \S4method{creationDate}{Binalysis}(x)
@@ -38,6 +42,8 @@ accurateData(x)
 \S4method{binnedData}{Binalysis}(x)
 
 \S4method{accurateData}{Binalysis}(x)
+
+\S4method{binningParameters}{Binalysis}(x)
 }
 \arguments{
 \item{x}{S4 object of class Binalysis}
@@ -49,9 +55,13 @@ Methods for accessing spectral binning results from the  Binalysis S4 class.
 }
 \details{
 \itemize{
+ \item{version}{ - Extract package version used to create the object.}
+ \item{creationDate}{ - Extract the creation date of the object.}
+ \item{filePaths}{ - Extract the sample file paths.}
  \item{sampleInfo}{ - Extract sample meta information.}
  \item{binnedData}{ - Extract a binned data intensity matrix.}
  \item{accurateData}{ - Extract sample-wise accurate mass data and bin measures.}
+ \item{binningParametesr}{Extract the binning parameters.}
 }
 }
 \seealso{

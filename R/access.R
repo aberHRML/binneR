@@ -5,9 +5,13 @@
 #' @param value value to set
 #' @details 
 #' \itemize{
+#'  \item{version}{ - Extract package version used to create the object.}
+#'  \item{creationDate}{ - Extract the creation date of the object.}
+#'  \item{filePaths}{ - Extract the sample file paths.}
 #'  \item{sampleInfo}{ - Extract sample meta information.}
 #'  \item{binnedData}{ - Extract a binned data intensity matrix.}
 #'  \item{accurateData}{ - Extract sample-wise accurate mass data and bin measures.}
+#'  \item{binningParametesr}{Extract the binning parameters.}
 #' }
 #' @seealso \code{\link{Binalysis-class}}, \code{\link{binneRlyse}}
 #' @export
@@ -74,7 +78,10 @@ setMethod('accurateData<-',signature = 'Binalysis',
 						return(x)
 					})
 
-# setMethod('binningParameters',signature = 'Binalysis',
-# 					function(x){
-# 						
-# 					})
+#' @rdname results
+#' @export
+
+setMethod('binningParameters',signature = 'Binalysis',
+					function(x){
+						as(x,'BinParameters')
+					})
