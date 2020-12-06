@@ -52,6 +52,7 @@ setClass('Binalysis',
 				 		block = numeric(),
 				 		name = character(),
 				 		class = character()
-				 	)
+				 	),
+				 	accurate_mz = tibble()
 				 )
 )
