@@ -9,22 +9,21 @@
 setMethod("spectralBinning", 
 					signature = "Binalysis",
 					function(x){
-						parameters <- x@binParameters
 						
-						info <- info(x)
-						files <- x@files
+						info <- sampleInfo(x)
+						files <- filePaths(x)
 						
-						pks <- getPeaks(files,scans(parameters))
+						pks <- getPeaks(files,scans(x))
 						
 						binList <- calcBinList(pks)
 						
 						pks <- pks %>% 
 							inner_join(binList,by = c("polarity", "bin"))
 						
-						if (length(cls(parameters)) > 0) {
-							cls <- cls(parameters)
+						if (length(cls(x)) > 0) {
+							cls <- cls(x)
 							classes <- info %>%
-								select(fileName,all_of(cls(parameters)))
+								select(fileName,all_of(cls(x)))
 						} else {
 							cls <- 'class'
 							classes <- info %>%
@@ -32,7 +31,7 @@ setMethod("spectralBinning",
 								mutate(class = NA)
 						}
 						
-						nScans <- scans(parameters) %>%
+						nScans <- scans(x) %>%
 							unique() %>%
 							length()
 						
@@ -42,9 +41,11 @@ setMethod("spectralBinning",
 							future_map(~{
 								.x %>%
 									group_by(fileName,polarity,bin,scan) %>%
-									summarise(intensity = sum(intensity))	%>%
+									summarise(intensity = sum(intensity),
+														.groups = 'drop')	%>%
 									group_by(fileName,polarity,bin) %>%
-									summarise(intensity = sum(intensity)/nScans)
+									summarise(intensity = sum(intensity)/nScans,
+														.groups = 'drop')
 							}) %>%
 							bind_rows()
 						
@@ -58,20 +59,20 @@ setMethod("spectralBinning",
 											all_of(c('fileName',
 																			cls,
 																			'polarity','mz','bin')))) %>%
-									summarise(intensity = sum(intensity)/nScans)
+									summarise(intensity = sum(intensity)/nScans,
+														.groups = 'drop')
 							}) %>%
 							bind_rows()
 						
 						binMeasures <- calcBinMeasures(pks,
-																					 cls,
-																					 parameters@nCores,
-																					 parameters@clusterType)
+																					 cls)
 						
 						accurateMZ <- pks %>%
 							group_by_at(vars(all_of(c('fileName',cls,'polarity','bin')))) %>%
 							filter(intensity == max(intensity)) %>%
 							arrange(bin) %>%
-							left_join(binMeasures,by = c('fileName',cls, "polarity", "bin"))
+							left_join(binMeasures,by = c('fileName',cls, "polarity", "bin")) %>%
+							ungroup()
 						
 						mz <- accurateMZ %>%
 							group_by(polarity,bin) %>%
@@ -81,7 +82,7 @@ setMethod("spectralBinning",
 						binnedData <- binnedData %>%
 							left_join(mz,by = c("polarity", "bin")) %>%
 							select(-bin) %>%
-							dplyr::ungroup() %>%
+							ungroup() %>%
 							split(.$polarity) %>%
 							future_map(~{
 								.x %>%
@@ -93,14 +94,11 @@ setMethod("spectralBinning",
 						
 						headers <- getHeaders(files)
 						
-						x@binLog <- date()
-						x@info <- info
-						x@binnedData <- binnedData
-						x@accurateMZ <- accurateMZ %>%
-							ungroup()
-						x@spectra <- list(headers = headers, fingerprints = pks %>%
-																ungroup()
-						)
+						binnedData(x) <- binnedData
+						accurateData(x) <- accurateMZ
+						spectra(x) <- list(headers = headers, 
+															 fingerprints = pks)
+						
 						return(x)
 					}
 )
@@ -131,9 +129,7 @@ setMethod('ss',signature = 'Binalysis',
 							bind_rows()
 						
 						binMeasures <- calcBinMeasures(pks,
-																					 'class',
-																					 parameters@nCores,
-																					 parameters@clusterType)
+																					 'class')
 						
 						accurateMZ <- pks %>%
 							group_by(fileName,scan,class,polarity,bin) %>%
@@ -165,12 +161,11 @@ setMethod('ss',signature = 'Binalysis',
 						
 						headers <- getHeaders(file)
 						
-						x@binParameters@cls <- 'scan'
-						x@binLog <- date()
-						x@binnedData <- binnedData
-						x@accurateMZ <- accurateMZ %>%
+						cls(x) <- 'scan'
+						binnedData(x) <- binnedData
+						accurateData(x) <- accurateMZ %>%
 							ungroup()
-						x@spectra <- list(headers = headers, fingerprints = pks %>%
+						spectra(x) <- list(headers = headers, fingerprints = pks %>%
 																ungroup()
 						)
 						return(x)

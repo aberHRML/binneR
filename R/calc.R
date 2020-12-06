@@ -9,7 +9,7 @@ calcBinList <- function(pks){
                 select(-count)
 }
 
-calcBinMeasures <- function(pks,cls,nCores,clusterType){
+calcBinMeasures <- function(pks,cls){
         
         binMeasures <- pks %>%
                 group_by_at(vars(all_of(c('fileName',
@@ -17,7 +17,8 @@ calcBinMeasures <- function(pks,cls,nCores,clusterType){
                                           'polarity',
                                           'bin')))) %>%
                 summarise(purity = binPurity(mz,intensity),
-                          centrality = binCentrality(mz,intensity))
+                          centrality = binCentrality(mz,intensity),
+                          .groups = 'drop')
         
         return(binMeasures)
 }
