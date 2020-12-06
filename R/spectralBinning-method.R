@@ -106,11 +106,10 @@ setMethod("spectralBinning",
 setMethod('ss',signature = 'Binalysis',
 					function(x){
 						
-						file <- x@files
-						class <- x@info$class[1]
-						parameters <- x@binParameters
+						file <- filePaths(x)
+						class <- cls(x)
 						
-						pks <- getPeaks(file,scans(parameters)) %>%
+						pks <- getPeaks(file,scans(x)) %>%
 							mutate(fileName = str_c('Scan ',scan))
 						
 						binList <- calcBinList(pks)
