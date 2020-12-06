@@ -56,3 +56,41 @@ setClass('Binalysis',
 				 	accurate_mz = tibble()
 				 )
 )
+
+setValidity('Binalysis',function(object){
+	necessary_names <- c('fileOrder','injOrder','fileName','batch','block','name','class')
+	
+	info_names <- object %>%
+		sampleInfo() %>%
+		colnames()
+	
+	presence <- necessary_names %in% info_names
+	
+	if (FALSE %in% presence) {
+		str_c('Sample information should contain the following column names: ',
+					str_c(necessary_names,collapse = ', '),
+					'.')
+	} else {
+		TRUE
+	}
+})
+
+setValidity('Binalysis',function(object){
+	file_path_names <- object %>%
+		filePaths() %>%
+		basename()
+	
+	info_file_names <- object %>%
+		sampleInfo() %>%
+		.$fileName
+	
+	matching <- file_path_names == info_file_names
+	
+	if (FALSE %in% matching) {
+		'File names in paths do not match file names in the sample information.'
+	} else {
+		TRUE
+	}
+	
+	
+})
