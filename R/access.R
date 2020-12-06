@@ -62,6 +62,7 @@ setMethod('binnedData',signature = 'Binalysis',
 setMethod('binnedData<-',signature = 'Binalysis',
 					function(x,value){
 						x@binned_data <- value
+						return(x)
 					})
 
 #' @rdname results
@@ -84,4 +85,15 @@ setMethod('accurateData<-',signature = 'Binalysis',
 setMethod('binningParameters',signature = 'Binalysis',
 					function(x){
 						as(x,'BinParameters')
+					})
+
+setMethod('spectra',signature = 'Binalysis',
+					function(x){
+						x@spectra
+					})
+
+setMethod('spectra<-',signature = 'Binalysis',
+					function(x,value){
+						x@spectra <- value
+						return(x)
 					})
