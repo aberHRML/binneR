@@ -25,7 +25,7 @@ setMethod('plotBin',signature = 'Binalysis',
 							str_sub(1,1)
 						
 						dat <- x %>%
-							.@spectra %>%
+							spectra() %>%
 							.$fingerprints %>%
 							filter(polarity == mode & bin == m)
 						
@@ -46,7 +46,7 @@ setMethod('plotBin',signature = 'Binalysis',
 									 y = 'Density')
 						
 						if (type == 'cls') {
-							class <- cls(x@binParameters)
+							class <- cls(x)
 							
 							if (length(class) == 0) {
 								stop('No "cls" parameter found for this Binalysis class object.',
@@ -78,9 +78,11 @@ setMethod('plotBin',signature = 'Binalysis',
 setMethod('plotChromatogram',signature = 'Binalysis',
 					function(x){
 						
-						chromatograms <- x@spectra %>%
+						chromatograms <- x %>%
+							spectra() %>%
 							.$headers
-						scans <- x@binParameters@scans
+						scans <- x %>%
+							scans()
 						chromatograms <- chromatograms %>%
 							dplyr::select(FileName,
 														acquisitionNum,
@@ -305,7 +307,7 @@ setMethod('plotCentrality',signature = 'Binalysis',function(x,histBins = 30){
 setMethod('plotTIC',signature = 'Binalysis',
 					function(x, by = 'injOrder', colour = 'block'){
 						rawInfo <- x %>%
-							info()
+							sampleInfo()
 						
 						TICdat <- x %>%
 							binnedData %>%
