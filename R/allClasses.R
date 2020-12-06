@@ -33,11 +33,11 @@ setClass('BinParameters',
 setClass('Binalysis',
          slots = list(
              binLog = 'character',
-             binParameters = 'BinParameters',
              files = 'character',
              info = 'tbl_df',
              binnedData = 'list',
              accurateMZ = 'tbl_df',
              spectra = 'list'
-         )
+         ),
+				 contains = 'BinParameters'
 )
