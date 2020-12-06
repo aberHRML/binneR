@@ -8,48 +8,51 @@
 #' @export
 
 setMethod('show',signature = 'BinParameters',
-          function(object){
-              cat('\n')
-              cat('Scans:',
-              		paste(min(object@scans),':',
-              					max(object@scans),sep = ''),
-              		'\n')
-              if (length(object@cls) > 0) {
-                  cat('Class:',object@cls,'\n')
-              }
-          })
+					function(object){
+						cat('\n')
+						cat('Scans:',
+								paste(min(scans(object)),':',
+											max(scans(object)),sep = ''),
+								'\n')
+						if (length(cls(object)) > 0) {
+							cat('Class:',cls(object),'\n')
+						}
+					})
 
 #' @rdname show
 #' @export
 
 setMethod('show',signature = 'Binalysis',
-          function(object){
-              cat('\n')
-              if (length(object@binLog) > 0) {
-                  cat(object@binLog)
-                  cat('\n')  
-              }
-              cat('Samples:',length(object@files))
-              cat('\n')
-              if (length(object@binLog) > 0) {
-                  var <- lapply(object@binnedData,ncol)
-                  var <- map_chr(names(var),~{
-                  	str_c(.,': ',var[[.]],' features')
-                  }) %>%
-                  	str_c(collapse = '\n')
-                  cat(var,sep = '\n')
-              }
-              if (length(object@accurateMZ) > 0) {
-              	cat('Average Purity:',
-              			mean(object@accurateMZ$purity,
-              					 na.rm = TRUE) %>% 
-              				round(3),
-              			'\n')
-              	cat('Average Centrality:',
-              			mean(object@accurateMZ$centrality,
-              					 na.rm = TRUE) %>% 
-              				round(3),
-              			'\n')	
-              }
-              cat('\n')
-          })
+					function(object){
+						
+						cat('\n')
+						cat(str_c(blue('binneR'),red(str_c('v',version(object))),sep = ' '))
+						cat('\n')  
+						cat(creationDate(object))
+						cat('\n')  
+						
+						cat('Samples:',length(filePaths(object)))
+						cat('\n')
+						
+						if (length(binnedData(object)) > 0) {
+							var <- lapply(binnedData(object),ncol)
+							var <- map_chr(names(var),~{
+								str_c(.,': ',var[[.]],' features')
+							}) %>%
+								str_c(collapse = '\n')
+							cat(var,sep = '\n')
+						}
+						if (nrow(accurateData(object)) > 0) {
+							cat('Average Purity:',
+									mean(accurateData(object)$purity,
+											 na.rm = TRUE) %>% 
+										round(3),
+									'\n')
+							cat('Average Centrality:',
+									mean(accurateData(object)$centrality,
+											 na.rm = TRUE) %>% 
+										round(3),
+									'\n')	
+						}
+						cat('\n')
+					})
