@@ -7,17 +7,17 @@ setGeneric("ss", function(x) {
 	standardGeneric("ss")
 })
 
-#' @rdname info
-setGeneric("info", function(x) {
-    standardGeneric("info")
+#' @rdname results
+setGeneric("sampleInfo", function(x) {
+    standardGeneric("sampleInfo")
 })
 
-#' @rdname binnedData
+#' @rdname results
 setGeneric("binnedData", function(x) {
     standardGeneric("binnedData")
 })
 
-#' @rdname accurateData
+#' @rdname results
 setGeneric("accurateData", function(x) {
     standardGeneric("accurateData")
 })

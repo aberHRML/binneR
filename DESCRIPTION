@@ -34,9 +34,6 @@ Collate:
     binParameters.R
     spectralBinning-method.R
     show-method.R
-    info-method.R
-    binnedData-method.R
-    accurateData-method.R
     get.R
     calc.R
     readFiles.R
@@ -47,6 +44,7 @@ Collate:
     singleSample.R
     readBinningParameters.R
     reexports.R
+    access.R
 Suggests: 
     knitr,
     rmarkdown,

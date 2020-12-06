@@ -11,19 +11,18 @@ mass information.
 \section{Slots}{
 
 \describe{
-\item{\code{binLog}}{date and time of initiation of spectral binning}
+\item{\code{version}}{package version}
 
-\item{\code{binParameters}}{object of class BinParameters containing the 
-parameters for spectral binning}
+\item{\code{creation_date}}{creation date}
 
-\item{\code{files}}{file paths for raw data}
+\item{\code{file_paths}}{file paths for raw data}
 
-\item{\code{info}}{tibble containing runinfo data}
+\item{\code{sample_info}}{tibble containing runinfo data}
 
-\item{\code{binnedData}}{list containing tibbles of spectrally binned data 
+\item{\code{binned_data}}{list containing tibbles of spectrally binned data 
 for each acquisition mode}
 
-\item{\code{accurateMZ}}{tibble containin accurate mass information}
+\item{\code{accurate_mz}}{tibble containin accurate mass information}
 
 \item{\code{spectra}}{list containing tibbles of headers and class master 
 mix fingerprints}
