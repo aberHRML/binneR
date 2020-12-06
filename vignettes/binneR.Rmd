@@ -47,7 +47,7 @@ FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can 
 
 ```{r FIEfingerprint, echo=FALSE, fig.width=7,fig.height=5,fig.align='center',fig.show='animate',animation.hook = 'gifski',interval=0.1,dev='png',aniopts=('controls,loop'),message=FALSE}
 
-file <- filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+file <- filePaths('FIE-HRMS','BdistachyonEcotypes',ask = FALSE)[1]
 ms <- openMSfile(file)
 chrom <- mzR::header(ms)
 
@@ -199,9 +199,9 @@ The example data used here is from the [*metaboData*](https://github.com/aberHRM
 Firstly the file paths and sample information can be loaded for the example data set using the following:
 
 ```{r exampleFiles}
-files <-  metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
-
 info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
+
+files <-  metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
 ```
 
 There are two main functions for processing experimental data:
