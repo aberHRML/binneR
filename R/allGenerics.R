@@ -21,9 +21,6 @@ setGeneric("filePaths", function(x)
 setGeneric("sampleInfo", function(x)
 	standardGeneric("sampleInfo"))
 
-setGeneric("sampleInfo<-", function(x,value)
-	standardGeneric("sampleInfo<-"))
-
 #' @rdname results
 setGeneric("binnedData", function(x)
 	standardGeneric("binnedData"))

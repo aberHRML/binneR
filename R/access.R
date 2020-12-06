@@ -45,12 +45,6 @@ setMethod('sampleInfo',signature = 'Binalysis',
 						x@sample_info
 					})
 
-setMethod('sampleInfo<-',signature = 'Binalysis',
-					function(x,value){
-						x@sample_info <- value
-						return(x)
-					})
-
 #' @rdname results
 #' @export
 
