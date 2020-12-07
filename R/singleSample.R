@@ -54,7 +54,7 @@ singleSample <- function(file,
 	
 	if (verbose == TRUE) {
 		startTime <- proc.time()
-		message(str_c('\n',blue('binneR'),red(str_c('v',version(x))),creationDate(x),sep = ' '))		
+		message(str_c(blue('binneR'),red(str_c('v',version(x))),creationDate(x),sep = ' '))		
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
 		params <- parameters %>%
 			{capture.output(print(.))} %>%
