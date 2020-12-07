@@ -19,7 +19,7 @@ analysis <- binneRlyse(file,
 											 info, 
 											 parameters = p,verbose = TRUE)
 
-inf <- info(analysis)
+inf <- sampleInfo(analysis)
 bd <- binnedData(analysis)
 ad <- accurateData(analysis)
 
@@ -61,4 +61,9 @@ test_that('binParameters can be correctly set',{
 	
 	expect_equal(scans(bp),1)
 	expect_equal(cls(bp),'class')
+})
+
+test_that('Binning parameters can be returned from Binalysis class',{
+	bp <- binningParameters(analysis)
+	expect_s4_class(bp,'BinParameters')
 })

@@ -11,7 +11,7 @@
 #' be specified using the \code{plan() function}. See the example below 
 #' and \code{?future::plan} for details on how this can be specified.
 #' @seealso \code{\link{Binalysis-class}}, \code{\link{binParameters}}, 
-#' \code{\link{info}}, \code{\link{binnedData}},  \code{\link{accurateData}}
+#' \code{\link{sampleInfo}}, \code{\link{binnedData}},  \code{\link{accurateData}}
 #' @examples 
 #' \dontrun{
 #' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
@@ -40,11 +40,20 @@ binneRlyse <- function(files,
 											 info, 
 											 parameters = binParameters(), 
 											 verbose = TRUE){
-	pv <- packageVersion('binneR') %>% as.character()
+	
+	analysis <- new('Binalysis',
+									parameters,
+									file_paths = files,
+									sample_info = info)
 	
 	if (verbose == TRUE) {
 		startTime <- proc.time()
-		message(str_c('\n',blue('binneR'),red(str_c('v',pv)),date(),sep = ' '))		
+		message(str_c('\n',
+									blue('binneR'),
+									red(str_c('v',
+														version(analysis))),
+									creationDate(analysis),
+									sep = ' '))		
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
 		params <- parameters %>%
 			{capture.output(print(.))} %>%
@@ -54,15 +63,8 @@ binneRlyse <- function(files,
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),'\n',sep = ''))
 	}
 	
-	analysis <- new('Binalysis',
-									binLog = character(),
-									binParameters = parameters,
-									files = files,
-									info = info,
-									binnedData = list(),
-									accurateMZ = tibble(),
-									spectra = list()
-	) %>% spectralBinning()
+	analysis <- analysis %>% 
+		spectralBinning()
 	
 	if (verbose == TRUE) {
 		endTime <- proc.time()

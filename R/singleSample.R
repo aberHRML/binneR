@@ -10,12 +10,12 @@
 #' be specified using the \code{plan() function}. See the example below 
 #' and \code{?future::plan} for details on how this can be specified.
 #' @examples 
-#' filePath <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+#' file_path <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 #' 
 #' #' ## Optionally declare parallel processing backend
 #' # plan(future::multisession,workers = 2)
 #' 
-#' bd <- singleSample(filePath)
+#' bd <- singleSample(file_path)
 #' @importFrom utils capture.output
 #' @export
 
@@ -31,6 +31,7 @@ singleSample <- function(file,
 		stop('Only a single class can be affiliated!')
 	}
 	
+	
 	parameters <- detectParameters(file)
 	
 	i <- tibble(fileOrder = seq_len(length(scans(parameters))),
@@ -41,15 +42,18 @@ singleSample <- function(file,
 							batch = 1,
 							block = 1)
 	
-	if (!is.na(class)) {
-		cls(parameters) <- class	
-	}
+	x <-  new('Binalysis',
+						parameters,
+						file_paths = file,
+						sample_info = i)
 	
-	pv <- packageVersion('binneR') %>% as.character()
+	if (!is.na(class)) {
+		cls(x) <- class	
+	}
 	
 	if (verbose == TRUE) {
 		startTime <- proc.time()
-		message(str_c('\n',blue('binneR'),red(str_c('v',pv)),date(),sep = ' '))		
+		message(str_c('\n',blue('binneR'),red(str_c('v',version(x))),creationDate(x),sep = ' '))		
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
 		params <- parameters %>%
 			{capture.output(print(.))} %>%
@@ -59,15 +63,7 @@ singleSample <- function(file,
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),'\n',sep = ''))
 	}
 	
-	x <- new('Binalysis',
-									binLog = character(),
-									binParameters = parameters,
-									files = file,
-									info = i,
-									binnedData = list(),
-									accurateMZ = tibble(),
-									spectra = list()
-	) %>%
+	x <- x %>%
 		ss()
 	
 	if (verbose == TRUE) {

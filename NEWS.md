@@ -1,3 +1,17 @@
+# binneR v2.5.0
+
+* S4 class [`Binalysis`](https://aberhrml.github.io/binneR/reference/Binalysis-class.html) now inherits from S4 class [`BinParameters`](https://aberhrml.github.io/binneR/reference/BinParameters-class.html).
+
+* Fixed retrieval of example data in the usage [vignette](https://aberhrml.github.io/binneR/articles/binneR.html)
+
+* `version` and `creation_date` slots added to [`Binalysis`](https://aberhrml.github.io/binneR/reference/Binalysis-class.html) S4 class.
+
+* Added additional accessor [methods](file:///home/jasen/Documents/tools/R-package-dev/binneR/docs/reference/results.html) for the [`Binalysis`](https://aberhrml.github.io/binneR/reference/Binalysis-class.html) S4 class.
+
+* Fixed declaration of generics to ensure they are declared as standard generics.
+
+* Added validators for [`Binalysis`](https://aberhrml.github.io/binneR/reference/Binalysis-class.html) S4 class to ensure that sample information contains the correct fields and that the file names in the specified paths match those in the sample information.
+
 # binneR v2.4.2
 
 * Bin measures are now correctly averaged across samples in [`binneR::plotCentrality()`](https://aberHRML.github.io/binneR/reference/plotCentrality.html) and [`binneR::plotPurity()`](https://aberHRML.github.io/binneR/reference/plotPurity.html).

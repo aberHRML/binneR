@@ -73,7 +73,7 @@ mass information." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">binneR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5.0</span>
       </span>
     </div>
 
@@ -90,6 +90,9 @@ mass information." />
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -129,19 +132,18 @@ mass information.</p>
     
 
 <dl>
-<dt><code>binLog</code></dt><dd><p>date and time of initiation of spectral binning</p></dd>
+<dt><code>version</code></dt><dd><p>package version</p></dd>
 
-<dt><code>binParameters</code></dt><dd><p>object of class BinParameters containing the 
-parameters for spectral binning</p></dd>
+<dt><code>creation_date</code></dt><dd><p>creation date</p></dd>
 
-<dt><code>files</code></dt><dd><p>file paths for raw data</p></dd>
+<dt><code>file_paths</code></dt><dd><p>file paths for raw data</p></dd>
 
-<dt><code>info</code></dt><dd><p>tibble containing runinfo data</p></dd>
+<dt><code>sample_info</code></dt><dd><p>tibble containing runinfo data</p></dd>
 
-<dt><code>binnedData</code></dt><dd><p>list containing tibbles of spectrally binned data 
+<dt><code>binned_data</code></dt><dd><p>list containing tibbles of spectrally binned data 
 for each acquisition mode</p></dd>
 
-<dt><code>accurateMZ</code></dt><dd><p>tibble containin accurate mass information</p></dd>
+<dt><code>accurate_mz</code></dt><dd><p>tibble containin accurate mass information</p></dd>
 
 <dt><code>spectra</code></dt><dd><p>list containing tibbles of headers and class master 
 mix fingerprints</p></dd>
