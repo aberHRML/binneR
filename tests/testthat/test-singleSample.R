@@ -8,6 +8,13 @@ test_that('single sample works',{
 	expect_s4_class(bd,'Binalysis')
 })
 
+test_that('single sample works with no class specified',{
+	file <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+	bd <- singleSample(file,verbose = TRUE)
+	
+	expect_s4_class(bd,'Binalysis')
+})
+
 test_that('single samples errors with > 1 file',{
 	file <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1:2]
 	
