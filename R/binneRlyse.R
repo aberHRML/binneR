@@ -21,7 +21,7 @@
 #' parameters <- detectParameters(files)
 #' cls(parameters) <- 'class'
 #' 
-#' #' ## Optionally declare parallel processing backend
+#' ## Optionally declare parallel processing backend
 #' # plan(future::multisession,workers = 2)
 #' 
 #' analysis <- binneRlyse(files, 
@@ -37,22 +37,23 @@
 #' @export
 
 binneRlyse <- function(files, 
-											 info, 
-											 parameters = binParameters(), 
-											 verbose = TRUE){
+																							info, 
+																							parameters = binParameters(), 
+																							verbose = TRUE){
 	
 	x <- new('Binalysis',
-									parameters,
-									file_paths = files,
-									sample_info = info)
+										parameters,
+										creation_date = date(),
+										file_paths = files,
+										sample_info = info)
 	
 	if (verbose == TRUE) {
 		startTime <- proc.time()
 		message(str_c(blue('binneR'),
-									red(str_c('v',
-														version(x))),
-									creationDate(x),
-									sep = ' '))		
+																red(str_c('v',
+																										version(x))),
+																creationDate(x),
+																sep = ' '))		
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
 		params <- parameters %>%
 			{capture.output(print(.))} %>%

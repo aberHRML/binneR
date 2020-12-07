@@ -12,7 +12,7 @@
 #' @examples 
 #' file_path <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 #' 
-#' #' ## Optionally declare parallel processing backend
+#' ## Optionally declare parallel processing backend
 #' # plan(future::multisession,workers = 2)
 #' 
 #' bd <- singleSample(file_path)
@@ -20,9 +20,9 @@
 #' @export
 
 singleSample <- function(file, 
-												 class = NA, 
-												 verbose = TRUE){
-
+																									class = NA, 
+																									verbose = TRUE){
+	
 	if (length(file) > 1) {
 		stop('Only suitable for a single file!')	
 	}
@@ -35,17 +35,18 @@ singleSample <- function(file,
 	parameters <- detectParameters(file)
 	
 	i <- tibble(fileOrder = seq_len(length(scans(parameters))),
-							fileName = basename(file),
-							injOrder = seq_len(length(scans(parameters))),
-							name = str_c('Scan ',scans(parameters)),
-							class = class,
-							batch = 1,
-							block = 1)
+													fileName = basename(file),
+													injOrder = seq_len(length(scans(parameters))),
+													name = str_c('Scan ',scans(parameters)),
+													class = class,
+													batch = 1,
+													block = 1)
 	
 	x <-  new('Binalysis',
-						parameters,
-						file_paths = file,
-						sample_info = i)
+											parameters,
+											creation_date = date(),
+											file_paths = file,
+											sample_info = i)
 	
 	if (!is.na(class)) {
 		cls(x) <- class	
