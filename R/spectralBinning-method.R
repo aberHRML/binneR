@@ -31,9 +31,7 @@ setMethod("spectralBinning",
 								mutate(class = NA)
 						}
 						
-						nScans <- scans(x) %>%
-							unique() %>%
-							length()
+						n_scans <- nScans(x)
 						
 						binnedData <- pks %>%
 							split(.$fileName) %>%
@@ -43,7 +41,7 @@ setMethod("spectralBinning",
 									summarise(intensity = sum(intensity),
 														.groups = 'drop')	%>%
 									group_by(fileName,polarity,bin) %>%
-									summarise(intensity = sum(intensity)/nScans,
+									summarise(intensity = sum(intensity)/n_scans,
 														.groups = 'drop')
 							}) %>%
 							bind_rows()
@@ -56,9 +54,9 @@ setMethod("spectralBinning",
 									group_by_at(
 										vars(
 											all_of(c('fileName',
-																			cls,
-																			'polarity','mz','bin')))) %>%
-									summarise(intensity = sum(intensity)/nScans,
+															 cls,
+															 'polarity','mz','bin')))) %>%
+									summarise(intensity = sum(intensity)/n_scans,
 														.groups = 'drop')
 							}) %>%
 							bind_rows()
@@ -168,7 +166,7 @@ setMethod('ss',signature = 'Binalysis',
 						accurateData(x) <- accurateMZ %>%
 							ungroup()
 						spectra(x) <- list(headers = headers, fingerprints = pks %>%
-																ungroup()
+															 	ungroup()
 						)
 						return(x)
 					}

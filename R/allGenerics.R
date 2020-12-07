@@ -87,3 +87,6 @@ setGeneric('plotPurity',function(x,histBins = 30)
 #' @rdname plotCentrality
 setGeneric('plotCentrality',function(x,histBins = 30)
 	standardGeneric('plotCentrality'))
+
+setGeneric('nScans',function(x)
+	standardGeneric('nScans'))
