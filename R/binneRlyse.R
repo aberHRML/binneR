@@ -41,7 +41,7 @@ binneRlyse <- function(files,
 											 parameters = binParameters(), 
 											 verbose = TRUE){
 	
-	analysis <- new('Binalysis',
+	x <- new('Binalysis',
 									parameters,
 									file_paths = files,
 									sample_info = info)
@@ -51,8 +51,8 @@ binneRlyse <- function(files,
 		message(str_c('\n',
 									blue('binneR'),
 									red(str_c('v',
-														version(analysis))),
-									creationDate(analysis),
+														version(x))),
+									creationDate(x),
 									sep = ' '))		
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
 		params <- parameters %>%
@@ -63,7 +63,7 @@ binneRlyse <- function(files,
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),'\n',sep = ''))
 	}
 	
-	analysis <- analysis %>% 
+	x <- x %>% 
 		spectralBinning()
 	
 	if (verbose == TRUE) {
@@ -76,5 +76,5 @@ binneRlyse <- function(files,
 		message(str_c(green('Completed! '),ellapsed,sep = ''))
 	}
 	
-	return(analysis)
+	return(x)
 }

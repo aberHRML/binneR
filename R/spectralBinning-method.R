@@ -37,7 +37,6 @@ setMethod("spectralBinning",
 						
 						binnedData <- pks %>%
 							split(.$fileName) %>%
-
 							future_map(~{
 								.x %>%
 									group_by(fileName,polarity,bin,scan) %>%
