@@ -2,9 +2,11 @@
 calcBinList <- function(pks){
         bins <- pks %>%
                 group_by(fileName,polarity,scan,bin) %>%
-                summarise(intensity = sum(intensity)) %>%
+                summarise(intensity = sum(intensity),
+                          .groups = 'drop') %>%
                 group_by(polarity,bin) %>%
-                summarise(count = n()) %>%
+                summarise(count = n(),
+                          .groups = 'drop') %>%
                 filter(count > 1) %>%
                 select(-count)
 }
@@ -22,3 +24,5 @@ calcBinMeasures <- function(pks,cls){
         
         return(binMeasures)
 }
+
+
