@@ -2,7 +2,6 @@
 #' @rdname results
 #' @description Methods for accessing spectral binning results from the  Binalysis S4 class.
 #' @param x S4 object of class Binalysis
-#' @param value value to set
 #' @details 
 #' \itemize{
 #'  \item{version}{ - Extract package version used to create the object.}

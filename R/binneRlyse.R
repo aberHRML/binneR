@@ -11,7 +11,7 @@
 #' be specified using the \code{plan() function}. See the example below 
 #' and \code{?future::plan} for details on how this can be specified.
 #' @seealso \code{\link{Binalysis-class}}, \code{\link{binParameters}}, 
-#' \code{\link{info}}, \code{\link{binnedData}},  \code{\link{accurateData}}
+#' \code{\link{sampleInfo}}, \code{\link{binnedData}},  \code{\link{accurateData}}
 #' @examples 
 #' \dontrun{
 #' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')

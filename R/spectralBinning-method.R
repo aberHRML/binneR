@@ -109,6 +109,10 @@ setMethod('ss',signature = 'Binalysis',
 						file <- filePaths(x)
 						class <- cls(x)
 						
+						if (length(class) == 0){
+							class <- NA
+						}
+						
 						pks <- getPeaks(file,scans(x)) %>%
 							mutate(fileName = str_c('Scan ',scan))
 						

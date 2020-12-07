@@ -46,5 +46,5 @@ analysis <- binneRlyse(files,
 }
 \seealso{
 \code{\link{Binalysis-class}}, \code{\link{binParameters}}, 
-\code{\link{info}}, \code{\link{binnedData}},  \code{\link{accurateData}}
+\code{\link{sampleInfo}}, \code{\link{binnedData}},  \code{\link{accurateData}}
 }

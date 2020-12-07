@@ -47,8 +47,6 @@ binningParameters(x)
 }
 \arguments{
 \item{x}{S4 object of class Binalysis}
-
-\item{value}{value to set}
 }
 \description{
 Methods for accessing spectral binning results from the  Binalysis S4 class.
