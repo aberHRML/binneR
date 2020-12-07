@@ -17,11 +17,11 @@ setMethod("spectralBinning",
 						pks <- getPeaks(files,scans(x))
 						
 						if (isTRUE(verbose)) message('Calculating bins')
-						binList <- calcBinList(pks)
+						bin_list <- calcBinList(pks)
 						
 						if (isTRUE(verbose)) message('Removing single scan events')
 						pks <- pks %>% 
-							inner_join(binList,by = c("polarity", "bin"))
+							inner_join(bin_list,by = c("polarity", "bin"))
 						
 						if (length(cls(x)) > 0) {
 							cls <- cls(x)
@@ -37,7 +37,7 @@ setMethod("spectralBinning",
 						n_scans <- nScans(x)
 						
 						if (isTRUE(verbose)) message('Averaging intensities across scans')
-						binnedData <- pks %>%
+						binned_data <- pks %>%
 							split(.$fileName) %>%
 							future_map(~{
 								.x %>%
@@ -66,18 +66,18 @@ setMethod("spectralBinning",
 							bind_rows()
 						
 						if (isTRUE(verbose)) message('Calculating bin measures')
-						binMeasures <- calcBinMeasures(pks,
+						bin_measures <- calcBinMeasures(pks,
 																					 cls)
 						
 						if (isTRUE(verbose)) message('Calculating accurate m/z')
-						accurateMZ <- pks %>%
+						accurate_mz <- pks %>%
 							group_by_at(vars(all_of(c('fileName',cls,'polarity','bin')))) %>%
 							filter(intensity == max(intensity)) %>%
 							arrange(bin) %>%
-							left_join(binMeasures,by = c('fileName',cls, "polarity", "bin")) %>%
+							left_join(bin_measures,by = c('fileName',cls, "polarity", "bin")) %>%
 							ungroup()
 						
-						mz <- accurateMZ %>%
+						mz <- accurate_mz %>%
 							select(polarity,bin,mz,intensity) %>%
 							group_by(polarity,bin) %>%
 							filter(intensity == max(intensity)) %>%
@@ -86,7 +86,7 @@ setMethod("spectralBinning",
 							ungroup()
 						
 						if (isTRUE(verbose)) message('Building intensity matrix')
-						binnedData <- binnedData %>%
+						binned_data <- binned_data %>%
 							left_join(mz,by = c("polarity", "bin")) %>%
 							select(-bin) %>%
 							split(.$polarity) %>%
@@ -98,8 +98,8 @@ setMethod("spectralBinning",
 						
 						headers <- getHeaders(files)
 						
-						binnedData(x) <- binnedData
-						accurateData(x) <- accurateMZ
+						binnedData(x) <- binned_data
+						accurateData(x) <- accurate_mz
 						spectra(x) <- list(headers = headers, 
 															 fingerprints = pks)
 						
@@ -122,15 +122,15 @@ setMethod('ss',signature = 'Binalysis',
 							mutate(fileName = str_c('Scan ',scan))
 						
 						if (isTRUE(verbose)) message('Calculating bins')
-						binList <- calcBinList(pks)
+						bin_list <- calcBinList(pks)
 						
 						if (isTRUE(verbose)) message('Removing single scan events')
 						pks <- pks %>% 
-							inner_join(binList,by = c("polarity", "bin")) %>%
+							inner_join(bin_list,by = c("polarity", "bin")) %>%
 							mutate(class = class)
 						
 						if (isTRUE(verbose)) message('Calculating intensity totals')
-						binnedData <- pks %>%
+						binned_data <- pks %>%
 							split(.$fileName) %>%
 							future_map(~{
 								.x %>%
@@ -140,27 +140,27 @@ setMethod('ss',signature = 'Binalysis',
 							bind_rows()
 						
 						if (isTRUE(verbose)) message('Calculating bin measures')
-						binMeasures <- calcBinMeasures(pks,
+						bin_measures <- calcBinMeasures(pks,
 																					 'class')
 						
 						if (isTRUE(verbose)) message('Calculating accurate m/z')
-						accurateMZ <- pks %>%
+						accurate_mz <- pks %>%
 							group_by(fileName,scan,class,polarity,bin) %>%
 							filter(intensity == max(intensity)) %>%
 							arrange(bin)
 						
-						accurateMZ <- accurateMZ %>%
-							left_join(binMeasures,by = c('fileName',"class", "polarity", "bin")) %>%
+						accurate_mz <- accurate_mz %>%
+							left_join(bin_measures,by = c('fileName',"class", "polarity", "bin")) %>%
 							ungroup() %>%
 							select(scan,polarity,bin,mz,intensity,purity,centrality)
 						
-						mz <- accurateMZ %>%
+						mz <- accurate_mz %>%
 							group_by(polarity,bin) %>%
 							filter(intensity == max(intensity)) %>%
 							select(polarity,bin,mz)
 						
 						if (isTRUE(verbose)) message('Building intensity matrix')
-						binnedData <- binnedData %>%
+						binned_data <- binned_data %>%
 							left_join(mz,by = c("polarity", "bin")) %>%
 							select(-bin) %>%
 							ungroup() %>%
@@ -176,8 +176,8 @@ setMethod('ss',signature = 'Binalysis',
 						headers <- getHeaders(file)
 						
 						cls(x) <- 'scan'
-						binnedData(x) <- binnedData
-						accurateData(x) <- accurateMZ %>%
+						binnedData(x) <- binned_data
+						accurateData(x) <- accurate_mz %>%
 							ungroup()
 						spectra(x) <- list(headers = headers, fingerprints = pks %>%
 															 	ungroup()
