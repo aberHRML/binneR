@@ -39,7 +39,8 @@ getFile <- function(file,scans){
             d <- .
             d %>%
                 set_colnames(c('mz','intensity')) %>%
-                as_tibble()
+                as_tibble() %>%
+                filter(intensity > 0)
         }) %>%
         set_names(hd$seqNum) %>%
         bind_rows(.id = 'seqNum') %>%
