@@ -36,7 +36,7 @@ info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
 parameters <- detectParameters(files)
 cls(parameters) <- 'class'
 
-#' ## Optionally declare parallel processing backend
+## Optionally declare parallel processing backend
 # plan(future::multisession,workers = 2)
 
 analysis <- binneRlyse(files, 

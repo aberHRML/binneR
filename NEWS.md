@@ -1,3 +1,9 @@
+# binneR v2.5.1
+
+* Performance and memory usage gains through ensuring 0 values are not read from raw files.
+
+* Added console output for processing steps to [`binneR::binneRlyse()`](https://aberhrml.github.io/binneR/reference/binneRlyse.html) and [`binneR::singleSample()](https://aberhrml.github.io/binneR/reference/singleSample.html).
+
 # binneR v2.5.0
 
 * S4 class [`Binalysis`](https://aberhrml.github.io/binneR/reference/Binalysis-class.html) now inherits from S4 class [`BinParameters`](https://aberhrml.github.io/binneR/reference/BinParameters-class.html).

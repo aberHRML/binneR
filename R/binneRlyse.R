@@ -21,7 +21,7 @@
 #' parameters <- detectParameters(files)
 #' cls(parameters) <- 'class'
 #' 
-#' #' ## Optionally declare parallel processing backend
+#' ## Optionally declare parallel processing backend
 #' # plan(future::multisession,workers = 2)
 #' 
 #' analysis <- binneRlyse(files, 
@@ -37,23 +37,23 @@
 #' @export
 
 binneRlyse <- function(files, 
-											 info, 
-											 parameters = binParameters(), 
-											 verbose = TRUE){
+																							info, 
+																							parameters = binParameters(), 
+																							verbose = TRUE){
 	
-	analysis <- new('Binalysis',
-									parameters,
-									file_paths = files,
-									sample_info = info)
+	x <- new('Binalysis',
+										parameters,
+										creation_date = date(),
+										file_paths = files,
+										sample_info = info)
 	
 	if (verbose == TRUE) {
 		startTime <- proc.time()
-		message(str_c('\n',
-									blue('binneR'),
-									red(str_c('v',
-														version(analysis))),
-									creationDate(analysis),
-									sep = ' '))		
+		message(str_c(blue('binneR'),
+																red(str_c('v',
+																										version(x))),
+																creationDate(x),
+																sep = ' '))		
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
 		params <- parameters %>%
 			{capture.output(print(.))} %>%
@@ -63,10 +63,11 @@ binneRlyse <- function(files,
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),'\n',sep = ''))
 	}
 	
-	analysis <- analysis %>% 
-		spectralBinning()
+	x <- x %>% 
+		spectralBinning(verbose = verbose)
 	
 	if (verbose == TRUE) {
+		message()
 		endTime <- proc.time()
 		ellapsed <- {endTime - startTime} %>%
 			.[3] %>%
@@ -76,5 +77,5 @@ binneRlyse <- function(files,
 		message(str_c(green('Completed! '),ellapsed,sep = ''))
 	}
 	
-	return(analysis)
+	return(x)
 }

@@ -12,7 +12,7 @@
 #' @examples 
 #' file_path <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 #' 
-#' #' ## Optionally declare parallel processing backend
+#' ## Optionally declare parallel processing backend
 #' # plan(future::multisession,workers = 2)
 #' 
 #' bd <- singleSample(file_path)
@@ -20,9 +20,9 @@
 #' @export
 
 singleSample <- function(file, 
-												 class = NA, 
-												 verbose = TRUE){
-
+																									class = NA, 
+																									verbose = TRUE){
+	
 	if (length(file) > 1) {
 		stop('Only suitable for a single file!')	
 	}
@@ -35,17 +35,18 @@ singleSample <- function(file,
 	parameters <- detectParameters(file)
 	
 	i <- tibble(fileOrder = seq_len(length(scans(parameters))),
-							fileName = basename(file),
-							injOrder = seq_len(length(scans(parameters))),
-							name = str_c('Scan ',scans(parameters)),
-							class = class,
-							batch = 1,
-							block = 1)
+													fileName = basename(file),
+													injOrder = seq_len(length(scans(parameters))),
+													name = str_c('Scan ',scans(parameters)),
+													class = class,
+													batch = 1,
+													block = 1)
 	
 	x <-  new('Binalysis',
-						parameters,
-						file_paths = file,
-						sample_info = i)
+											parameters,
+											creation_date = date(),
+											file_paths = file,
+											sample_info = i)
 	
 	if (!is.na(class)) {
 		cls(x) <- class	
@@ -53,7 +54,7 @@ singleSample <- function(file,
 	
 	if (verbose == TRUE) {
 		startTime <- proc.time()
-		message(str_c('\n',blue('binneR'),red(str_c('v',version(x))),creationDate(x),sep = ' '))		
+		message(str_c(blue('binneR'),red(str_c('v',version(x))),creationDate(x),sep = ' '))		
 		message(str_c(str_c(rep('_',console_width()),collapse = ''),sep = ''))
 		params <- parameters %>%
 			{capture.output(print(.))} %>%
@@ -64,9 +65,10 @@ singleSample <- function(file,
 	}
 	
 	x <- x %>%
-		ss()
+		ss(verbose = verbose)
 	
 	if (verbose == TRUE) {
+		message()
 		endTime <- proc.time()
 		ellapsed <- {endTime - startTime} %>%
 			.[3] %>%

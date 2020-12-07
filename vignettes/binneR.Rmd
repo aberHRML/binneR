@@ -33,6 +33,10 @@ library(dplyr)
 library(magrittr)
 ```
 
+```{r check_example_data,include=FALSE}
+metaboData::downloadDataSet('FIE-HRMS','BdistachyonEcotypes',ask = FALSE)
+```
+
 ```{r sticker, echo=FALSE}
 htmltools::img(src = knitr::image_uri(system.file('sticker/binneRsticker.png',package = 'binneR')),
 							 style = 'display:block;margin-left:auto;margin-right:auto; height:200px;') 
@@ -47,7 +51,7 @@ FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can 
 
 ```{r FIEfingerprint, echo=FALSE, fig.width=7,fig.height=5,fig.align='center',fig.show='animate',animation.hook = 'gifski',interval=0.1,dev='png',aniopts=('controls,loop'),message=FALSE}
 
-file <- filePaths('FIE-HRMS','BdistachyonEcotypes',ask = FALSE)[1]
+file <- filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
 ms <- openMSfile(file)
 chrom <- mzR::header(ms)
 

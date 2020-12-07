@@ -1,8 +1,8 @@
 
-setGeneric("spectralBinning", function(x)
+setGeneric("spectralBinning", function(x,verbose = TRUE)
 	standardGeneric("spectralBinning"))
 
-setGeneric("ss", function(x)
+setGeneric("ss", function(x, verbose = TRUE)
 	standardGeneric("ss"))
 
 #' @rdname results
@@ -87,3 +87,6 @@ setGeneric('plotPurity',function(x,histBins = 30)
 #' @rdname plotCentrality
 setGeneric('plotCentrality',function(x,histBins = 30)
 	standardGeneric('plotCentrality'))
+
+setGeneric('nScans',function(x)
+	standardGeneric('nScans'))
