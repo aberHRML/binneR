@@ -64,9 +64,10 @@ singleSample <- function(file,
 	}
 	
 	x <- x %>%
-		ss()
+		ss(verbose = verbose)
 	
 	if (verbose == TRUE) {
+		message()
 		endTime <- proc.time()
 		ellapsed <- {endTime - startTime} %>%
 			.[3] %>%

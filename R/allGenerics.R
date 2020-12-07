@@ -1,8 +1,8 @@
 
-setGeneric("spectralBinning", function(x,verbose)
+setGeneric("spectralBinning", function(x,verbose = TRUE)
 	standardGeneric("spectralBinning"))
 
-setGeneric("ss", function(x)
+setGeneric("ss", function(x, verbose = TRUE)
 	standardGeneric("ss"))
 
 #' @rdname results

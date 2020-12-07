@@ -8,7 +8,7 @@
 
 setMethod("spectralBinning", 
 					signature = "Binalysis",
-					function(x,verbose){
+					function(x,verbose = TRUE){
 						
 						info <- sampleInfo(x)
 						files <- filePaths(x)
@@ -108,7 +108,7 @@ setMethod("spectralBinning",
 )
 
 setMethod('ss',signature = 'Binalysis',
-					function(x){
+					function(x,verbose){
 						
 						file <- filePaths(x)
 						class <- cls(x)
@@ -117,15 +117,19 @@ setMethod('ss',signature = 'Binalysis',
 							class <- NA
 						}
 						
+						if (isTRUE(verbose)) message('Reading raw data')
 						pks <- getPeaks(file,scans(x)) %>%
 							mutate(fileName = str_c('Scan ',scan))
 						
+						if (isTRUE(verbose)) message('Calculating bins')
 						binList <- calcBinList(pks)
 						
+						if (isTRUE(verbose)) message('Removing single scan events')
 						pks <- pks %>% 
 							inner_join(binList,by = c("polarity", "bin")) %>%
 							mutate(class = class)
 						
+						if (isTRUE(verbose)) message('Calculating intensity totals')
 						binnedData <- pks %>%
 							split(.$fileName) %>%
 							future_map(~{
@@ -135,9 +139,11 @@ setMethod('ss',signature = 'Binalysis',
 							}) %>%
 							bind_rows()
 						
+						if (isTRUE(verbose)) message('Calculating bin measures')
 						binMeasures <- calcBinMeasures(pks,
 																					 'class')
 						
+						if (isTRUE(verbose)) message('Calculating accurate m/z')
 						accurateMZ <- pks %>%
 							group_by(fileName,scan,class,polarity,bin) %>%
 							filter(intensity == max(intensity)) %>%
@@ -153,6 +159,7 @@ setMethod('ss',signature = 'Binalysis',
 							filter(intensity == max(intensity)) %>%
 							select(polarity,bin,mz)
 						
+						if (isTRUE(verbose)) message('Building intensity matrix')
 						binnedData <- binnedData %>%
 							left_join(mz,by = c("polarity", "bin")) %>%
 							select(-bin) %>%
