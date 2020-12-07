@@ -48,8 +48,7 @@ binneRlyse <- function(files,
 	
 	if (verbose == TRUE) {
 		startTime <- proc.time()
-		message(str_c('\n',
-									blue('binneR'),
+		message(str_c(blue('binneR'),
 									red(str_c('v',
 														version(x))),
 									creationDate(x),
@@ -64,9 +63,10 @@ binneRlyse <- function(files,
 	}
 	
 	x <- x %>% 
-		spectralBinning()
+		spectralBinning(verbose = verbose)
 	
 	if (verbose == TRUE) {
+		message()
 		endTime <- proc.time()
 		ellapsed <- {endTime - startTime} %>%
 			.[3] %>%

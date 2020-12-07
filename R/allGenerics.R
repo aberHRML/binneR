@@ -1,5 +1,5 @@
 
-setGeneric("spectralBinning", function(x)
+setGeneric("spectralBinning", function(x,verbose)
 	standardGeneric("spectralBinning"))
 
 setGeneric("ss", function(x)
