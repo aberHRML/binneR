@@ -74,19 +74,19 @@ setMethod("spectralBinning",
 							ungroup()
 						
 						mz <- accurateMZ %>%
+							select(polarity,bin,mz,intensity) %>%
 							group_by(polarity,bin) %>%
 							filter(intensity == max(intensity)) %>%
-							select(polarity,bin,mz)
+							select(-intensity) %>%
+							mutate(mz = str_c(polarity,mz)) %>%
+							ungroup()
 						
 						binnedData <- binnedData %>%
 							left_join(mz,by = c("polarity", "bin")) %>%
 							select(-bin) %>%
-							ungroup() %>%
 							split(.$polarity) %>%
 							future_map(~{
 								.x %>%
-									ungroup() %>%
-									mutate(mz = stringr::str_c(polarity,mz)) %>%
 									spread(mz,intensity,fill = 0) %>%
 									select(-fileName,-polarity)
 							})
