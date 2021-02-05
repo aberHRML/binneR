@@ -65,7 +65,7 @@ setMethod("spectralBinning",
 							}) %>%
 							bind_rows()
 						
-						if (isTRUE(verbose)) message('Calculating bin measures')
+						if (isTRUE(verbose)) message('Calculating bin metrics')
 						bin_measures <- calcBinMeasures(pks,
 																					 cls)
 						
