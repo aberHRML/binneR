@@ -71,9 +71,15 @@ getHeaders <- function(files){
     
     headers <- files %>% 
         future_map(~{
-        .x %>%
-            openMSfile(backend = 'pwiz') %>%
+        ms <- .x %>%
+            openMSfile(backend = 'pwiz') 
+        
+        file_header <- ms %>%
             header()
+        
+        close(ms)
+        
+        return(file_header)
     }) %>%
         set_names(files) %>%
         bind_rows(.id = 'FileName') %>%
