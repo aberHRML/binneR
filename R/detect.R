@@ -26,8 +26,6 @@ detectInfusionScans <- function(files,
 			file_header <- ms %>%
 				header()
 			
-			close(ms)
-			
 			return(file_header)
 		}) %>%
 		set_names(files)

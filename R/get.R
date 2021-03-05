@@ -47,8 +47,6 @@ getFile <- function(file,scans){
         left_join(hd, by = "seqNum") %>%
         select(-filterString,-seqNum)
     
-    close(ms)
-    
     return(file_peaks)
 }
 
@@ -76,8 +74,6 @@ getHeaders <- function(files){
         
         file_header <- ms %>%
             header()
-        
-        close(ms)
         
         return(file_header)
     }) %>%
