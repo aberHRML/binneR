@@ -16,7 +16,7 @@ setMethod("spectralBinning",
 						if (isTRUE(verbose)) message('Reading raw data')
 						pks <- getPeaks(files,scans(x))
 						
-						if (isTRUE(verbose)) message('Calculating bins')
+						if (isTRUE(verbose)) message('Gathering bins')
 						bin_list <- calcBinList(pks)
 						
 						if (isTRUE(verbose)) message('Removing single scan events')
@@ -96,6 +96,7 @@ setMethod("spectralBinning",
 									select(-fileName,-polarity)
 							})
 						
+						if (isTRUE(verbose)) message('Gathering file headers')
 						headers <- getHeaders(files)
 						
 						binnedData(x) <- binned_data
