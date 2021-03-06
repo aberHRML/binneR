@@ -1,3 +1,9 @@
+# binneR v2.5.2
+
+* Fixed I/O issues for sample sets over ~1200.
+
+* Minor alteration to console output
+
 # binneR v2.5.1
 
 * Performance and memory usage gains through ensuring 0 values are not read from raw files.
