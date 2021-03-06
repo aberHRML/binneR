@@ -20,9 +20,13 @@ detectInfusionScans <- function(files,
 	
 	ms <- files %>%
 		future_map(~{
-			.x %>%
-				openMSfile() %>%
+			ms <- .x %>%
+				openMSfile()
+			
+			file_header <- ms %>%
 				header()
+			
+			return(file_header)
 		}) %>%
 		set_names(files)
 	

@@ -1,4 +1,3 @@
-#' @importFrom mzR openMSfile peaks
 #' @importFrom stats aggregate
 #' @importFrom dplyr bind_rows group_by summarise
 #' @importFrom magrittr %>%
@@ -13,7 +12,7 @@ sampProcess <- function(file,scans,dp){
     return(pl)
 }
 
-#' @importFrom mzR openMSfile peaks
+#' @importFrom mzR openMSfile peaks close
 #' @importFrom purrr map
 #' @importFrom dplyr bind_rows
 #' @importFrom tibble as_tibble
@@ -32,7 +31,7 @@ getFile <- function(file,scans){
     hd$polarity[hd$polarity == 0] <- 'n'
     hd$polarity[hd$polarity == 1] <- 'p'
     
-    ms %>%
+    file_peaks <- ms %>%
         peaks() %>%
         .[hd$seqNum] %>%
         map(~{
@@ -47,6 +46,8 @@ getFile <- function(file,scans){
         mutate(seqNum = as.numeric(seqNum)) %>%
         left_join(hd, by = "seqNum") %>%
         select(-filterString,-seqNum)
+    
+    return(file_peaks)
 }
 
 #' @importFrom parallel makeCluster stopCluster parLapply clusterExport
@@ -68,9 +69,13 @@ getHeaders <- function(files){
     
     headers <- files %>% 
         future_map(~{
-        .x %>%
-            openMSfile(backend = 'pwiz') %>%
+        ms <- .x %>%
+            openMSfile(backend = 'pwiz') 
+        
+        file_header <- ms %>%
             header()
+        
+        return(file_header)
     }) %>%
         set_names(files) %>%
         bind_rows(.id = 'FileName') %>%
