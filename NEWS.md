@@ -54,7 +54,7 @@
 
 * Updated function documentation examples.
 
-* Parallel processing in `binneR` is now implemented using the [`future`](https://cran.r-project.org/web/packages/future/index.html) package.
+* Parallel processing in `binneR` is now implemented using the [`future`](https://cran.r-project.org/package=future) package.
 Information on how this can now be used is available in the usage vignette.
 
 * `plan()` from the [`future`](https://cran.r-project.org/web/packages/future/index.html) package is now  re-exported.
