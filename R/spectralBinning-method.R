@@ -83,7 +83,8 @@ setMethod("spectralBinning",
 							filter(intensity == max(intensity)) %>%
 							select(-intensity) %>%
 							mutate(mz = str_c(polarity,mz)) %>%
-							ungroup()
+							ungroup() %>% 
+							distinct()
 						
 						if (isTRUE(verbose)) message('Building intensity matrix')
 						binned_data <- binned_data %>%

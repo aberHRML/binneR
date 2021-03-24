@@ -63,12 +63,13 @@ jobs:
           do
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
-          sudo apt install libnetcdf-dev
+          sudo apt install libnetcdf-dev libgit2-dev
 
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran(c("rcmdcheck","goodpractice"))
+          metaboData::downloadDataSet('FIE-HRMS','BdistachyonEcotypes',ask = FALSE)
         shell: Rscript {0}
 
       - name: Check
