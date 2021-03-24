@@ -34,7 +34,14 @@ library(magrittr)
 ```
 
 ```{r check_example_data,include=FALSE}
-metaboData::downloadDataSet('FIE-HRMS','BdistachyonEcotypes',ask = FALSE)
+example_data_status <- metaboData::availableDataSets() %>% 
+	filter(technique == 'FIE-HRMS',
+								`data set` == 'BdistachyonEcotypes') %>% 
+	.$status
+
+if (example_data_status != 'available'){
+	metaboData::downloadDataSet('FIE-HRMS','BdistachyonEcotypes',ask = FALSE)
+}
 ```
 
 ```{r sticker, echo=FALSE}
