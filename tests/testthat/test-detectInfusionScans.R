@@ -2,7 +2,9 @@
 context('detectInfusionScans')
 
 test_that('detectInfusionScans works',{
-	file <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+	file <- metaboData::filePaths('FIE-HRMS',
+																															'BdistachyonEcotypes',
+																															ask = FALSE)[1]
 	
 	scans <- detectInfusionScans(file)
 	

@@ -22,7 +22,8 @@ Detect infusion scans for a set of FIE-MS infusion profiles.
 if (requireNamespace("metaboData", quietly = TRUE)) {
    detectInfusionScans(
       metaboData::filePaths('FIE-HRMS',
-                            'BdistachyonEcotypes')[1])
+                            'BdistachyonEcotypes',
+                            ask = FALSE)[1])
 }
 }
 \seealso{

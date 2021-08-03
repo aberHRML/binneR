@@ -1,7 +1,9 @@
 
 context('binneRlyse')
 
-file <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+file <- metaboData::filePaths('FIE-HRMS',
+																														'BdistachyonEcotypes',
+																														ask = FALSE)[1]
 
 info <- tibble::tibble(fileOrder = 1,
 											 injOrder = 1,

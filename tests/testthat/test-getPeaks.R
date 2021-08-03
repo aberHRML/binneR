@@ -1,7 +1,9 @@
 
 context('getPeaks')
 
-file <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+file <- metaboData::filePaths('FIE-HRMS',
+																														'BdistachyonEcotypes',
+																														ask = FALSE)[1]
 
 test_that('sampProcess works',{
 	pks <- sampProcess(file,5:13,2)

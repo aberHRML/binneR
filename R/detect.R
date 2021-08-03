@@ -9,7 +9,8 @@
 #' if (requireNamespace("metaboData", quietly = TRUE)) {
 #'    detectInfusionScans(
 #'       metaboData::filePaths('FIE-HRMS',
-#'                             'BdistachyonEcotypes')[1])
+#'                             'BdistachyonEcotypes',
+#'                             ask = FALSE)[1])
 #' }
 #' @importFrom mzR openMSfile header
 #' @importFrom dplyr group_by summarise
