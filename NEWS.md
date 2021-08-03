@@ -2,6 +2,8 @@
 
 * Removed the `LazyData` field from the DESCRIPTION file.
 
+* Replaced the `Remotes` field in the DESCRIPTION file with `Additional_repositories` for the installation of the [metaboData](https://aberhrml.github.io/metaboData/) dependency.
+
 # binneR 2.5.3
 
 * Removed the potential for errors during build of the intensity matrices if identical accurate m/z are retrieved for a bin from multiple samples. 
