@@ -55,6 +55,5 @@ Suggests:
     covr,
     testthat,
     gifski
-LazyData: true
 VignetteBuilder: knitr
 Remotes: aberHRML/metaboData
