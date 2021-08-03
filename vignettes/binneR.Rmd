@@ -120,7 +120,7 @@ Spectral binning is applied on a scan by scan basis where the data is rounded to
 
 Prior to the use of *binneR*, vendor specific raw data files need to be converted to one of the open source file formats such as *.mzXML* or *.mzML* so that they can be parsed into R.
 Data should also be centroided to reduce bin splitting artifacts that profile data can introduce during spectral binning.
-The *[msconvert](https://proteowizard.sourceforge.net/tools.shtml)* tool can be used for both data conversion and centroiding, allowing the use of vendor specific algorithms.
+The *[msconvert](https://proteowizard.sourceforge.io/tools.shtml)* tool can be used for both data conversion and centroiding, allowing the use of vendor specific algorithms.
 
 There are two main functionalities provided by this package.
 
