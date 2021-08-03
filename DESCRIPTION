@@ -56,4 +56,4 @@ Suggests:
     testthat,
     gifski
 VignetteBuilder: knitr
-Remotes: aberHRML/metaboData
+Additional_repositories: https://aberhrml.github.io/drat/
