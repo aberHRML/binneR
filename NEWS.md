@@ -1,3 +1,7 @@
+# binneR 2.5.4
+
+* Removed the `LazyData` field from the DESCRIPTION file.
+
 # binneR 2.5.3
 
 * Removed the potential for errors during build of the intensity matrices if identical accurate m/z are retrieved for a bin from multiple samples. 
