@@ -2,7 +2,7 @@
 
 * Removed the `LazyData` field from the DESCRIPTION file.
 
-* Replaced the `Remotes` field in the DESCRIPTION file with `Additional_repositories` for the installation of the [metaboData](https://aberhrml.github.io/metaboData/) dependency.
+* Replaced the `Remotes` field in the DESCRIPTION file with `Additional_repositories` for the installation of the [`metaboData`](https://aberhrml.github.io/metaboData/) dependency.
 
 # binneR 2.5.3
 
@@ -28,7 +28,7 @@
 
 * `version` and `creation_date` slots added to [`Binalysis`](https://aberhrml.github.io/binneR/reference/Binalysis-class.html) S4 class.
 
-* Added additional accessor [methods](file:///home/jasen/Documents/tools/R-package-dev/binneR/docs/reference/results.html) for the [`Binalysis`](https://aberhrml.github.io/binneR/reference/Binalysis-class.html) S4 class.
+* Added additional accessor [methods](https://aberhrml.github.io/binneR/reference/results.html) for the [`Binalysis`](https://aberhrml.github.io/binneR/reference/Binalysis-class.html) S4 class.
 
 * Fixed declaration of generics to ensure they are declared as standard generics.
 
@@ -63,4 +63,4 @@
 * Parallel processing in `binneR` is now implemented using the [`future`](https://cran.r-project.org/package=future) package.
 Information on how this can now be used is available in the usage vignette.
 
-* `plan()` from the [`future`](https://cran.r-project.org/web/packages/future/index.html) package is now  re-exported.
+* `plan()` from the [`future`](https://cran.r-project.org/package=future) package is now  re-exported.
