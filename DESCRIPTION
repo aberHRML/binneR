@@ -45,6 +45,7 @@ Collate:
     readBinningParameters.R
     reexports.R
     access.R
+    internals.R
 Suggests: 
     knitr,
     rmarkdown,
