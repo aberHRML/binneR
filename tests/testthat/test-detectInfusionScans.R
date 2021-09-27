@@ -8,6 +8,6 @@ test_that('detectInfusionScans works',{
 	
 	scans <- detectInfusionScans(file)
 	
-	expect_true(class(scans) == 'integer')
-	expect_true(identical(scans,as.integer(c(5:13))))
+	expect_type(scans,'integer')
+	expect_identical(scans,as.integer(c(5:11)))
 })

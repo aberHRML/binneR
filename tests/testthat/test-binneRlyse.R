@@ -40,12 +40,12 @@ test_that('binneRlyse works',{
 	
 	expect_true(class(bd) == 'list')
 	expect_true(identical(names(bd),c('n','p')))
-	expect_true(identical(purrr::map_dbl(bd,nrow),c(n = 1,p = 1)))
-	expect_true(identical(purrr::map_dbl(bd,ncol),c(n = 854,p = 1042)))
+	expect_identical(purrr::map_dbl(bd,nrow),c(n = 1,p = 1))
+	expect_identical(purrr::map_dbl(bd,ncol),c(n = 773,p = 1417))
 	
-	expect_true(identical(class(ad),c('tbl_df','tbl','data.frame')))
-	expect_true(nrow(ad) == 1896)
-	expect_true(ncol(ad) == 8)
+	expect_identical(class(ad),c('tbl_df','tbl','data.frame'))
+	expect_equal(nrow(ad),2190)
+	expect_equal(ncol(ad),8)
 })
 
 test_that('BinParameters class show method works',{
