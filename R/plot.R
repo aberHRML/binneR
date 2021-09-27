@@ -138,7 +138,7 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 #' @param files character vector of file paths to use
 #' @param scans specify scans to highlight within the plot
 #' @examples 
-#' plotChromFromFile(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
+#' plotChromFromFile(metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1],
 #'                             scans = c(6,18))
 #' @export
 

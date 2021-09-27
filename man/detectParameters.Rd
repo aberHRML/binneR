@@ -16,7 +16,7 @@ S4 object of class BinParameters
 Detect binning parameters from a given list of file paths.
 }
 \examples{
-files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
+files <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')
 parameters <- detectParameters(files[1])
 }
 \seealso{

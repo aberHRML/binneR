@@ -16,6 +16,6 @@ Plot and averaged infusion profile from a vector of specified
 file paths.
 }
 \examples{
-plotChromFromFile(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
+plotChromFromFile(metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1],
                             scans = c(6,18))
 }

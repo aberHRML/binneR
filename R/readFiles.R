@@ -14,7 +14,7 @@
 #' @examples 
 #' ## Example file path
 #' file_paths <- metaboData::filePaths('FIE-HRMS',
-#'                                     'BdistachyonEcotypes')[1]
+#'                                     'BdistachyonTechnical')[1]
 #' 
 #' ## Optionally declare parallel processing backend
 #' # plan(future::multisession,workers = 2)

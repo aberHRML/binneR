@@ -4,7 +4,7 @@ context('detectParameters')
 
 test_that('detectParameters works',{
 	files <- metaboData::filePaths('FIE-HRMS',
-																																'BdistachyonEcotypes',
+																																'BdistachyonTechnical',
 																																ask = FALSE)
 	
 	parameters <- detectParameters(files[1])

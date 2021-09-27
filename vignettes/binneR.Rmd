@@ -36,11 +36,11 @@ library(magrittr)
 ```{r check_example_data,include=FALSE}
 example_data_status <- metaboData::availableDataSets() %>% 
 	filter(technique == 'FIE-HRMS',
-								`data set` == 'BdistachyonEcotypes') %>% 
+								`data set` == 'BdistachyonTechnical') %>% 
 	.$status
 
 if (example_data_status != 'available'){
-	metaboData::downloadDataSet('FIE-HRMS','BdistachyonEcotypes',ask = FALSE)
+	metaboData::downloadDataSet('FIE-HRMS','BdistachyonTechnical',ask = FALSE)
 }
 ```
 
@@ -58,7 +58,7 @@ FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can 
 
 ```{r FIEfingerprint, echo=FALSE, fig.width=7,fig.height=5,fig.align='center',fig.show='animate',animation.hook = 'gifski',interval=0.1,dev='png',aniopts=('controls,loop'),message=FALSE}
 
-file <- filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+file <- filePaths('FIE-HRMS','BdistachyonTechnical')[1]
 ms <- openMSfile(file)
 chrom <- mzR::header(ms)
 
@@ -156,7 +156,7 @@ For a set of specified file paths, the range of infusion scans can be detected u
 
 ```{r infusionScanDetection}
 infusionScans <- detectInfusionScans(
-	metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
+	metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1],
 	thresh = 0.5
 )
 infusionScans
@@ -167,7 +167,7 @@ The infusion scans can also be plotted by supplying the range to the scans argum
 
 ```{r exampleChromatograms, fig.width=7,fig.height=5,fig.align='center'}
 plotChromFromFile(
-	metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
+	metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1],
 	scans = infusionScans
 )
 ```
@@ -180,7 +180,7 @@ Spectral binning can be performed using the `readFiles()` function as shown belo
 The example file within the package can be specified using the following.
 
 ```{r fileList}
-file <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+file <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1]
 ```
 
 Then the data can be spectrally binned using:
@@ -203,16 +203,16 @@ Some bin measures are also computed that allow the assessment of the quality of 
 Subsequent analyses of these data can easily be applied using the [*metabolyseR*](https://github.com/jasenfinch/metabolyseR) package.
 The [*metaboWorkflows*](https://github.com/jasenfinch/metaboWorkflows) package also provides customisable wrapper workflows for high resolution FIE-MS analyses.
 
-The example data used here is from the [*metaboData*](https://github.com/aberHRML/metaboData) package and consists of a comparison of leaf tissue from four *B. distachyon* ecotypes.
+The example data used here is from the [*metaboData*](https://github.com/aberHRML/metaboData) package and consists 10 replicate injections of a leaf tissue extract from the model grass species *Brachypodium distachyon*.
 
 ### Basic Usage
 
 Firstly the file paths and sample information can be loaded for the example data set using the following:
 
 ```{r exampleFiles}
-info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
+info <- metaboData::runinfo('FIE-HRMS','BdistachyonTechnical')
 
-files <-  metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
+files <-  metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')
 ```
 
 There are two main functions for processing experimental data:

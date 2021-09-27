@@ -2,7 +2,7 @@
 context('getPeaks')
 
 file <- metaboData::filePaths('FIE-HRMS',
-																														'BdistachyonEcotypes',
+																														'BdistachyonTechnical',
 																														ask = FALSE)[1]
 
 test_that('sampProcess works',{

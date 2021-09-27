@@ -18,10 +18,9 @@
 #' @seealso \code{\link{Binalysis-class}}, \code{\link{binParameters}}, 
 #' \code{\link{sampleInfo}}, \code{\link{binnedData}},  \code{\link{accurateData}}
 #' @examples 
-#' \dontrun{
-#' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
+#' files <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')
 #' 
-#' info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
+#' info <- metaboData::runinfo('FIE-HRMS','BdistachyonTechnical')
 #' 
 #' parameters <- detectParameters(files)
 #' cls(parameters) <- 'class'
@@ -32,7 +31,6 @@
 #' analysis <- binneRlyse(files, 
 #'                        info, 
 #'                        parameters = parameters)
-#'    }
 #' @importFrom dplyr ungroup n
 #' @importFrom magrittr %>%
 #' @importFrom crayon blue red green

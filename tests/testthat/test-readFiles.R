@@ -3,7 +3,7 @@ context('readFiles')
 
 test_that('readFiles works',{
 	file <- metaboData::filePaths('FIE-HRMS',
-																															'BdistachyonEcotypes',
+																															'BdistachyonTechnical',
 																															ask = FALSE)[1]
 	
 	res <- readFiles(file,dp = 2,scans = 5:13)

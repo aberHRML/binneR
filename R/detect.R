@@ -9,7 +9,7 @@
 #' if (requireNamespace("metaboData", quietly = TRUE)) {
 #'    detectInfusionScans(
 #'       metaboData::filePaths('FIE-HRMS',
-#'                             'BdistachyonEcotypes',
+#'                             'BdistachyonTechnical',
 #'                             ask = FALSE)[1])
 #' }
 #' @importFrom mzR openMSfile header
@@ -71,7 +71,7 @@ detectInfusionScans <- function(files,
 #' @param files character vector of file paths
 #' @return S4 object of class BinParameters
 #' @examples 
-#' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
+#' files <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')
 #' parameters <- detectParameters(files[1])
 #' @seealso \code{\link{BinParameters-class}}, \code{\link{binParameters}}
 #' @export

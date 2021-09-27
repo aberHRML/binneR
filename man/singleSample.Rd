@@ -29,7 +29,7 @@ places. This can be altered by setting either the global option
 \code{binner_dp} or the environment variable \code{BINNER_DP}.
 }
 \examples{
-file_path <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+file_path <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1]
 
 ## Optionally declare parallel processing backend
 # plan(future::multisession,workers = 2)
