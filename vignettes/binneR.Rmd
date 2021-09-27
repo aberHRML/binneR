@@ -346,12 +346,8 @@ measures <- dat %>%
 #### Purity
 
 Bin purity gives a measure of the spread of accurate *m/z* peaks found within a given bin and can be a signal for the presences of multiple real spectral peaks within a bin.
-Bin purity is calculated by
 
-$$p = 1 - \frac{e}{0.5\cdot w} $$
-
-Where *p* is purity, $e$ is the mean absolute error of the accurate *m/z* present within the bin from the bin mean and *w* is the width of the bin in amu.
-A purity closer to 1 indicates that the accurate *m/z* present within a bin are found over a narrow region and therefore likely only to be as the result of 1 real mass spectral peak.
+The purity metric is a value between 0 and 1 with a purity closer to 1 indicating that the accurate *m/z* present within a bin are found over a narrow region and therefore likely only to be as the result of 1 real mass spectral peak.
 A reduction in purity could indicate the presence of multiple peaks present within a bin.
 
 Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (n133.01) and low (n146.97) purity respectively.
@@ -406,12 +402,8 @@ Bin n146.97, that has a reduced purity, clearly has two peaks present.
 #### Centrality
 
 Bin centrality gives a measure of how close the mean of the accurate *m/z* are to the center of a given bin and can give indication of whether a peak could have been split between the boundary of tow adjacent bins.
-Centrality is calculated for a given bin using the equation below.
 
-$$ c = 1 - \frac{|\mu - k|}{0.5\cdot w}$$
-
-Where *c* is centrality, $\mu$ is the mean accurate *m/z* present in the bin, *k* is the center of the bin and *w* is the bin width in amu.
-A centrality close to 1 indicates that the accurate *m/z* present within the boundaries of the bin are located close to the center of the bin.
+The centrality metric is a value between 0 and 1 with a centrality close to 1 indicating that the accurate *m/z* present within the boundaries of the bin are located close to the center of the bin.
 Low centrality would indicate that the accurate *m/z* present within the bin are found close to the bin boundary and could therefore indicate bin splitting, were an mass spectral peak is split between two adjacent bins.
 
 Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (n88.04) and low (n104.03) centrality respectively.
