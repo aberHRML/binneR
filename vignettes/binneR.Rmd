@@ -119,7 +119,7 @@ for (i in is[1]:is[2]) {
 Spectral binning is applied on a scan by scan basis where the data is rounded to the specified bin width, the signals are then sum aggregated and their intensities are averaged across the specified scans.
 
 Prior to the use of *binneR*, vendor specific raw data files need to be converted to one of the open source file formats such as *.mzXML* or *.mzML* so that they can be parsed into R.
-Data should also be centroided to reduce bin splitting artifacts that profile data can introduce during spectral binning.
+Data should also be centroided to reduce bin splitting artefacts that profile data can introduce during spectral binning.
 The *[msconvert](https://proteowizard.sourceforge.io/tools.shtml)* tool can be used for both data conversion and centroiding, allowing the use of vendor specific algorithms.
 
 There are two main functionalities provided by this package.
@@ -139,15 +139,15 @@ library(metaboData)
 
 The package supports parallel processing using the [future](https://CRAN.R-project.org/package=future) package.
 
-By default processing by `binneR` will be done seqentially.
-However, parallel processing can be activated prior to processing by specifying a parallel backend using `plan()`.
-The following example specifies using the `multisession` backend (muliple background R sessions) with two worker processes.
+By default processing by `binneR` will be done sequentially.
+However, parallel processing can be activated prior to processing by specifying a parallel back-end using `plan()`.
+The following example specifies using the `multisession` back-end (multiple background R sessions) with two worker processes.
 
 ```{r plan,eval=FALSE}
 plan(future::multisession,workers = 2)
 ```
 
-See the future package [documentation](https://CRAN.R-project.org/package=future) for more information on the types of parallel backends that are available.
+See the future package [documentation](https://CRAN.R-project.org/package=future) for more information on the types of parallel back-ends that are available.
 
 ## Infusion Scan Detection
 
@@ -186,9 +186,7 @@ file <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1]
 Then the data can be spectrally binned using:
 
 ```{r readFilesExample}
-res <- readFiles(file,
-								 dp = 2,
-								 scans = infusionScans)
+res <- readFiles(file,dp = 2,scans = infusionScans)
 ```
 
 This will return a list containing the intensity matrices for each ionisation mode, with the rows being the individual samples and columns the spectral bins.
@@ -198,12 +196,9 @@ This will return a list containing the intensity matrices for each ionisation mo
 Routine FIE-HRMS metabolomic fingerprinting experiments can require rapid the processing of hundereds of MS files that will also require sample information such as biological classes for subsequent statistical analyses.
 The package allows for a `Binalysis` that formalises the spectral binning approach using an S4 class that not only bins the data to 0.01 amu but will also extract accurate *m/z* for each of these bins based on 0.00001 amu binned data.
 The accurate *m/z* data can be aggregated based on a specified class structure from which the modal accurate *m/z* is extracted.
-Some bin measures are also computed that allow the assessment of the quality of the 0.01 amu bins.
+Some bin metrics are also computed that allow the assessment of the quality of the 0.01 amu bins.
 
-Subsequent analyses of these data can easily be applied using the [*metabolyseR*](https://github.com/jasenfinch/metabolyseR) package.
-The [*metaboWorkflows*](https://github.com/jasenfinch/metaboWorkflows) package also provides customisable wrapper workflows for high resolution FIE-MS analyses.
-
-The example data used here is from the [*metaboData*](https://github.com/aberHRML/metaboData) package and consists 10 replicate injections of a leaf tissue extract from the model grass species *Brachypodium distachyon*.
+The example data used here is from the [*metaboData*](https://github.com/aberHRML/metaboData) package and consists of 10 replicate injections of a leaf tissue extract from the model grass species *Brachypodium distachyon*.
 
 ### Basic Usage
 
@@ -249,8 +244,6 @@ These parameters specify the following:
 
 * `scans` - the scan indexes to use for binning
 * `cls` - the column of the info that contains class information if relevant 
-* `nCores` - the number of cores to use for parallelisation
-* `clusterType` - the cluster type to use for parallelisation
 
 Alternatively, parameters can be initialised using the `binParameters` function as shown below. Parameter values can be specified using this function.
 
@@ -262,9 +255,9 @@ For and already initialised `BinParameters` object, parameters can be changed us
 For example to change the scans of a given object:
 
 ```{r parameterChangeExample2}
-alternativeParameters <- parameters
-scans(alternativeParameters) <- 6:14
-alternativeParameters
+alternative_parameters <- parameters
+scans(alternative_parameters) <- 6:14
+alternative_parameters
 ```
 
 #### Processing
@@ -325,9 +318,9 @@ There are a number of functions that can be used to return processing data from 
 * `binnedData()` for the spectrally binned matrices
 * `accurateData()` for the accurate mass information and bin measures for each of the 0.01 amu bins
 
-### Bin Measures
+### Bin Metrics
 
-There are a number of measures that can be computed that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate *m/z* peaks present within its boundaries. These include both purity and centrality.
+There are a number of metrics that can be computed that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate *m/z* peaks present within its boundaries. These include both purity and centrality.
 
 ```{r measuresPrep, echo=FALSE}
 dat <- readFiles(files[1],scans = detectInfusionScans(files[1]),dp = 5) %>%
@@ -345,7 +338,7 @@ measures <- dat %>%
 
 #### Purity
 
-Bin purity gives a measure of the spread of accurate *m/z* peaks found within a given bin and can be a signal for the presences of multiple real spectral peaks within a bin.
+Bin purity gives a metric of the spread of accurate *m/z* peaks found within a given bin and can be a signal for the presences of multiple real spectral peaks within a bin.
 
 The purity metric is a value between 0 and 1 with a purity closer to 1 indicating that the accurate *m/z* present within a bin are found over a narrow region and therefore likely only to be as the result of 1 real mass spectral peak.
 A reduction in purity could indicate the presence of multiple peaks present within a bin.
@@ -365,7 +358,7 @@ pure <- dat %>%
 	bind_rows()
 
 Impure <- measures %>%
-	filter(bin == 146.97,mode == 'n') %>%
+	filter(bin == 405.11,mode == 'n') %>%
 	mutate(purity = paste('Purity = ',signif(purity,3), sep = ''))
 impure <- dat %>%
 	filter(bin == Impure$bin, mode == Impure$mode) %>%
@@ -397,13 +390,13 @@ gridExtra::grid.arrange(gridExtra::arrangeGrob(p$pure,p$impure))
 ```
 
 Bin n133.01, that has a purity very close to 1, has only one peak present.
-Bin n146.97, that has a reduced purity, clearly has two peaks present.
+Bin n405.11, that has a reduced purity, clearly has two peaks present.
 
 #### Centrality
 
-Bin centrality gives a measure of how close the mean of the accurate *m/z* are to the center of a given bin and can give indication of whether a peak could have been split between the boundary of tow adjacent bins.
+Bin centrality gives a metric of how close the mean of the accurate *m/z* are to the centre of a given bin and can give indication of whether a peak could have been split between the boundary of tow adjacent bins.
 
-The centrality metric is a value between 0 and 1 with a centrality close to 1 indicating that the accurate *m/z* present within the boundaries of the bin are located close to the center of the bin.
+The centrality metric is a value between 0 and 1 with a centrality close to 1 indicating that the accurate *m/z* present within the boundaries of the bin are located close to the centre of the bin.
 Low centrality would indicate that the accurate *m/z* present within the bin are found close to the bin boundary and could therefore indicate bin splitting, were an mass spectral peak is split between two adjacent bins.
 
 Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (n88.04) and low (n104.03) centrality respectively.
@@ -421,7 +414,7 @@ pure <- dat %>%
 	bind_rows()
 
 Impure <- measures %>%
-	filter(bin == 104.03,mode == 'n') %>%
+	filter(bin == 94.05,mode == 'p') %>%
 	mutate(centrality = paste('Centrality = ',signif(centrality,3), sep = ''))
 impure <- dat %>%
 	filter(bin == Impure$bin, mode == Impure$mode) %>%
@@ -437,7 +430,7 @@ p$pure <- ggplot(pure,aes(x = mz)) +
 	geom_density() +
 	theme_bw() +
 	xlim(Pure$bin - 0.005,Pure$bin + 0.005) +
-	ggtitle(paste('n',Pure$bin,'\t',Pure$centrality,sep = '')) +
+	ggtitle(paste('n',Pure$bin,'   ',Pure$centrality,sep = '')) +
 	xlab('m/z') +
 	ylab('Density')
 
@@ -445,7 +438,7 @@ p$impure <- ggplot(impure,aes(x = mz)) +
 	geom_density() +
 	theme_bw() +
 	xlim(Impure$bin - 0.005,Impure$bin + 0.005) +
-	ggtitle(paste('n',Impure$bin,'\t',Impure$centrality,sep = '')) +
+	ggtitle(paste('p',Impure$bin,'   ',Impure$centrality,sep = '')) +
 	xlab('m/z') +
 	ylab('Density')
 
@@ -453,4 +446,4 @@ gridExtra::grid.arrange(gridExtra::arrangeGrob(p$pure,p$impure))
 ```
 
 Bin n88.04 has a high centrality with single peak that is located very close to the center of the bin.
-Whereas bin n104.03 as low centrality with a single peak that is located very close to the upper boundary of the bin and could indicate that it has been split between this bin and bin n104.04.
+Whereas bin n104.03 as low centrality with a single peak that is located very close to the upper boundary of the bin and could indicate that it has been split between this bin and bin p94.04.
