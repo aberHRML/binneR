@@ -1,8 +1,18 @@
-# binneR 2.5.4
+# binneR 2.6.0
 
 * Removed the `LazyData` field from the DESCRIPTION file.
 
 * Replaced the `Remotes` field in the DESCRIPTION file with `Additional_repositories` for the installation of the [`metaboData`](https://aberhrml.github.io/metaboData/) dependency.
+
+* The number of decimal places used for spectral binning can now be specified using the `binner_dp` global option or the `BINNER_DP` environment variable.
+
+* The vignette example now uses the `BdistachyonTechnical` data set from [`metaboData`](https://aberhrml.github.io/metaboData/).
+
+* An in-package example data file is now used for documentation examples.
+
+* The vignette chunks that require the [`metaboData`](https://aberhrml.github.io/metaboData/) package are no longer executed to avoid GitHub API rate limit issues.
+
+* The file header gathering iostream error is now fixed for large data sets (> 1000 samples).
 
 # binneR 2.5.3
 
