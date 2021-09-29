@@ -27,25 +27,12 @@ Imports:
 License: GPL-3
 Encoding: UTF-8
 RoxygenNote: 7.1.2
-Collate:
-    allGenerics.R
-    allClasses.R
-    binneRlyse.R
-    binParameters.R
-    spectralBinning-method.R
-    show-method.R
-    get.R
-    calc.R
-    readFiles.R
-    binneR.R
-    plot.R
-    detect.R
-    binMeasures.R
-    singleSample.R
-    readBinningParameters.R
-    reexports.R
-    access.R
-    internals.R
+Collate: allGenerics.R allClasses.R binneRlyse.R
+    binParameters.R spectralBinning-method.R 
+    show-method.R get.R calc.R readFiles.R
+    binneR.R plot.R detect.R binMetrics.R
+    singleSample.R readBinningParameters.R
+    reexports.R access.R internals.R
 Suggests: 
     knitr,
     rmarkdown,
