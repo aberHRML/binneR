@@ -1,7 +1,7 @@
 
 context('measures plots')
 
-file <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1]
+file <- system.file('example-data/1.mzML.gz',package = 'binneR')
 
 info <- tibble::tibble(fileOrder = 1,
 											 injOrder = 1,

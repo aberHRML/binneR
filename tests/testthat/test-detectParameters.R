@@ -3,9 +3,7 @@ library(metaboData)
 context('detectParameters')
 
 test_that('detectParameters works',{
-	files <- metaboData::filePaths('FIE-HRMS',
-																																'BdistachyonTechnical',
-																																ask = FALSE)
+	files <- system.file('example-data/1.mzML.gz',package = 'binneR')
 	
 	parameters <- detectParameters(files[1])
 	

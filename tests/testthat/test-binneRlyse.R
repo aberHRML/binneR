@@ -1,9 +1,7 @@
 
 context('binneRlyse')
 
-file <- metaboData::filePaths('FIE-HRMS',
-																														'BdistachyonTechnical',
-																														ask = FALSE)[1]
+file <- system.file('example-data/1.mzML.gz',package = 'binneR')
 
 info <- tibble::tibble(fileOrder = 1,
 											 injOrder = 1,
@@ -41,10 +39,10 @@ test_that('binneRlyse works',{
 	expect_true(class(bd) == 'list')
 	expect_true(identical(names(bd),c('n','p')))
 	expect_identical(purrr::map_dbl(bd,nrow),c(n = 1,p = 1))
-	expect_identical(purrr::map_dbl(bd,ncol),c(n = 773,p = 1417))
+	expect_identical(purrr::map_dbl(bd,ncol),c(n = 854,p = 1042))
 	
 	expect_identical(class(ad),c('tbl_df','tbl','data.frame'))
-	expect_equal(nrow(ad),2190)
+	expect_equal(nrow(ad),1896)
 	expect_equal(ncol(ad),8)
 })
 
