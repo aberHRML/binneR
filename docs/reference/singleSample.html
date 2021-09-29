@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">binneR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -149,19 +149,24 @@
 
     <p>Parallel processing is managed by the <code>future</code> package. This can 
 be specified using the <code>plan() function</code>. See the example below 
-and <code><a href='https://rdrr.io/pkg/future/man/plan.html'>?future::plan</a></code> for details on how this can be specified.</p>
+and <code><a href='https://future.futureverse.org/reference/plan.html'>?future::plan</a></code> for details on how this can be specified.</p>
+<p>By default, spectral binning is performed at the recommended 2 decimal 
+places. This can be altered by setting either the global option 
+<code>binner_dp</code> or the environment variable <code>BINNER_DP</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='Binalysis-class.html'>Binalysis-class</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>file_path</span> <span class='op'>&lt;-</span> <span class='fu'>metaboData</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/metaboData/man/filePaths.html'>filePaths</a></span><span class='op'>(</span><span class='st'>'FIE-HRMS'</span>,<span class='st'>'BdistachyonEcotypes'</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>file_path</span> <span class='op'>&lt;-</span> <span class='fu'>metaboData</span><span class='fu'>::</span><span class='fu'><a href='https://aberHRML.github.io/metaboData//reference/filePaths.html'>filePaths</a></span><span class='op'>(</span><span class='st'>'FIE-HRMS'</span>,<span class='st'>'BdistachyonTechnical'</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
 
 <span class='co'>## Optionally declare parallel processing backend</span>
 <span class='co'># plan(future::multisession,workers = 2)</span>
 
 <span class='va'>bd</span> <span class='op'>&lt;-</span> <span class='fu'>singleSample</span><span class='op'>(</span><span class='va'>file_path</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>binneR</span><span> </span><span style='color: #BB0000;'>v2.5.3</span><span> Wed Mar 24 15:42:44 2021</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'>Scans: 5:13 </span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'>Reading raw data</span></div><div class='output co'>#&gt; <span class='message'>Calculating bins</span></div><div class='output co'>#&gt; <span class='message'>Removing single scan events</span></div><div class='output co'>#&gt; <span class='message'>Calculating intensity totals</span></div><div class='output co'>#&gt; <span class='message'>Calculating bin measures</span></div><div class='output co'>#&gt; <span class='message'>Calculating accurate m/z</span></div><div class='output co'>#&gt; <span class='message'>Building intensity matrix</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>Completed! </span><span>[2S]</span></div></span></pre>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

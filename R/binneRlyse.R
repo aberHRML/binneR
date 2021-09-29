@@ -10,13 +10,18 @@
 #' Parallel processing is managed by the \code{future} package. This can 
 #' be specified using the \code{plan() function}. See the example below 
 #' and \code{?future::plan} for details on how this can be specified.
+#' 
+#' By default, spectral binning is performed at the recommended 2 decimal 
+#' places. This can be altered by setting either the global option 
+#' \code{binner_dp} or the environment variable \code{BINNER_DP}.
+#' 
 #' @seealso \code{\link{Binalysis-class}}, \code{\link{binParameters}}, 
 #' \code{\link{sampleInfo}}, \code{\link{binnedData}},  \code{\link{accurateData}}
 #' @examples 
 #' \dontrun{
-#' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
+#' files <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')
 #' 
-#' info <- metaboData::runinfo('FIE-HRMS','BdistachyonEcotypes')
+#' info <- metaboData::runinfo('FIE-HRMS','BdistachyonTechnical')
 #' 
 #' parameters <- detectParameters(files)
 #' cls(parameters) <- 'class'
@@ -27,7 +32,7 @@
 #' analysis <- binneRlyse(files, 
 #'                        info, 
 #'                        parameters = parameters)
-#'    }
+#' }
 #' @importFrom dplyr ungroup n
 #' @importFrom magrittr %>%
 #' @importFrom crayon blue red green

@@ -19,11 +19,9 @@ Numeric vector of detected infusion scans.
 Detect infusion scans for a set of FIE-MS infusion profiles.
 }
 \examples{
-if (requireNamespace("metaboData", quietly = TRUE)) {
-   detectInfusionScans(
-      metaboData::filePaths('FIE-HRMS',
-                            'BdistachyonEcotypes')[1])
-}
+file_paths <- system.file('example-data/1.mzML.gz',package = 'binneR')
+
+detectInfusionScans(file_paths)
 }
 \seealso{
 \code{\link{detectParameters}}

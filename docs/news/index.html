@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">binneR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -117,6 +117,20 @@
       <small>Source: <a href='https://github.com/aberHRML/binneR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="binner-260" class="section level1">
+<h1 class="page-header" data-toc-text="2.6.0">
+<a href="#binner-260" class="anchor"></a>binneR 2.6.0<small> Unreleased </small>
+</h1>
+<ul>
+<li><p>Removed the <code>LazyData</code> field from the DESCRIPTION file.</p></li>
+<li><p>Replaced the <code>Remotes</code> field in the DESCRIPTION file with <code>Additional_repositories</code> for the installation of the <a href="https://aberhrml.github.io/metaboData/"><code>metaboData</code></a> dependency.</p></li>
+<li><p>The number of decimal places used for spectral binning can now be specified using the <code>binner_dp</code> global option or the <code>BINNER_DP</code> environment variable.</p></li>
+<li><p>The vignette example now uses the <code>BdistachyonTechnical</code> data set from <a href="https://aberhrml.github.io/metaboData/"><code>metaboData</code></a>.</p></li>
+<li><p>An in-package example data file is now used for documentation examples.</p></li>
+<li><p>The vignette chunks that require the <a href="https://aberhrml.github.io/metaboData/"><code>metaboData</code></a> package are no longer executed to avoid GitHub API rate limit issues.</p></li>
+<li><p>The file header gathering iostream error is now fixed for large data sets (&gt; 1000 samples).</p></li>
+</ul>
+</div>
     <div id="binner-253" class="section level1">
 <h1 class="page-header" data-toc-text="2.5.3">
 <a href="#binner-253" class="anchor"></a>binneR 2.5.3<small> Unreleased </small>
@@ -151,7 +165,7 @@
 <li><p>S4 class <a href="https://aberhrml.github.io/binneR/reference/Binalysis-class.html"><code>Binalysis</code></a> now inherits from S4 class <a href="https://aberhrml.github.io/binneR/reference/BinParameters-class.html"><code>BinParameters</code></a>.</p></li>
 <li><p>Fixed retrieval of example data in the usage <a href="https://aberhrml.github.io/binneR/articles/binneR.html">vignette</a></p></li>
 <li><p><code>version</code> and <code>creation_date</code> slots added to <a href="https://aberhrml.github.io/binneR/reference/Binalysis-class.html"><code>Binalysis</code></a> S4 class.</p></li>
-<li><p>Added additional accessor <a href="file:///home/jasen/Documents/tools/R-package-dev/binneR/docs/reference/results.html">methods</a> for the <a href="https://aberhrml.github.io/binneR/reference/Binalysis-class.html"><code>Binalysis</code></a> S4 class.</p></li>
+<li><p>Added additional accessor <a href="https://aberhrml.github.io/binneR/reference/results.html">methods</a> for the <a href="https://aberhrml.github.io/binneR/reference/Binalysis-class.html"><code>Binalysis</code></a> S4 class.</p></li>
 <li><p>Fixed declaration of generics to ensure they are declared as standard generics.</p></li>
 <li><p>Added validators for <a href="https://aberhrml.github.io/binneR/reference/Binalysis-class.html"><code>Binalysis</code></a> S4 class to ensure that sample information contains the correct fields and that the file names in the specified paths match those in the sample information.</p></li>
 </ul>
@@ -185,8 +199,8 @@
 <li><p>The pipe (<code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code>) from the <a href="https://magrittr.tidyverse.org/"><code>magrittr</code></a> package now re-exported.</p></li>
 <li><p>Unit test coverage now increased to 100%.</p></li>
 <li><p>Updated function documentation examples.</p></li>
-<li><p>Parallel processing in <code>binneR</code> is now implemented using the <a href="https://cran.r-project.org/web/packages/future/index.html"><code>future</code></a> package. Information on how this can now be used is available in the usage vignette.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/future/man/plan.html">plan()</a></code> from the <a href="https://cran.r-project.org/web/packages/future/index.html"><code>future</code></a> package is now re-exported.</p></li>
+<li><p>Parallel processing in <code>binneR</code> is now implemented using the <a href="https://cran.r-project.org/package=future"><code>future</code></a> package. Information on how this can now be used is available in the usage vignette.</p></li>
+<li><p><code><a href="https://future.futureverse.org/reference/plan.html">plan()</a></code> from the <a href="https://cran.r-project.org/package=future"><code>future</code></a> package is now re-exported.</p></li>
 </ul>
 </div>
   </div>

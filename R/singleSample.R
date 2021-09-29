@@ -9,13 +9,20 @@
 #' Parallel processing is managed by the \code{future} package. This can 
 #' be specified using the \code{plan() function}. See the example below 
 #' and \code{?future::plan} for details on how this can be specified.
+#' 
+#' By default, spectral binning is performed at the recommended 2 decimal 
+#' places. This can be altered by setting either the global option 
+#' \code{binner_dp} or the environment variable \code{BINNER_DP}.
+#' 
 #' @examples 
-#' file_path <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+#' \dontrun{
+#' file_path <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1]
 #' 
 #' ## Optionally declare parallel processing backend
 #' # plan(future::multisession,workers = 2)
 #' 
 #' bd <- singleSample(file_path)
+#' }
 #' @importFrom utils capture.output
 #' @export
 

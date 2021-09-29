@@ -1,6 +1,6 @@
 Package: binneR
 Title: Spectral Processing for High Resolution Flow Infusion Mass Spectrometry
-Version: 2.5.3
+Version: 2.6.0
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A spectral binning approach for high resolution flow infusion mass spectrometry data.
 biocViews: MassSpectrometry, Metabolomics
@@ -26,25 +26,13 @@ Imports:
     furrr
 License: GPL-3
 Encoding: UTF-8
-RoxygenNote: 7.1.1
-Collate:
-    allGenerics.R
-    allClasses.R
-    binneRlyse.R
-    binParameters.R
-    spectralBinning-method.R
-    show-method.R
-    get.R
-    calc.R
-    readFiles.R
-    binneR.R
-    plot.R
-    detect.R
-    binMeasures.R
-    singleSample.R
-    readBinningParameters.R
-    reexports.R
-    access.R
+RoxygenNote: 7.1.2
+Collate: allGenerics.R allClasses.R binneRlyse.R
+    binParameters.R spectralBinning-method.R 
+    show-method.R get.R calc.R readFiles.R
+    binneR.R plot.R detect.R binMetrics.R
+    singleSample.R readBinningParameters.R
+    reexports.R access.R internals.R
 Suggests: 
     knitr,
     rmarkdown,
@@ -55,6 +43,4 @@ Suggests:
     covr,
     testthat,
     gifski
-LazyData: true
 VignetteBuilder: knitr
-Remotes: aberHRML/metaboData

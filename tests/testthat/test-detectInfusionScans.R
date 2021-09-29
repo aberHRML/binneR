@@ -2,10 +2,10 @@
 context('detectInfusionScans')
 
 test_that('detectInfusionScans works',{
-	file <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+	file <- system.file('example-data/1.mzML.gz',package = 'binneR')
 	
 	scans <- detectInfusionScans(file)
 	
-	expect_true(class(scans) == 'integer')
-	expect_true(identical(scans,as.integer(c(5:13))))
+	expect_type(scans,'integer')
+	expect_identical(scans,as.integer(c(5:13)))
 })

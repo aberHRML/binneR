@@ -13,8 +13,7 @@
 #' and \code{?future::plan} for details on how this can be specified.
 #' @examples 
 #' ## Example file path
-#' file_paths <- metaboData::filePaths('FIE-HRMS',
-#'                                     'BdistachyonEcotypes')[1]
+#' file_paths <- system.file('example-data/1.mzML.gz',package = 'binneR')
 #' 
 #' ## Optionally declare parallel processing backend
 #' # plan(future::multisession,workers = 2)
@@ -22,7 +21,7 @@
 #' ## Process example file
 #' res <- readFiles(file_paths,
 #'                  dp = 2,
-#'                  scans = 6:17)
+#'                  scans = detectInfusionScans(file_paths))
 #'
 #' @importFrom furrr future_map
 #' @importFrom dplyr bind_rows 

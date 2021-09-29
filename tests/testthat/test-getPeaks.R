@@ -1,7 +1,7 @@
 
 context('getPeaks')
 
-file <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1]
+file <- system.file('example-data/1.mzML.gz',package = 'binneR')
 
 test_that('sampProcess works',{
 	pks <- sampProcess(file,5:13,2)

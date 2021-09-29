@@ -6,11 +6,9 @@
 #' @return Numeric vector of detected infusion scans.
 #' @seealso \code{\link{detectParameters}}
 #' @examples 
-#' if (requireNamespace("metaboData", quietly = TRUE)) {
-#'    detectInfusionScans(
-#'       metaboData::filePaths('FIE-HRMS',
-#'                             'BdistachyonEcotypes')[1])
-#' }
+#' file_paths <- system.file('example-data/1.mzML.gz',package = 'binneR')
+#' 
+#' detectInfusionScans(file_paths)
 #' @importFrom mzR openMSfile header
 #' @importFrom dplyr group_by summarise
 #' @export
@@ -70,8 +68,8 @@ detectInfusionScans <- function(files,
 #' @param files character vector of file paths
 #' @return S4 object of class BinParameters
 #' @examples 
-#' files <- metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')
-#' parameters <- detectParameters(files[1])
+#' file_paths <-system.file('example-data/1.mzML.gz',package = 'binneR')
+#' parameters <- detectParameters(file_paths)
 #' @seealso \code{\link{BinParameters-class}}, \code{\link{binParameters}}
 #' @export
 

@@ -8,7 +8,7 @@
 #' @seealso \code{\link{accurateData}}, \code{\link{binneRlyse}}
 #' @importFrom ggplot2 ggplot geom_density theme_bw xlim xlab ggtitle theme
 #' @importFrom ggplot2 element_text facet_wrap aes
-#' @importFrom stringr str_replace_all str_sub
+#' @importFrom stringr str_replace_all str_sub str_extract
 #' @importFrom stats as.formula
 #' @export
 
@@ -33,10 +33,14 @@ setMethod('plotBin',signature = 'Binalysis',
 							stop('Bin not found.',call. = FALSE)
 						}
 						
+						dp <- str_extract(bin,'(?<=[.])[\\w+.-]+') %>% 
+							nchar()
+						
 						pl <- ggplot(dat,aes(x = mz)) +
 							geom_density() +
 							theme_bw() +
-							xlim(m - 0.005,m + 0.005) +
+							xlim(m - 5 * 10^-(dp + 1),
+												m + 5 * 10^-(dp + 1)) +
 							theme(plot.title = element_text(face = 'bold'),
 										axis.title.y = element_text(face = 'bold'),
 										axis.title.x = element_text(face = 'bold.italic'),
@@ -134,8 +138,10 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 #' @param files character vector of file paths to use
 #' @param scans specify scans to highlight within the plot
 #' @examples 
-#' plotChromFromFile(metaboData::filePaths('FIE-HRMS','BdistachyonEcotypes')[1],
-#'                             scans = c(6,18))
+#' file_paths <- system.file('example-data/1.mzML.gz',package = 'binneR')
+#' 
+#' plotChromFromFile(file_paths, 
+#'                   scans = detectInfusionScans(file_paths))
 #' @export
 
 plotChromFromFile <- function(files, scans = c()){
