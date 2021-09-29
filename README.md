@@ -1,7 +1,7 @@
 # binneR <img align = "right" src="man/figures/binneRsticker.png" height = "200" />
 
 <!-- badges: start -->
-[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/aberHRML/binneR/workflows/R-CMD-check/badge.svg)](https://github.com/aberHRML/binneR/actions)
 [![Coverage status](https://codecov.io/gh/aberHRML/binneR/branch/master/graph/badge.svg)](https://codecov.io/github/aberHRML/binneR?branch=master)
 [![CRAN](https://www.r-pkg.org/badges/version/binneR)](https://cran.r-project.org/web/packages/binneR/index.html)
