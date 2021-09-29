@@ -138,8 +138,10 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 #' @param files character vector of file paths to use
 #' @param scans specify scans to highlight within the plot
 #' @examples 
-#' plotChromFromFile(metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1],
-#'                             scans = c(6,18))
+#' file_paths <- system.file('example-data/1.mzML.gz',package = 'binneR')
+#' 
+#' plotChromFromFile(file_paths, 
+#'                   scans = detectInfusionScans(file_paths))
 #' @export
 
 plotChromFromFile <- function(files, scans = c()){

@@ -15,12 +15,14 @@
 #' \code{binner_dp} or the environment variable \code{BINNER_DP}.
 #' 
 #' @examples 
+#' \dontrun{
 #' file_path <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1]
 #' 
 #' ## Optionally declare parallel processing backend
 #' # plan(future::multisession,workers = 2)
 #' 
 #' bd <- singleSample(file_path)
+#' }
 #' @importFrom utils capture.output
 #' @export
 

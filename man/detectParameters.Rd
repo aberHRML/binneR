@@ -16,8 +16,8 @@ S4 object of class BinParameters
 Detect binning parameters from a given list of file paths.
 }
 \examples{
-files <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')
-parameters <- detectParameters(files[1])
+file_paths <-system.file('example-data/1.mzML.gz',package = 'binneR')
+parameters <- detectParameters(file_paths)
 }
 \seealso{
 \code{\link{BinParameters-class}}, \code{\link{binParameters}}

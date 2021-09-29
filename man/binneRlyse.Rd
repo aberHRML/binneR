@@ -32,6 +32,7 @@ places. This can be altered by setting either the global option
 \code{binner_dp} or the environment variable \code{BINNER_DP}.
 }
 \examples{
+\dontrun{
 files <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')
 
 info <- metaboData::runinfo('FIE-HRMS','BdistachyonTechnical')
@@ -45,6 +46,7 @@ cls(parameters) <- 'class'
 analysis <- binneRlyse(files, 
                        info, 
                        parameters = parameters)
+}
 }
 \seealso{
 \code{\link{Binalysis-class}}, \code{\link{binParameters}}, 
