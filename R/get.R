@@ -78,31 +78,6 @@ getHeaders <- function(files){
 	file_headers <- available_header_temps %>% 
 		future_map(readRDS)
 	
-	file_names <- files %>% 
-		basename() %>%
-		file_path_sans_ext(compression = TRUE)
-		
-	temp_file_names <- available_header_temps %>% 
-		basename() %>% 
-		file_path_sans_ext()
-	
-	unavailable_headers <- files[!(file_names %in% temp_file_names)]
-	
-	if (length(unavailable_headers > 0)){
-		headers <- files %>% 
-			future_map(~{
-				ms <- .x %>%
-					openMSfile(backend = 'pwiz') 
-				
-				file_header <- ms %>%
-					header()
-				
-				return(file_header)
-			})	
-		
-		file_headers <- c(file_headers,headers)
-	}
-	
 	file_headers <- file_headers %>%
 		set_names(files) %>%
 		bind_rows(.id = 'FileName') %>%

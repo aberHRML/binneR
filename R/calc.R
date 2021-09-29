@@ -19,11 +19,11 @@ calcBinMeasures <- function(pks,cls){
                               'polarity',
                               'bin')))) %>%
     summarise(purity = binPurity(mz,
-    																													intensity,
-    																													dp = binnerDP()),
+                                 intensity,
+                                 dp = binnerDP()),
               centrality = binCentrality(mz,
-              																											intensity,
-              																											dp = binnerDP()),
+                                         intensity,
+                                         dp = binnerDP()),
               .groups = 'drop')
   
   return(binMeasures)

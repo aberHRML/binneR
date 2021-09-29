@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">binneR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -70,7 +70,7 @@
 
       
 
-      </header><script src="binneR_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><script src="binneR_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>binneR</h1>
@@ -91,7 +91,7 @@
 <p>Spectral binning rounds high resolution fingerprinting data by a specified amu bin width. FIE-HRMS data consists of a ‘plug flow’, across which MS signal intensities can be averaged to provide a metabolome fingerprint. Below shows an animation of the spectrum change across ‘plug flow’ region of an example FIE-HRMS injection acquired in negative ionisation mode.</p>
 <p><img src="binneR_files/figure-html/FIEfingerprint-.gif" width="672" style="display: block; margin: auto;"></p>
 <p>Spectral binning is applied on a scan by scan basis where the data is rounded to the specified bin width, the signals are then sum aggregated and their intensities are averaged across the specified scans.</p>
-<p>Prior to the use of <em>binneR</em>, vendor specific raw data files need to be converted to one of the open source file formats such as <em>.mzXML</em> or <em>.mzML</em> so that they can be parsed into R. Data should also be centroided to reduce bin splitting artifacts that profile data can introduce during spectral binning. The <em><a href="http://proteowizard.sourceforge.net/tools.shtml">msconvert</a></em> tool can be used for both data conversion and centroiding, allowing the use of vendor specific algorithms.</p>
+<p>Prior to the use of <em>binneR</em>, vendor specific raw data files need to be converted to one of the open source file formats such as <em>.mzXML</em> or <em>.mzML</em> so that they can be parsed into R. Data should also be centroided to reduce bin splitting artefacts that profile data can introduce during spectral binning. The <em><a href="https://proteowizard.sourceforge.io/tools.shtml">msconvert</a></em> tool can be used for both data conversion and centroiding, allowing the use of vendor specific algorithms.</p>
 <p>There are two main functionalities provided by this package.</p>
 <ul>
 <li>Simple intensity matrix production - quick FIE-HRMS matrix investigations.</li>
@@ -101,16 +101,16 @@
 <p>Before we begin, the necessary packages need to be loaded.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://aberHRML.github.io/binneR/">binneR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/aberHRML/metaboData">metaboData</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://aberhrml.github.io/metaboData/">metaboData</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="parallel-processing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#parallel-processing" class="anchor"></a>Parallel Processing</h2>
 <p>The package supports parallel processing using the <a href="https://CRAN.R-project.org/package=future">future</a> package.</p>
-<p>By default processing by <code>binneR</code> will be done seqentially. However, parallel processing can be activated prior to processing by specifying a parallel backend using <code><a href="https://rdrr.io/pkg/future/man/plan.html">plan()</a></code>. The following example specifies using the <code>multisession</code> backend (muliple background R sessions) with two worker processes.</p>
+<p>By default processing by <code>binneR</code> will be done sequentially. However, parallel processing can be activated prior to processing by specifying a parallel back-end using <code><a href="https://future.futureverse.org/reference/plan.html">plan()</a></code>. The following example specifies using the <code>multisession</code> back-end (multiple background R sessions) with two worker processes.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/future/man/plan.html">plan</a></span><span class="op">(</span><span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/future/man/multisession.html">multisession</a></span>,workers <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
-<p>See the future package <a href="https://CRAN.R-project.org/package=future">documentation</a> for more information on the types of parallel backends that are available.</p>
+<code class="sourceCode R"><span class="fu"><a href="https://future.futureverse.org/reference/plan.html">plan</a></span><span class="op">(</span><span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html">multisession</a></span>,workers <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<p>See the future package <a href="https://CRAN.R-project.org/package=future">documentation</a> for more information on the types of parallel back-ends that are available.</p>
 </div>
 <div id="infusion-scan-detection" class="section level2">
 <h2 class="hasAnchor">
@@ -118,50 +118,44 @@
 <p>In order to apply the spectral binning approach for FIE-HRMS data, the infusion scans need to be detected. For a set of specified file paths, the range of infusion scans can be detected using the following:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">infusionScans</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/detectInfusionScans.html">detectInfusionScans</a></span><span class="op">(</span>
-    <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/metaboData/man/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonEcotypes'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
+    <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://aberHRML.github.io/metaboData//reference/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonTechnical'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
     thresh <span class="op">=</span> <span class="fl">0.5</span>
-<span class="op">)</span>
-<span class="va">infusionScans</span></code></pre></div>
-<pre><code>## [1]  5  6  7  8  9 10 11 12 13</code></pre>
+<span class="op">)</span></code></pre></div>
 <p>The detected scans can then be checked by plotting an averaged chromatogram for these files. The infusion scans can also be plotted by supplying the range to the scans argument.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotChromFromFile.html">plotChromFromFile</a></span><span class="op">(</span>
-    <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/metaboData/man/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonEcotypes'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
+    <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://aberHRML.github.io/metaboData//reference/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonTechnical'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
     scans <span class="op">=</span> <span class="va">infusionScans</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="binneR_files/figure-html/exampleChromatograms-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="simple-intensity-matrix-production---quick-fie-hrms-matrix-investigations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#simple-intensity-matrix-production---quick-fie-hrms-matrix-investigations" class="anchor"></a>Simple Intensity Matrix Production - quick FIE-HRMS matrix investigations</h2>
 <p>The simplest funtionality of <em>binneR</em> is to read raw data vector of specified file paths, bin these to a given amu and aggregate across a given scan window. This can be useful for a quick assessment of FIE-HRMS data structures. Spectral binning can be performed using the <code><a href="../reference/readFiles.html">readFiles()</a></code> function as shown below. The example file within the package can be specified using the following.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/metaboData/man/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonEcotypes'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://aberHRML.github.io/metaboData//reference/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonTechnical'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></code></pre></div>
 <p>Then the data can be spectrally binned using:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readFiles.html">readFiles</a></span><span class="op">(</span><span class="va">file</span>,
-                                 dp <span class="op">=</span> <span class="fl">2</span>,
-                                 scans <span class="op">=</span> <span class="va">infusionScans</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readFiles.html">readFiles</a></span><span class="op">(</span><span class="va">file</span>,dp <span class="op">=</span> <span class="fl">2</span>,scans <span class="op">=</span> <span class="va">infusionScans</span><span class="op">)</span></code></pre></div>
 <p>This will return a list containing the intensity matrices for each ionisation mode, with the rows being the individual samples and columns the spectral bins.</p>
 </div>
 <div id="binnerlyse---metabolomics-fingerprinting-experiments" class="section level2">
 <h2 class="hasAnchor">
 <a href="#binnerlyse---metabolomics-fingerprinting-experiments" class="anchor"></a>binneRlyse - metabolomics fingerprinting experiments</h2>
-<p>Routine FIE-HRMS metabolomic fingerprinting experiments can require rapid the processing of hundereds of MS files that will also require sample information such as biological classes for subsequent statistical analyses. The package allows for a <code>Binalysis</code> that formalises the spectral binning approach using an S4 class that not only bins the data to 0.01 amu but will also extract accurate <em>m/z</em> for each of these bins based on 0.00001 amu binned data. The accurate <em>m/z</em> data can be aggregated based on a specified class structure from which the modal accurate <em>m/z</em> is extracted. Some bin measures are also computed that allow the assessment of the quality of the 0.01 amu bins.</p>
-<p>Subsequent analyses of these data can easily be applied using the <a href="https://github.com/jasenfinch/metabolyseR"><em>metabolyseR</em></a> package. The <a href="https://github.com/jasenfinch/metaboWorkflows"><em>metaboWorkflows</em></a> package also provides customisable wrapper workflows for high resolution FIE-MS analyses.</p>
-<p>The example data used here is from the <a href="https://github.com/aberHRML/metaboData"><em>metaboData</em></a> package and consists of a comparison of leaf tissue from four <em>B. distachyon</em> ecotypes.</p>
+<p>Routine FIE-HRMS metabolomic fingerprinting experiments can require rapid the processing of hundereds of MS files that will also require sample information such as biological classes for subsequent statistical analyses. The package allows for a <code>Binalysis</code> that formalises the spectral binning approach using an S4 class that not only bins the data to 0.01 amu but will also extract accurate <em>m/z</em> for each of these bins based on 0.00001 amu binned data. The accurate <em>m/z</em> data can be aggregated based on a specified class structure from which the modal accurate <em>m/z</em> is extracted. Some bin metrics are also computed that allow the assessment of the quality of the 0.01 amu bins.</p>
+<p>The example data used here is from the <a href="https://github.com/aberHRML/metaboData"><em>metaboData</em></a> package and consists of 10 replicate injections of a leaf tissue extract from the model grass species <em>Brachypodium distachyon</em>.</p>
 <div id="basic-usage" class="section level3">
 <h3 class="hasAnchor">
 <a href="#basic-usage" class="anchor"></a>Basic Usage</h3>
 <p>Firstly the file paths and sample information can be loaded for the example data set using the following:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">info</span> <span class="op">&lt;-</span> <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/metaboData/man/runinfo.html">runinfo</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonEcotypes'</span><span class="op">)</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">info</span> <span class="op">&lt;-</span> <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://aberHRML.github.io/metaboData//reference/runinfo.html">runinfo</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonTechnical'</span><span class="op">)</span>
 
-<span class="va">files</span> <span class="op">&lt;-</span>  <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/metaboData/man/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonEcotypes'</span><span class="op">)</span></code></pre></div>
+<span class="va">files</span> <span class="op">&lt;-</span>  <span class="fu">metaboData</span><span class="fu">::</span><span class="fu"><a href="https://aberHRML.github.io/metaboData//reference/filePaths.html">filePaths</a></span><span class="op">(</span><span class="st">'FIE-HRMS'</span>,<span class="st">'BdistachyonTechnical'</span><span class="op">)</span></code></pre></div>
 <p>There are two main functions for processing experimental data:</p>
 <ul>
 <li>
-<code><a href="../reference/detectParameters.html">detectParameters()</a></code> - allows the auto detection of processing parameters. <code><a href="../reference/binParameters.html">binParameters()</a></code> can be use to manually select these parameters.</li>
+<code><a href="../reference/detectParameters.html">detectParameters()</a></code> - allows the auto detection of processing parameters. <code><a href="../reference/binParameters.html">binParameters()</a></code> can be use to manually dplyr::select these parameters.</li>
 <li>
 <code><a href="../reference/binneRlyse.html">binneRlyse()</a></code> - input data file paths and sample information to process using the selected parameters.</li>
 </ul>
@@ -192,85 +186,45 @@
 <h4 class="hasAnchor">
 <a href="#parameters" class="anchor"></a>Parameters</h4>
 <p>Prior to spectral binning the processing parameters first need to be selected. The binning parameter can be detected using the <code><a href="../reference/detectParameters.html">detectParameters()</a></code> function as shown below.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">parameters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/detectParameters.html">detectParameters</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span>
-<span class="va">parameters</span></code></pre></div>
-<pre><code>## 
-## Scans: 5:13</code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">parameters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/detectParameters.html">detectParameters</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></code></pre></div>
 <p>These parameters specify the following:</p>
 <ul>
 <li>
 <code>scans</code> - the scan indexes to use for binning</li>
 <li>
 <code>cls</code> - the column of the info that contains class information if relevant</li>
-<li>
-<code>nCores</code> - the number of cores to use for parallelisation</li>
-<li>
-<code>clusterType</code> - the cluster type to use for parallelisation</li>
 </ul>
-<p>Alternatively, parameters can be initialised using the <code>binParameters</code> function as shown below. Parameter values can be specified using this function.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/binParameters.html">binParameters</a></span><span class="op">(</span>scans <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">14</span><span class="op">)</span></code></pre></div>
-<pre><code>## 
-## Scans: 6:14</code></pre>
+<p>Alternatively, parameters can be initialised using the <code>binParameters</code> function as shown below.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">parameters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/binParameters.html">binParameters</a></span><span class="op">(</span>scans <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">14</span><span class="op">)</span></code></pre></div>
 <p>For and already initialised <code>BinParameters</code> object, parameters can be changed using the methods named after the parameter of interest. For example to change the scans of a given object:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">alternativeParameters</span> <span class="op">&lt;-</span> <span class="va">parameters</span>
-<span class="fu"><a href="../reference/scans.html">scans</a></span><span class="op">(</span><span class="va">alternativeParameters</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">6</span><span class="op">:</span><span class="fl">14</span>
-<span class="va">alternativeParameters</span></code></pre></div>
-<pre><code>## 
-## Scans: 6:14</code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">alternative_parameters</span> <span class="op">&lt;-</span> <span class="va">parameters</span>
+<span class="fu"><a href="../reference/scans.html">scans</a></span><span class="op">(</span><span class="va">alternative_parameters</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">6</span><span class="op">:</span><span class="fl">14</span></code></pre></div>
 </div>
 <div id="processing" class="section level4">
 <h4 class="hasAnchor">
 <a href="#processing" class="anchor"></a>Processing</h4>
-<p>Processing is simple and requires only the use of the <code><a href="../reference/binneRlyse.html">binneRlyse()</a></code> function. The input of this function is a vector of the paths of the data files to process, a tibble containing the sample info and a <code>BinParameters</code> object.</p>
+<p>Processing is simple and requires only the use of the <code><a href="../reference/binneRlyse.html">binneRlyse()</a></code> function. The input of this function is a vector of the paths of the data files to process, a tibble::tibble containing the sample info and a <code>BinParameters</code> object.</p>
 <p>It is crucial that the positions of the sample information in the info file match the sample positions within the files vector. Below shows an example of how this can be checked by matching the file names present in the info with those in the vector.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="cn">TRUE</span> <span class="op">%in%</span> <span class="op">(</span><span class="va">info</span><span class="op">$</span><span class="va">fileName</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] FALSE</code></pre>
 <p>Spectral binning can then be performed with the following.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/binneRlyse.html">binneRlyse</a></span><span class="op">(</span><span class="va">files</span>,<span class="va">info</span>,<span class="va">parameters</span><span class="op">)</span></code></pre></div>
-<pre><code>## binneR v2.5.4 Tue Aug  3 12:36:56 2021</code></pre>
-<pre><code>## ________________________________________________________________________________</code></pre>
-<pre><code>## Scans: 5:13 
-## Class: class</code></pre>
-<pre><code>## ________________________________________________________________________________</code></pre>
-<pre><code>## Reading raw data</code></pre>
-<pre><code>## Gathering bins</code></pre>
-<pre><code>## Removing single scan events</code></pre>
-<pre><code>## Averaging intensities across scans</code></pre>
-<pre><code>## Calculating bin metrics</code></pre>
-<pre><code>## Calculating accurate m/z</code></pre>
-<pre><code>## Building intensity matrix</code></pre>
-<pre><code>## Gathering file headers</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## Completed! [45S]</code></pre>
-<pre><code>## 
-## binneR v2.5.4
-## Tue Aug  3 12:36:56 2021
-## Samples: 68
-## n: 7828 features
-## p: 9406 features
-## Average Purity: 0.925 
-## Average Centrality: 0.517</code></pre>
 <p>For data quality inspection, the infusion profiles this data can be plotted using:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotChromatogram.html">plotChromatogram</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
-<p><img src="binneR_files/figure-html/analysisChromatogram-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>The spectrum fingerprints using:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotFingerprint.html">plotFingerprint</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
-<p><img src="binneR_files/figure-html/analysisFingerprints-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>And the total ion counts using:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotTIC.html">plotTIC</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
-<p><img src="binneR_files/figure-html/analysisTICs-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>Density profiles for individual bins can be plotted by:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotBin.html">plotBin</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="st">'n133.01'</span>,type <span class="op">=</span> <span class="st">'cls'</span><span class="op">)</span></code></pre></div>
-<p><img src="binneR_files/figure-html/plotBin-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="data-extraction" class="section level4">
 <h4 class="hasAnchor">
@@ -286,26 +240,24 @@
 </ul>
 </div>
 </div>
-<div id="bin-measures" class="section level3">
+<div id="bin-metrics" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bin-measures" class="anchor"></a>Bin Measures</h3>
-<p>There are a number of measures that can be computed that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate <em>m/z</em> peaks present within its boundaries. These include both purity and centrality.</p>
+<a href="#bin-metrics" class="anchor"></a>Bin Metrics</h3>
+<p>There are a number of metrics that can be computed that allow the assessment of the quality of a given 0.01 amu bin in terms of the accurate <em>m/z</em> mzR::peaks present within its boundaries. These include both purity and centrality.</p>
 <div id="purity" class="section level4">
 <h4 class="hasAnchor">
 <a href="#purity" class="anchor"></a>Purity</h4>
-<p>Bin purity gives a measure of the spread of accurate <em>m/z</em> peaks found within a given bin and can be a signal for the presences of multiple real spectral peaks within a bin. Bin purity is calculated by</p>
-<p><span class="math display">\[p = 1 - \frac{e}{0.5\cdot w} \]</span></p>
-<p>Where <em>p</em> is purity, <span class="math inline">\(e\)</span> is the mean absolute error of the accurate <em>m/z</em> present within the bin from the bin mean and <em>w</em> is the width of the bin in amu. A purity closer to 1 indicates that the accurate <em>m/z</em> present within a bin are found over a narrow region and therefore likely only to be as the result of 1 real mass spectral peak. A reduction in purity could indicate the presence of multiple peaks present within a bin.</p>
+<p>Bin purity gives a metric of the spread of accurate <em>m/z</em> mzR::peaks found within a given bin and can be a signal for the presences of multiple real spectral mzR::peaks within a bin.</p>
+<p>The purity metric is a value between 0 and 1 with a purity closer to 1 indicating that the accurate <em>m/z</em> present within a bin are found over a narrow region and therefore likely only to be as the result of 1 real mass spectral peak. A reduction in purity could indicate the presence of multiple mzR::peaks present within a bin.</p>
 <p>Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (n133.01) and low (n146.97) purity respectively.</p>
 <p><img src="binneR_files/figure-html/binPurity-1.png" width="672" style="display: block; margin: auto;"></p>
-<p>Bin n133.01, that has a purity very close to 1, has only one peak present. Bin n146.97, that has a reduced purity, clearly has two peaks present.</p>
+<p>Bin n133.01, that has a purity very close to 1, has only one peak present. Bin n405.11, that has a reduced purity, clearly has two peaks present.</p>
 </div>
 <div id="centrality" class="section level4">
 <h4 class="hasAnchor">
 <a href="#centrality" class="anchor"></a>Centrality</h4>
-<p>Bin centrality gives a measure of how close the mean of the accurate <em>m/z</em> are to the center of a given bin and can give indication of whether a peak could have been split between the boundary of tow adjacent bins. Centrality is calculated for a given bin using the equation below.</p>
-<p><span class="math display">\[ c = 1 - \frac{|\mu - k|}{0.5\cdot w}\]</span></p>
-<p>Where <em>c</em> is centrality, <span class="math inline">\(\mu\)</span> is the mean accurate <em>m/z</em> present in the bin, <em>k</em> is the center of the bin and <em>w</em> is the bin width in amu. A centrality close to 1 indicates that the accurate <em>m/z</em> present within the boundaries of the bin are located close to the center of the bin. Low centrality would indicate that the accurate <em>m/z</em> present within the bin are found close to the bin boundary and could therefore indicate bin splitting, were an mass spectral peak is split between two adjacent bins.</p>
+<p>Bin centrality gives a metric of how close the mean of the accurate <em>m/z</em> are to the centre of a given bin and can give indication of whether a peak could have been split between the boundary of tow adjacent bins.</p>
+<p>The centrality metric is a value between 0 and 1 with a centrality close to 1 indicating that the accurate <em>m/z</em> present within the boundaries of the bin are located close to the centre of the bin. Low centrality would indicate that the accurate <em>m/z</em> present within the bin are found close to the bin boundary and could therefore indicate bin splitting, were an mass spectral peak is split between two adjacent bins.</p>
 <p>Below shows example density plots of two negative ionisation mode 0.01 amu bins showing high (n88.04) and low (n104.03) centrality respectively.</p>
 <p><img src="binneR_files/figure-html/binCentrality-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>Bin n88.04 has a high centrality with single peak that is located very close to the center of the bin. Whereas bin n104.03 as low centrality with a single peak that is located very close to the upper boundary of the bin and could indicate that it has been split between this bin and bin n104.04.</p>
