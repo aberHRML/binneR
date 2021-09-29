@@ -64,3 +64,33 @@ binnerDP <- function(){
 	
 	return(dp)
 }
+
+#' @importFrom tools file_path_sans_ext
+
+headerTemp <- function(file,header_table){
+	temp_dir <- paste0(tempdir(),'/binneR-headers')
+	
+	if (!dir.exists(temp_dir)){
+		dir.create(temp_dir)
+	}
+	
+	file_name <- file %>% 
+		basename() %>% 
+		file_path_sans_ext(compression = TRUE)
+	
+	temp_file <- paste0(temp_dir,'/',file_name,'.rds')
+	saveRDS(header_table,temp_file)
+}
+
+availableHeaderTemps <- function(files){
+	temp_dir <- paste0(tempdir(),'/binneR-headers')
+	
+	temp_files <- files %>% 
+		basename() %>% 
+		file_path_sans_ext(compression = TRUE) %>% 
+		{paste0(temp_dir,'/',.,'.rds')}
+	
+	temp_files <- temp_files[file.exists(temp_files)]
+	
+	return(temp_files)
+}

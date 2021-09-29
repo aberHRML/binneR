@@ -22,7 +22,11 @@ getFile <- function(file,scans){
 	
 	ms <- openMSfile(file,backend = 'pwiz')
 	
-	hd <- header(ms) %>%
+	hd <- header(ms)
+	
+	headerTemp(file,hd)
+	
+	hd <- hd %>%
 		select(seqNum,polarity,filterString) %>%
 		group_by(polarity,filterString) %>%
 		mutate(scan = 1:dplyr::n()) %>%
@@ -69,20 +73,41 @@ getPeaks <- function(files,scans){
 
 getHeaders <- function(files){
 	
-	headers <- files %>% 
-		future_map(~{
-			ms <- .x %>%
-				openMSfile(backend = 'pwiz') 
-			
-			file_header <- ms %>%
-				header()
-			
-			return(file_header)
-		}) %>%
+	available_header_temps <- availableHeaderTemps(files)
+	
+	file_headers <- available_header_temps %>% 
+		future_map(readRDS)
+	
+	file_names <- files %>% 
+		basename() %>%
+		file_path_sans_ext(compression = TRUE)
+		
+	temp_file_names <- available_header_temps %>% 
+		basename() %>% 
+		file_path_sans_ext()
+	
+	unavailable_headers <- files[!(file_names %in% temp_file_names)]
+	
+	if (length(unavailable_headers > 0)){
+		headers <- files %>% 
+			future_map(~{
+				ms <- .x %>%
+					openMSfile(backend = 'pwiz') 
+				
+				file_header <- ms %>%
+					header()
+				
+				return(file_header)
+			})	
+		
+		file_headers <- c(file_headers,headers)
+	}
+	
+	file_headers <- file_headers %>%
 		set_names(files) %>%
 		bind_rows(.id = 'FileName') %>%
 		select(FileName,acquisitionNum,totIonCurrent,polarity,filterString)
 	
-	return(headers)
+	return(file_headers)
 }
 
