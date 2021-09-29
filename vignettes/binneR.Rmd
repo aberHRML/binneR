@@ -337,7 +337,7 @@ p$pure <- ggplot(pure,aes(x = mz)) +
 	geom_density() +
 	theme_bw() +
 	xlim(Pure$bin - 0.005,Pure$bin + 0.005) +
-	ggtitle(paste(Pure$mode,Pure$bin,'\t',Pure$purity,sep = '')) +
+	ggtitle(paste(Pure$mode,Pure$bin,'   ',Pure$purity,sep = '')) +
 	xlab('m/z') +
 	ylab('Density')
 
@@ -345,7 +345,7 @@ p$impure <- ggplot(impure,aes(x = mz)) +
 	geom_density() +
 	theme_bw() +
 	xlim(Impure$bin - 0.005,Impure$bin + 0.005) +
-	ggtitle(paste(Impure$mode,Impure$bin,'\t',Impure$purity,sep = '')) +
+	ggtitle(paste(Impure$mode,Impure$bin,'   ',Impure$purity,sep = '')) +
 	xlab('m/z') +
 	ylab('Density')
 
