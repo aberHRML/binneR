@@ -1,3 +1,7 @@
+# binneR 2.6.1
+
+* Fixed performance loss during bin metric calculation caused by the retrieval of the binning width.
+
 # binneR 2.6.0
 
 * Removed the `LazyData` field from the DESCRIPTION file.
