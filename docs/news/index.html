@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">binneR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.1</span>
       </span>
     </div>
 
@@ -117,13 +117,21 @@
       <small>Source: <a href='https://github.com/aberHRML/binneR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="binner-261" class="section level1">
+<h1 class="page-header" data-toc-text="2.6.1">
+<a href="#binner-261" class="anchor"></a>binneR 2.6.1<small> Unreleased </small>
+</h1>
+<ul>
+<li>Fixed performance loss during bin metric calculation caused by the binning width retrieval.</li>
+</ul>
+</div>
     <div id="binner-260" class="section level1">
 <h1 class="page-header" data-toc-text="2.6.0">
 <a href="#binner-260" class="anchor"></a>binneR 2.6.0<small> Unreleased </small>
 </h1>
 <ul>
 <li><p>Removed the <code>LazyData</code> field from the DESCRIPTION file.</p></li>
-<li><p>Replaced the <code>Remotes</code> field in the DESCRIPTION file with <code>Additional_repositories</code> for the installation of the <a href="https://aberhrml.github.io/metaboData/"><code>metaboData</code></a> dependency.</p></li>
+<li><p>Removed the <code>Remotes</code> field in the DESCRIPTION file as the <a href="https://aberhrml.github.io/metaboData/"><code>metaboData</code></a> dependency is now available on CRAN.</p></li>
 <li><p>The number of decimal places used for spectral binning can now be specified using the <code>binner_dp</code> global option or the <code>BINNER_DP</code> environment variable.</p></li>
 <li><p>The vignette example now uses the <code>BdistachyonTechnical</code> data set from <a href="https://aberhrml.github.io/metaboData/"><code>metaboData</code></a>.</p></li>
 <li><p>An in-package example data file is now used for documentation examples.</p></li>
@@ -196,7 +204,7 @@
 <li><p>Added <a href="https://aberHRML.github.io/binneR/reference/readBinningParameters.html"><code>binneR::readBinningParameters()</code></a> for parsing binning parameters from YAML format.</p></li>
 <li><p>Accurate mass data and bin measures are now returned (<a href="https://aberHRML.github.io/binneR/reference/accurateData.html"><code>binneR::accurateData()</code></a>) per sample over per class previously.</p></li>
 <li><p>0.01 amu bins can now be plotted by either averaged across <code>all</code>, by class (<code>cls</code>), or by <code>sample</code> using the <code>type</code> argument in <a href="https://aberHRML.github.io/binneR/reference/plotBin.html"><code>binneR::plotBin()</code></a>.</p></li>
-<li><p>The pipe (<code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code>) from the <a href="https://magrittr.tidyverse.org/"><code>magrittr</code></a> package now re-exported.</p></li>
+<li><p>The pipe (<code>%&gt;%</code>) from the <a href="https://magrittr.tidyverse.org/"><code>magrittr</code></a> package now re-exported.</p></li>
 <li><p>Unit test coverage now increased to 100%.</p></li>
 <li><p>Updated function documentation examples.</p></li>
 <li><p>Parallel processing in <code>binneR</code> is now implemented using the <a href="https://cran.r-project.org/package=future"><code>future</code></a> package. Information on how this can now be used is available in the usage vignette.</p></li>

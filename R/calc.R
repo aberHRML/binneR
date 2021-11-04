@@ -13,6 +13,8 @@ calcBinList <- function(pks){
 
 calcBinMeasures <- function(pks,cls){
   
+  dp <- binnerDP()
+  
   binMeasures <- pks %>%
     group_by_at(vars(all_of(c('fileName',
                               cls,
@@ -20,10 +22,10 @@ calcBinMeasures <- function(pks,cls){
                               'bin')))) %>%
     summarise(purity = binPurity(mz,
                                  intensity,
-                                 dp = binnerDP()),
+                                 dp = dp),
               centrality = binCentrality(mz,
                                          intensity,
-                                         dp = binnerDP()),
+                                         dp = dp),
               .groups = 'drop')
   
   return(binMeasures)

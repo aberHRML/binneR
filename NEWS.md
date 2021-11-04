@@ -1,8 +1,12 @@
+# binneR 2.6.1
+
+* Fixed performance loss during bin metric calculation caused by the binning width retrieval.
+
 # binneR 2.6.0
 
 * Removed the `LazyData` field from the DESCRIPTION file.
 
-* Replaced the `Remotes` field in the DESCRIPTION file with `Additional_repositories` for the installation of the [`metaboData`](https://aberhrml.github.io/metaboData/) dependency.
+* Removed the `Remotes` field in the DESCRIPTION file as the [`metaboData`](https://aberhrml.github.io/metaboData/) dependency is now available on CRAN.
 
 * The number of decimal places used for spectral binning can now be specified using the `binner_dp` global option or the `BINNER_DP` environment variable.
 
