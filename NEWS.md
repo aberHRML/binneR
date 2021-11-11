@@ -1,3 +1,9 @@
+# binneR 2.6.2
+
+* Improved themes of all plotting functions.
+
+* Reduced the object size returned by all plotting functions.
+
 # binneR 2.6.1
 
 * Fixed performance loss during bin metric calculation caused by the binning width retrieval.
