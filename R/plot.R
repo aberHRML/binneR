@@ -295,6 +295,35 @@ setMethod('plotCentrality',signature = 'Binalysis',function(x,histBins = 30){
 	
 })
 
+TICplot <- function(TICdat,TICmedian,by,colour){
+	pl <- ggplot(TICdat,aes(x = Index,y = TIC,fill = Colour)) +
+		geom_hline(data = TICmedian,aes(yintercept = Median)) +
+		geom_hline(data = TICmedian,aes(yintercept = Q1),linetype = 2) +
+		geom_hline(data = TICmedian,aes(yintercept = Q3),linetype = 2) +
+		geom_hline(data = TICmedian,aes(yintercept = LowerOut),linetype = 3) +
+		geom_hline(data = TICmedian,aes(yintercept = UpperOut),linetype = 3) +
+		geom_point(shape = 21) +
+		theme_bw() +
+		theme(plot.title = element_text(face = 'bold'),
+								axis.title = element_text(face = 'bold'),
+								legend.title = element_text(face = 'bold')) +
+		facet_wrap(~Mode) +
+		labs(title = 'Sample TICs',
+							caption = 'The solid line shows the median TIC across the sample set. 
+The dashed line shows the inter-quartile range (IQR) and 
+the dotted line shows the outlier boundary (1.5 X IQR).') +
+		ylab('Total Ion Count') +
+		xlab(by) +
+		guides(fill = guide_legend(title = colour))
+	
+	if (length(unique(TICdat$Colour)) <= 12) {
+		pl <- pl +
+			scale_fill_ptol()
+	}
+	
+	return(pl)
+}
+
 #' Plot sample total ion counts
 #' @rdname plotTIC
 #' @description Plot sample total ion counts.
@@ -337,30 +366,7 @@ setMethod('plotTIC',signature = 'Binalysis',
 						
 						TICmedian[TICmedian < 0] <- 0
 						
-						pl <- ggplot(TICdat,aes(x = Index,y = TIC,fill = Colour)) +
-							geom_hline(data = TICmedian,aes(yintercept = Median)) +
-							geom_hline(data = TICmedian,aes(yintercept = Q1),linetype = 2) +
-							geom_hline(data = TICmedian,aes(yintercept = Q3),linetype = 2) +
-							geom_hline(data = TICmedian,aes(yintercept = LowerOut),linetype = 3) +
-							geom_hline(data = TICmedian,aes(yintercept = UpperOut),linetype = 3) +
-							geom_point(shape = 21) +
-							theme_bw() +
-							theme(plot.title = element_text(face = 'bold'),
-										axis.title = element_text(face = 'bold'),
-										legend.title = element_text(face = 'bold')) +
-							facet_wrap(~Mode) +
-							labs(title = 'Sample TICs',
-									 caption = 'The solid line shows the median TIC across the sample set. 
-The dashed line shows the inter-quartile range (IQR) and 
-the dotted line shows the outlier boundary (1.5 X IQR).') +
-							ylab('Total Ion Count') +
-							xlab(by) +
-							guides(fill = guide_legend(title = colour))
-						
-						if (length(unique(TICdat$Colour)) <= 12) {
-							pl <- pl +
-								scale_fill_ptol()
-						}
+						pl <- TICplot(TICdat,TICmedian,by,colour)
 						return(pl)
 					}
 )
