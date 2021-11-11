@@ -13,7 +13,7 @@ plotTheme <- function(){
 								strip.text = element_text(face = 'bold'))
 }
 
-binPlot <- function(dat,bin,m,dp,type){
+binPlot <- function(dat,bin,m,dp,type,cls){
 	pl <- ggplot(dat,aes(x = mz)) +
 		geom_density() +
 		xlim(m - 5 * 10^-(dp + 1),
@@ -25,15 +25,14 @@ binPlot <- function(dat,bin,m,dp,type){
 							y = 'Density')
 	
 	if (type == 'cls') {
-		class <- cls(x)
 		
-		if (length(class) == 0) {
+		if (length(cls) == 0) {
 			stop('No "cls" parameter found for this Binalysis class object.',
 								call. = FALSE)
 		}
 		
 		pl <- pl +
-			facet_wrap(as.formula(paste("~", class)))
+			facet_wrap(as.formula(paste("~", cls)))
 	}
 	
 	if (type == 'sample') {
@@ -82,7 +81,9 @@ setMethod('plotBin',signature = 'Binalysis',
 						dp <- str_extract(bin,'(?<=[.])[\\w+.-]+') %>% 
 							nchar()
 						
-						binPlot(dat,bin,m,dp,type)
+						class <- cls(x)
+						
+						binPlot(dat,bin,m,dp,type,class)
 					}
 )
 
