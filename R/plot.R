@@ -91,8 +91,7 @@ plotChrom <- function(chromatograms,scans){
 		geom_line() +
 		plotTheme() +
 		scale_y_continuous(expand = c(0,0)) +
-		labs(title = 'TIC chromatograms of infusion profile',
-							caption = 'Red lines indcate scan range used for spectral binning.') +
+		labs(title = 'TIC chromatograms of infusion profile') +
 		facet_wrap(~polarity,
 													scales = 'free',
 													ncol = 1) +
@@ -101,6 +100,7 @@ plotChrom <- function(chromatograms,scans){
 	
 	if (length(scans) > 0) {
 		pl <- pl +
+			labs(caption = 'Red lines indcate scan range used for spectral binning.') +
 			geom_vline(xintercept = min(scans),colour = 'red',linetype = 2) +
 			geom_vline(xintercept = max(scans),colour = 'red',linetype = 2) 
 	}
