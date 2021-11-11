@@ -85,6 +85,29 @@ setMethod('plotBin',signature = 'Binalysis',
 					}
 )
 
+plotChrom <- function(chromatograms,scans){
+	pl <- ggplot(chromatograms,
+								aes(x = acquisitionNum,y = totIonCurrent)) +
+		geom_line() +
+		plotTheme() +
+		scale_y_continuous(expand = c(0,0)) +
+		labs(title = 'TIC chromatograms of infusion profile',
+							caption = 'Red lines indcate scan range used for spectral binning.') +
+		facet_wrap(~polarity,
+													scales = 'free',
+													ncol = 1) +
+		xlab('Scan') +
+		ylab('Total Ion Current')
+	
+	if (length(scans) > 0) {
+		pl <- pl +
+			geom_vline(xintercept = min(scans),colour = 'red',linetype = 2) +
+			geom_vline(xintercept = max(scans),colour = 'red',linetype = 2) 
+	}
+	
+	return(pl)
+}
+
 #' Plot an infusion profile chromatogram
 #' @rdname plotChromatogram
 #' @description Plot an averaged infusion profile chromatogram from a 
@@ -129,21 +152,12 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 							bind_rows() %>%
 							group_by(polarity,acquisitionNum) %>%
 							summarise(totIonCurrent = mean(totIonCurrent))
-						chromatograms$polarity[chromatograms$polarity == 0] <- 'Negative'
-						chromatograms$polarity[chromatograms$polarity == 1] <- 'Positive'
+						
+						chromatograms$polarity[chromatograms$polarity == 0] <- 'Negative mode'
+						chromatograms$polarity[chromatograms$polarity == 1] <- 'Positive mode'
+						
 						chromatograms %>%
-							ggplot(aes(x = acquisitionNum,y = totIonCurrent)) +
-							geom_line() +
-							geom_vline(xintercept = min(scans),colour = 'red',linetype = 2) +
-							geom_vline(xintercept = max(scans),colour = 'red',linetype = 2) +
-							theme_bw() +
-							labs(title = 'TIC chromatograms of infusion profile',
-									 caption = 'Red lines indcate scan range used for spectral binning.') +
-							theme(plot.title = element_text(face = 'bold'),
-										axis.title = element_text(face = 'bold')) +
-							facet_wrap(~polarity) +
-							xlab('Scan') +
-							ylab('Total Ion Current')
+							plotChrom(scans)
 					}
 )
 
@@ -186,24 +200,13 @@ plotChromFromFile <- function(files, scans = c()){
 		group_by(polarity,acquisitionNum) %>%
 		summarise(totIonCurrent = mean(totIonCurrent)) %>%
 		as_tibble()
-	chromatograms$polarity[chromatograms$polarity == 0] <- 'Negative'
-	chromatograms$polarity[chromatograms$polarity == 1] <- 'Positive'
-	pl <- chromatograms %>%
-		{ggplot(.,aes(x = acquisitionNum,y = totIonCurrent)) +
-				geom_line() +
-				theme_bw() +
-				labs(title = 'TIC chromatograms of infusion profile') +
-				theme(plot.title = element_text(face = 'bold'),
-							axis.title = element_text(face = 'bold')) +
-				facet_wrap(~polarity) +
-				xlab('Scan') +
-				ylab('Total Ion Current')}
-	if (length(scans) > 0) {
-		pl <- pl +
-			geom_vline(xintercept = min(scans),colour = 'red',linetype = 2) +
-			geom_vline(xintercept = max(scans),colour = 'red',linetype = 2) 
-	}
-	return(pl)
+	
+	chromatograms$polarity[chromatograms$polarity == 0] <- 'Negative mode'
+	chromatograms$polarity[chromatograms$polarity == 1] <- 'Positive mode'
+	
+	chromatograms %>%
+		plotChrom(scans)
+	
 }
 
 #' @importFrom ggplot2 geom_segment
