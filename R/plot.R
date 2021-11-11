@@ -206,12 +206,24 @@ plotChromFromFile <- function(files, scans = c()){
 	return(pl)
 }
 
+#' @importFrom ggplot2 geom_segment
+
+plotSpectrum <- function(spectra){
+	ggplot(spectra,aes(x = `m/z`,xend = `m/z`,y = 0,yend = Intensity)) +
+		geom_segment() +
+		plotTheme() +
+		scale_y_continuous(expand = c(0,0)) +
+		facet_wrap(~Mode,ncol = 1,scales = 'free') +
+		labs(title = 'Averaged spectrum fingerprint',
+							x = 'm/z',
+							y = 'Intensity')
+}
+
 #' Plot a fingerprint mass spectrum
 #' @rdname plotFingerprint
 #' @description Plot averaged spectrum fingerprint.
 #' @param x S4 object of class Binalysis
 #' @seealso \code{\link{binneRlyse}}
-#' @importFrom ggplot2 geom_segment
 #' @importFrom stringr str_remove_all
 #' @importFrom dplyr summarise_all
 #' @export
@@ -229,18 +241,10 @@ setMethod('plotFingerprint',signature = 'Binalysis',
 										 `m/z` = str_remove_all(Feature,'[:alpha:]') %>%
 										 	as.numeric())
 						
-						spectra$Mode[spectra$Mode == 'n'] <- 'Negative'
-						spectra$Mode[spectra$Mode == 'p'] <- 'Positive'
+						spectra$Mode[spectra$Mode == 'n'] <- 'Negative mode'
+						spectra$Mode[spectra$Mode == 'p'] <- 'Positive mode'
 						
-						ggplot(spectra,aes(x = `m/z`,xend = `m/z`,y = 0,yend = Intensity)) +
-							geom_segment() +
-							theme_bw() +
-							facet_wrap(~Mode,ncol = 1) +
-							labs(title = 'Averaged spectrum fingerprint',
-									 x = 'm/z',
-									 y = 'Intensity') +
-							theme(plot.title = element_text(face = 'bold'),
-										axis.title = element_text(face = 'bold'))
+						plotSpectrum(spectra)
 					})
 
 #' @importFrom ggplot2 aes_string geom_histogram scale_y_continuous
