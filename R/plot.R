@@ -2,7 +2,8 @@
 
 plotTheme <- function(){
 	theme_bw() +
-		theme(plot.title = element_text(face = 'bold'),
+		theme(plot.title = element_text(face = 'bold',hjust = 0.5),
+								plot.caption = element_text(hjust = 0),
 								panel.border = element_blank(),
 								panel.grid = element_blank(),
 								axis.title = element_text(face = 'bold'),
@@ -242,6 +243,19 @@ setMethod('plotFingerprint',signature = 'Binalysis',
 										axis.title = element_text(face = 'bold'))
 					})
 
+#' @importFrom ggplot2 aes_string geom_histogram scale_y_continuous
+
+plotHist <- function(d,x,histBins,title,xlab,ylab){
+	ggplot(d,aes_string(x = x)) +
+		geom_histogram(fill = ggthemes::ptol_pal()(1),colour = 'black',bins = histBins) +
+		plotTheme() +
+		facet_wrap(~polarity) +
+		scale_y_continuous(expand = c(0,0)) +
+		labs(title = title,
+							x = xlab,
+							y = ylab)
+}
+
 #' Plot bin purity histogram
 #' @rdname plotPurity
 #' @description Plot the bin purity distribution for a Binalysis object.
@@ -249,7 +263,6 @@ setMethod('plotFingerprint',signature = 'Binalysis',
 #' @param histBins number of bins to use for histogram plotting
 #' @seealso \code{\link{accurateData}}, \code{\link{binneRlyse}}, 
 #' \code{\link{plotCentrality}}
-#' @importFrom ggplot2 geom_histogram
 #' @export
 
 setMethod('plotPurity',signature = 'Binalysis',function(x,histBins = 30){
@@ -264,15 +277,11 @@ setMethod('plotPurity',signature = 'Binalysis',function(x,histBins = 30){
 	pur$polarity[pur$polarity == 'p'] <- 'Positive mode'
 	
 	pur %>%
-		ggplot(aes(x = purity)) +
-		geom_histogram(fill = "#88CCEE",colour = 'black',bins = histBins) +
-		theme_bw() +
-		facet_wrap(~polarity) +
-		ggtitle('Bin Purity Distribution') +
-		theme(plot.title = element_text(face = 'bold'),
-					axis.title = element_text(face = 'bold')) +
-		xlab('Purity Measure') +
-		ylab('Frequency')
+		plotHist('purity',
+											histBins = histBins,
+											title = 'Bin Purity Distribution',
+											xlab = 'Purity',
+											ylab = 'Frequency')
 	
 })
 
@@ -297,15 +306,11 @@ setMethod('plotCentrality',signature = 'Binalysis',function(x,histBins = 30){
 	pur$polarity[pur$polarity == 'p'] <- 'Positive mode'
 	
 	pur %>%
-		ggplot(aes(x = centrality)) +
-		geom_histogram(fill = "#88CCEE",colour = 'black',bins = histBins) +
-		theme_bw() +
-		facet_wrap(~polarity) +
-		ggtitle('Bin Centrality Distribution') +
-		theme(plot.title = element_text(face = 'bold'),
-					axis.title = element_text(face = 'bold')) +
-		xlab('Centrality measure') +
-		ylab('Frequency')
+		plotHist('centrality',
+											histBins = histBins,
+											title = 'Bin Centrality Distribution',
+											xlab = 'Centrality',
+											ylab = 'Frequency')
 	
 })
 
@@ -365,8 +370,8 @@ setMethod('plotTIC',signature = 'Binalysis',
 										 Index = rawInfo[,by] %>% unlist()) %>%
 							gather('Mode','TIC',-Sample,-Colour,-Index)
 						
-						TICdat$Mode[TICdat$Mode == 'n'] <- 'Negative'
-						TICdat$Mode[TICdat$Mode == 'p'] <- 'Positive'
+						TICdat$Mode[TICdat$Mode == 'n'] <- 'Negative mode'
+						TICdat$Mode[TICdat$Mode == 'p'] <- 'Positive mode'
 						
 						TICmedian <- TICdat %>%
 							group_by(Mode) %>%
