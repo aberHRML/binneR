@@ -1,3 +1,17 @@
+#' @importFrom ggplot2 theme_bw element_blank element_line element_text
+
+plotTheme <- function(){
+	theme_bw() +
+		theme(plot.title = element_text(face = 'bold'),
+								panel.border = element_blank(),
+								panel.grid = element_blank(),
+								axis.title = element_text(face = 'bold'),
+								axis.line = element_line(),
+								legend.title = element_text(face = 'bold'),
+								strip.background = element_blank(),
+								strip.text = element_text(face = 'bold'))
+}
+
 #' Plot a spectral bin feature
 #' @rdname plotBin
 #' @description Kernal density plot of a specified spectral bin feature.
@@ -6,8 +20,8 @@
 #' @param type bin to be plotted as a total (all), class (cls) or 
 #' sample spectra.
 #' @seealso \code{\link{accurateData}}, \code{\link{binneRlyse}}
-#' @importFrom ggplot2 ggplot geom_density theme_bw xlim xlab ggtitle theme
-#' @importFrom ggplot2 element_text facet_wrap aes
+#' @importFrom ggplot2 ggplot geom_density xlim xlab ggtitle theme
+#' @importFrom ggplot2 facet_wrap aes
 #' @importFrom stringr str_replace_all str_sub str_extract
 #' @importFrom stats as.formula
 #' @export
@@ -295,6 +309,8 @@ setMethod('plotCentrality',signature = 'Binalysis',function(x,histBins = 30){
 	
 })
 
+#' @importFrom ggplot2 geom_point guide_legend guides geom_hline
+
 TICplot <- function(TICdat,TICmedian,by,colour){
 	pl <- ggplot(TICdat,aes(x = Index,y = TIC,fill = Colour)) +
 		geom_hline(data = TICmedian,aes(yintercept = Median)) +
@@ -303,10 +319,7 @@ TICplot <- function(TICdat,TICmedian,by,colour){
 		geom_hline(data = TICmedian,aes(yintercept = LowerOut),linetype = 3) +
 		geom_hline(data = TICmedian,aes(yintercept = UpperOut),linetype = 3) +
 		geom_point(shape = 21) +
-		theme_bw() +
-		theme(plot.title = element_text(face = 'bold'),
-								axis.title = element_text(face = 'bold'),
-								legend.title = element_text(face = 'bold')) +
+		plotTheme() +
 		facet_wrap(~Mode) +
 		labs(title = 'Sample TICs',
 							caption = 'The solid line shows the median TIC across the sample set. 
@@ -333,7 +346,6 @@ the dotted line shows the outlier boundary (1.5 X IQR).') +
 #' @seealso \code{\link{binneRlyse}}
 #' @importFrom stats IQR median
 #' @importFrom dplyr bind_cols
-#' @importFrom ggplot2 geom_point guide_legend guides geom_hline
 #' @importFrom tibble rowid_to_column
 #' @importFrom ggthemes scale_fill_ptol
 #' @importFrom tidyr gather
