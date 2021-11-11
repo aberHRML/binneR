@@ -13,6 +13,37 @@ plotTheme <- function(){
 								strip.text = element_text(face = 'bold'))
 }
 
+binPlot <- function(dat,bin,m,dp,type){
+	pl <- ggplot(dat,aes(x = mz)) +
+		geom_density() +
+		xlim(m - 5 * 10^-(dp + 1),
+							m + 5 * 10^-(dp + 1)) +
+		plotTheme() +
+		scale_y_continuous(expand = c(0,0)) +
+		labs(title = bin,
+							x = 'm/z',
+							y = 'Density')
+	
+	if (type == 'cls') {
+		class <- cls(x)
+		
+		if (length(class) == 0) {
+			stop('No "cls" parameter found for this Binalysis class object.',
+								call. = FALSE)
+		}
+		
+		pl <- pl +
+			facet_wrap(as.formula(paste("~", class)))
+	}
+	
+	if (type == 'sample') {
+		pl <- pl +
+			facet_wrap(~fileName)
+	}
+	
+	return(pl)
+}
+
 #' Plot a spectral bin feature
 #' @rdname plotBin
 #' @description Kernal density plot of a specified spectral bin feature.
@@ -51,37 +82,7 @@ setMethod('plotBin',signature = 'Binalysis',
 						dp <- str_extract(bin,'(?<=[.])[\\w+.-]+') %>% 
 							nchar()
 						
-						pl <- ggplot(dat,aes(x = mz)) +
-							geom_density() +
-							theme_bw() +
-							xlim(m - 5 * 10^-(dp + 1),
-												m + 5 * 10^-(dp + 1)) +
-							theme(plot.title = element_text(face = 'bold'),
-										axis.title.y = element_text(face = 'bold'),
-										axis.title.x = element_text(face = 'bold.italic'),
-										axis.text.x = element_text(angle = 90,hjust = 1)) +
-							labs(title = bin,
-									 x = 'm/z',
-									 y = 'Density')
-						
-						if (type == 'cls') {
-							class <- cls(x)
-							
-							if (length(class) == 0) {
-								stop('No "cls" parameter found for this Binalysis class object.',
-										 call. = FALSE)
-							}
-								
-							pl <- pl +
-								facet_wrap(as.formula(paste("~", class)))
-						}
-						
-						if (type == 'sample') {
-							pl <- pl +
-								facet_wrap(~fileName)
-						}
-						
-						return(pl)
+						binPlot(dat,bin,m,dp,type)
 					}
 )
 
