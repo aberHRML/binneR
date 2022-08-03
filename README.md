@@ -31,3 +31,14 @@ If this is your first time using `binneR` see the [vignette](https://aberHRML.gi
 If you believe you've found a bug in `binneR`, please file a bug (and, if
 possible, a [reproducible example](https://reprex.tidyverse.org)) at
 <https://github.com/aberHRML/binneR/issues>.
+
+### Acknowledgements
+
+If you use `binneR`, please cite the following publication
+
+> __Finch, J.P., Wilson, T., Lyons, L. et al__. Spectral binning as an approach to post-acquisition processing of high resolution FIE-MS metabolome fingerprinting data. Metabolomics 18, 64 (2022). 
+
+> __DOI:__ [10.1007/s11306-022-01923-6](https://doi.org/10.1007/s11306-022-01923-6)
+
+
+
