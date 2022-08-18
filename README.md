@@ -12,7 +12,8 @@
 > **Spectral Processing for High Resolution Flow Infusion Mass Spectrometry**
 
 A spectral binning approach for flow infusion electrospray high resolution mass spectrometry (FIE-HRMS) metabolome fingerprinting data.
-Includes tools for generating intensity matrices from converted raw data file formats such as `.mzML` and `.mzXML`, plotting chromatograms and total ion counts.
+The package includes an integrated workflow for generating spectrally binned intensity matrices from converted raw data file formats such as `.mzML` and `.mzXML`. 
+There are also tools for plotting chromatograms, spectra and total ion counts.
 
 The methodology is outlined in the article:
 
@@ -23,7 +24,7 @@ The methodology is outlined in the article:
 To download and install this development version run:
 
 ``` r
-remotes::install_github('aberHRML/binneR',build_vignettes = TRUE)
+remotes::install_github('aberHRML/binneR')
 ```
 
 ### Learn more
