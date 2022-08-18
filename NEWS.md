@@ -1,3 +1,9 @@
+# binneR 2.6.3
+
+* Fix the calculation of quartiles in [`binneR::plotTIC`](https://aberhrml.github.io/binneR/reference/plotTIC.html).  
+
+* Added the DOI of the methodology article (https://doi.org/10.1007/s11306-022-01923-6) to the package DESCRIPTION and README. 
+
 # binneR 2.6.2
 
 * Improved themes of all plotting functions.
