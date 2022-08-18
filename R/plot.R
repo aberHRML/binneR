@@ -385,8 +385,8 @@ setMethod('plotTIC',signature = 'Binalysis',
 						TICmedian <- TICdat %>%
 							group_by(Mode) %>%
 							summarise(Median = median(TIC),
-												Q1 = Median - IQR(TIC),
-												Q3 = Median + IQR(TIC),
+												Q1 = Median - IQR(TIC) / 2,
+												Q3 = Median + IQR(TIC) / 2,
 												LowerOut = Q1 - IQR(TIC) * 1.5,
 												UpperOut = Q3 + IQR(TIC) * 1.5)
 						

@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![R-CMD-check](https://github.com/aberHRML/binneR/workflows/R-CMD-check/badge.svg)](https://github.com/aberHRML/binneR/actions)
+[![R-CMD-check](https://github.com/aberHRML/binneR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aberHRML/binneR/actions/workflows/R-CMD-check.yaml)
 [![Coverage status](https://codecov.io/gh/aberHRML/binneR/branch/master/graph/badge.svg)](https://codecov.io/github/aberHRML/binneR?branch=master)
 [![CRAN](https://www.r-pkg.org/badges/version/binneR)](https://cran.r-project.org/web/packages/binneR/index.html)
 ![downloads](https://cranlogs.r-pkg.org/badges/binneR)
@@ -11,15 +11,20 @@
 
 > **Spectral Processing for High Resolution Flow Infusion Mass Spectrometry**
 
-A spectral binning approach for flow infusion electrospray high resolution mass spectrometry (FIE-HRMS) data.
-Includes tools for generating intensity matrices from converted raw data file formats such as `.mzML` and `.mzXML`, plotting chromatograms and total ion counts.
+A spectral binning approach for flow infusion electrospray high resolution mass spectrometry (FIE-HRMS) metabolome fingerprinting data.
+The package includes an integrated workflow for generating spectrally binned intensity matrices from converted raw data file formats such as `.mzML` and `.mzXML`. 
+There are also tools for plotting chromatograms, spectra and total ion counts.
+
+The methodology is outlined in the article:
+
+[Finch, J.P., Wilson, T., Lyons, L., Phillips, H., Beckmann, M. and Draper, J., 2022. Spectral binning as an approach to post-acquisition processing of high resolution FIE-MS metabolome fingerprinting data. *Metabolomics*, 18(8), pp.1-9.](https://doi.org/10.1007/s11306-022-01923-6)
 
 ### Installation
 
 To download and install this development version run:
 
 ``` r
-remotes::install_github('aberHRML/binneR',build_vignettes = TRUE)
+remotes::install_github('aberHRML/binneR')
 ```
 
 ### Learn more

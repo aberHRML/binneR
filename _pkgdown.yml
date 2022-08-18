@@ -1,1 +1,4 @@
-destination: docs
+url: http://aberhrml.github.io/binneR/
+template:
+  bootstrap: 5
+
