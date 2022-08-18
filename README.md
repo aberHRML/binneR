@@ -11,8 +11,12 @@
 
 > **Spectral Processing for High Resolution Flow Infusion Mass Spectrometry**
 
-A spectral binning approach for flow infusion electrospray high resolution mass spectrometry (FIE-HRMS) data.
+A spectral binning approach for flow infusion electrospray high resolution mass spectrometry (FIE-HRMS) metabolome fingerprinting data.
 Includes tools for generating intensity matrices from converted raw data file formats such as `.mzML` and `.mzXML`, plotting chromatograms and total ion counts.
+
+The methodology is outlined in the article:
+
+[Finch, J.P., Wilson, T., Lyons, L., Phillips, H., Beckmann, M. and Draper, J., 2022. Spectral binning as an approach to post-acquisition processing of high resolution FIE-MS metabolome fingerprinting data. *Metabolomics*, 18(8), pp.1-9.](https://doi.org/10.1007/s11306-022-01923-6)
 
 ### Installation
 
