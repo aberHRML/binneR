@@ -1,4 +1,4 @@
-# binneR <img align = "right" src="man/figures/binneRsticker.png" height = "200" />
+# binneR <img src='man/figures/binneRsticker.png' align="right" height="200" style="float:right; height:200px;"/></a>
 
 <!-- badges: start -->
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
