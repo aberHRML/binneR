@@ -43,7 +43,7 @@ test_that('binneRlyse works',{
 	
 	expect_identical(class(ad),c('tbl_df','tbl','data.frame'))
 	expect_equal(nrow(ad),1896)
-	expect_equal(ncol(ad),8)
+	expect_equal(ncol(ad),9)
 })
 
 test_that('BinParameters class show method works',{
