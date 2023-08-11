@@ -31,5 +31,6 @@ globalVariables(c('.',
 									'centrality',
 									'Purity',
 									'Centrality',
-									'FileName'
+									'FileName',
+									'idx'
 ))
