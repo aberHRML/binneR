@@ -59,11 +59,19 @@ getFile <- function(file,scans){
 
 getPeaks <- function(files,scans){
 	
+	idx <- tibble(
+		fileName = files
+	) %>% 
+		rowid_to_column(var = 'idx')
+	
 	dp <- binnerDP()
 		
 	pks <- future_map(files,getFile,scans = scans) %>%
-		set_names(files) %>%
-		bind_rows(.id = 'fileName') %>%
+		set_names(idx$idx) %>% 
+		bind_rows(.id = 'idx') %>%
+		mutate(idx = as.numeric(idx)) %>% 
+		left_join(idx,
+												by = 'idx') %>% 
 		mutate(fileName = basename(fileName),
 									mz = round(mz,5),bin = round(mz,dp))
 	return(pks)
@@ -79,7 +87,7 @@ getHeaders <- function(files){
 		future_map(readRDS)
 	
 	file_headers <- file_headers %>%
-		set_names(files) %>%
+		set_names(files) %>% 
 		bind_rows(.id = 'FileName') %>%
 		select(FileName,acquisitionNum,totIonCurrent,polarity,filterString)
 	
