@@ -44,4 +44,4 @@ Suggests:
     testthat,
     gifski
 VignetteBuilder: knitr
-Remotes: bioc::mzR
+Remotes: bioc::release/mzR
