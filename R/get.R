@@ -81,15 +81,26 @@ getPeaks <- function(files,scans){
 
 getHeaders <- function(files){
 	
+	idx <- tibble(
+		FileName = files
+	) %>% 
+		rowid_to_column(var = 'idx')
+	
 	available_header_temps <- availableHeaderTemps(files)
 	
 	file_headers <- available_header_temps %>% 
 		future_map(readRDS)
 	
 	file_headers <- file_headers %>%
-		set_names(files) %>% 
-		bind_rows(.id = 'FileName') %>%
-		select(FileName,acquisitionNum,totIonCurrent,polarity,filterString)
+		set_names(idx$idx) %>% 
+		bind_rows(.id = 'idx') %>%
+		mutate(
+			idx = as.numeric(idx)
+		) %>% 
+		left_join(idx,
+												by = 'idx') %>% 
+		select(idx,FileName,acquisitionNum,totIonCurrent,polarity,filterString) %>% 
+		as_tibble()
 	
 	return(file_headers)
 }
