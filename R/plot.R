@@ -128,30 +128,14 @@ setMethod('plotChromatogram',signature = 'Binalysis',
 						scans <- x %>%
 							scans()
 						chromatograms <- chromatograms %>%
-							dplyr::select(FileName,
+							select(idx,
+																					FileName,
 														acquisitionNum,
 														totIonCurrent,
 														polarity,
 														filterString) %>%
-							split(.$polarity) %>%
-							map(~{
-								f <- .
-								f %>% 
-									split(.$FileName) %>%
-									map(~{
-										a <- .
-										a %>%
-											split(.$filterString) %>%
-											map(~{
-												b <- .
-												b %>%
-													mutate(acquisitionNum = seq_len(nrow(.)))
-											}) %>%
-											bind_rows()
-									}) %>%
-									bind_rows()
-							}) %>% 
-							bind_rows() %>%
+							group_by(polarity,idx,filterString) %>% 
+							mutate(acquisitionNum = seq_len(n())) %>% 
 							group_by(polarity,acquisitionNum) %>%
 							summarise(totIonCurrent = mean(totIonCurrent))
 						
@@ -182,19 +166,8 @@ plotChromFromFile <- function(files, scans = c()){
 			openMSfile(.,backend = 'pwiz') %>%
 				header() %>%
 				select(acquisitionNum,totIonCurrent,polarity,filterString) %>%
-				split(.$polarity) %>%
-				map(~{
-					a <- .
-					a %>%
-						split(.$filterString) %>%
-						map(~{
-							b <- .
-							b %>%
-								mutate(acquisitionNum = seq_len(nrow(.)))
-						}) %>%
-						bind_rows()
-				}) %>%
-				bind_rows() %>%
+				group_by(polarity,filterString) %>% 
+				mutate(acquisitionNum = seq_len(n())) %>%
 				group_by(polarity,acquisitionNum) %>%
 				summarise(totIonCurrent = mean(totIonCurrent))
 		}) %>%
