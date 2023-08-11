@@ -16,42 +16,35 @@
 detectInfusionScans <- function(files, 
 																thresh = 0.5){
 	
+	idx <- tibble(
+		Sample = files
+	) %>% 
+		rowid_to_column(var = 'idx')
+	
 	ms <- files %>%
 		future_map(~{
 			ms <- .x %>%
 				openMSfile()
 			
 			file_header <- ms %>%
-				header()
+				header() %>% 
+				as_tibble()
 			
 			return(file_header)
 		}) %>%
-		set_names(files)
+		set_names(idx$idx) %>% 
+		bind_rows(.id = 'idx') %>%
+		mutate(
+			idx = as.numeric(idx)
+		) %>% 
+		left_join(idx,
+												by = 'idx',
+												relationship = 'many-to-many')
 	
-	hd <- ms %>%
-		bind_rows(.id = 'Sample') %>%
-		as_tibble() %>%
-		select(Sample,seqNum,acquisitionNum,polarity,totIonCurrent,filterString) %>%
-		split(.$polarity) %>%
-		map(~{
-			d <- .
-			d %>%
-				split(.$Sample) %>%
-				map(~{
-					a <- .
-					a %>%
-						split(.$filterString) %>%
-						map(~{
-							b <- .
-							b %>%
-								mutate(acquisitionNum = seq_len(nrow(.)))
-						}) %>%
-						bind_rows()
-				}) %>%
-				bind_rows() %>%
-				select(Sample,acquisitionNum,polarity,totIonCurrent,filterString)
-		}) %>%
-		bind_rows() %>%
+	hd <-  ms %>%
+		select(idx,seqNum,acquisitionNum,polarity,totIonCurrent,filterString) %>%
+		group_by(idx,polarity,filterString) %>% 
+		mutate(acquisitionNum = seq_len(n())) %>% 
 		group_by(acquisitionNum) %>%
 		summarise(totIonCurrent = mean(totIonCurrent))
 	
