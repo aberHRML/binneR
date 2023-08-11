@@ -4,7 +4,7 @@ Version: 2.6.4
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A spectral binning approach for flow infusion electrospray high resolution mass spectrometry (FIE-HRMS) metabolome fingerprinting data. The methodology for this approach is outlined in Finch et al. (2022) <doi:10.1007/s11306-022-01923-6>.
 biocViews: MassSpectrometry, Metabolomics
-URL: https://aberhrml.github.io/binneR/
+URL: https://aberhrml.github.io/binneR/, http://aberhrml.github.io/binneR/
 BugReports: https://github.com/aberHRML/binneR/issues
 Depends: R (>= 3.5)
 Imports: 
