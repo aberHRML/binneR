@@ -34,30 +34,34 @@ setMethod("spectralBinning",
 								mutate(class = NA)
 						}
 						
+						classes <- classes %>% 
+							rowid_to_column(var = 'idx')
+						
 						n_scans <- nScans(x)
 						
 						if (isTRUE(verbose)) message('Averaging intensities across scans')
 						binned_data <- pks %>%
-							split(.$fileName) %>%
+							split(.$idx) %>%
 							future_map(~{
 								.x %>%
-									group_by(fileName,polarity,bin,scan) %>%
+									group_by(idx,fileName,polarity,bin,scan) %>%
 									summarise(intensity = sum(intensity),
 														.groups = 'drop')	%>%
-									group_by(fileName,polarity,bin) %>%
+									group_by(idx,fileName,polarity,bin) %>%
 									summarise(intensity = sum(intensity)/n_scans,
 														.groups = 'drop')
 							}) %>%
 							bind_rows()
 						
 						pks <- pks %>%
-							left_join(classes,by = "fileName") %>%
-							split(.$fileName) %>%
+							left_join(classes,by = c("idx",'fileName')) %>%
+							split(.$idx) %>%
 							future_map(~{
 								.x %>%
 									group_by_at(
 										vars(
-											all_of(c('fileName',
+											all_of(c('idx',
+																				'fileName',
 															 cls,
 															 'polarity','mz','bin')))) %>%
 									summarise(intensity = sum(intensity)/n_scans,
@@ -71,10 +75,10 @@ setMethod("spectralBinning",
 						
 						if (isTRUE(verbose)) message('Calculating accurate m/z')
 						accurate_mz <- pks %>%
-							group_by_at(vars(all_of(c('fileName',cls,'polarity','bin')))) %>%
+							group_by_at(vars(all_of(c('idx','fileName',cls,'polarity','bin')))) %>%
 							filter(intensity == max(intensity)) %>%
 							arrange(bin) %>%
-							left_join(bin_measures,by = c('fileName',cls, "polarity", "bin")) %>%
+							left_join(bin_measures,by = c('idx','fileName',cls, "polarity", "bin")) %>%
 							ungroup()
 						
 						mz <- accurate_mz %>%
@@ -94,7 +98,7 @@ setMethod("spectralBinning",
 							future_map(~{
 								.x %>%
 									spread(mz,intensity,fill = 0) %>%
-									select(-fileName,-polarity)
+									select(-idx,-fileName,-polarity)
 							})
 						
 						if (isTRUE(verbose)) message('Gathering file headers')

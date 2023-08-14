@@ -1,3 +1,7 @@
+# binneR 2.6.4
+
+* Ensure that duplicated files are not aggregated during spectral binning.
+
 # binneR 2.6.3
 
 * Fix the calculation of quartiles in [`binneR::plotTIC`](https://aberhrml.github.io/binneR/reference/plotTIC.html).  

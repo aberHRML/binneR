@@ -1,7 +1,7 @@
 
 calcBinList <- function(pks){
   bins <- pks %>%
-    group_by(fileName,polarity,scan,bin) %>%
+    group_by(idx,fileName,polarity,scan,bin) %>%
     summarise(intensity = sum(intensity),
               .groups = 'drop') %>%
     group_by(polarity,bin) %>%
@@ -16,7 +16,8 @@ calcBinMeasures <- function(pks,cls){
   dp <- binnerDP()
   
   binMeasures <- pks %>%
-    group_by_at(vars(all_of(c('fileName',
+    group_by_at(vars(all_of(c('idx',
+    																										'fileName',
                               cls,
                               'polarity',
                               'bin')))) %>%
