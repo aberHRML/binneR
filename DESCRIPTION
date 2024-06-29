@@ -32,7 +32,7 @@ Collate: allGenerics.R allClasses.R binneRlyse.R
     show-method.R get.R calc.R readFiles.R
     binneR.R plot.R detect.R binMetrics.R
     singleSample.R readBinningParameters.R
-    reexports.R access.R internals.R
+    reexports.R access.R internals.R extendr-wrappers.R
 Suggests: 
     knitr,
     rmarkdown,
