@@ -1,0 +1,13 @@
+[package]
+name = 'binneR'
+version = '0.1.0'
+edition = '2021'
+
+[lib]
+crate-type = [ 'staticlib' ]
+name = 'binneR'
+
+[dependencies]
+extendr-api = '*'
+flate2 = "1.0.30"
+mzdata = "0.20.0"

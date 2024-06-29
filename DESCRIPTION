@@ -26,7 +26,7 @@ Imports:
     furrr
 License: GPL-3
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Collate: allGenerics.R allClasses.R binneRlyse.R
     binParameters.R spectralBinning-method.R 
     show-method.R get.R calc.R readFiles.R
@@ -45,3 +45,4 @@ Suggests:
     gifski
 VignetteBuilder: knitr
 Remotes: bioc::mzR
+Config/rextendr/version: 0.3.1
