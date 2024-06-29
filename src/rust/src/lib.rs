@@ -71,7 +71,7 @@ fn parse_mzml(path: &str) -> MzML {
         let header = scan.description();
         header_data.push(
             Header {
-                scan: header.index,
+                scan: header.index + 1,
                 polarity: header.polarity.to_string(),
                 scan_filter: header.acquisition.scans[0]
                     .get_param_by_name("filter string")
