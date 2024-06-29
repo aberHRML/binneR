@@ -9,8 +9,8 @@ binParameters(scans = 5:12, cls = character())
 \arguments{
 \item{scans}{numeric vector containing the scan indexes to use for binning}
 
-\item{cls}{the column of class labels to use for aggregating accurate 
-mass data. Defaults to NULL where accurate mass data will be averaged 
+\item{cls}{the column of class labels to use for aggregating accurate
+mass data. Defaults to NULL where accurate mass data will be averaged
 accross all samples}
 }
 \value{
@@ -23,6 +23,6 @@ Selection of parameters to use for spectral binning.
 p <- binParameters(scans = 6:17)
 }
 \seealso{
-\code{\link{BinParameters-class}}, \code{\link{scans}}, 
+\code{\link{BinParameters-class}}, \code{\link{scans}},
 \code{\link{cls}}
 }

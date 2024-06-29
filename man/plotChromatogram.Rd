@@ -13,7 +13,7 @@ plotChromatogram(x)
 \item{x}{S4 object of class \code{Binalysis}}
 }
 \description{
-Plot an averaged infusion profile chromatogram from a 
+Plot an averaged infusion profile chromatogram from a
 Binalysis object.
 }
 \seealso{

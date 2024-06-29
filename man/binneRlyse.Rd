@@ -11,7 +11,7 @@ binneRlyse(files, info, parameters = binParameters(), verbose = TRUE)
 
 \item{info}{tibble containing sample information}
 
-\item{parameters}{object of class BinParameters containing parameters 
+\item{parameters}{object of class BinParameters containing parameters
 for spectral binning}
 
 \item{verbose}{show console output}
@@ -23,32 +23,33 @@ S4 object of class Binalysis.
 perform spectral binning.
 }
 \details{
-Parallel processing is managed by the \code{future} package. This can 
-be specified using the \code{plan() function}. See the example below 
+Parallel processing is managed by the \code{future} package. This can
+be specified using the \code{plan() function}. See the example below
 and \code{?future::plan} for details on how this can be specified.
 
-By default, spectral binning is performed at the recommended 2 decimal 
-places. This can be altered by setting either the global option 
+By default, spectral binning is performed at the recommended 2 decimal
+places. This can be altered by setting either the global option
 \code{binner_dp} or the environment variable \code{BINNER_DP}.
 }
 \examples{
 \dontrun{
-files <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')
+files <- metaboData::filePaths("FIE-HRMS", "BdistachyonTechnical")
 
-info <- metaboData::runinfo('FIE-HRMS','BdistachyonTechnical')
+info <- metaboData::runinfo("FIE-HRMS", "BdistachyonTechnical")
 
 parameters <- detectParameters(files)
-cls(parameters) <- 'class'
+cls(parameters) <- "class"
 
 ## Optionally declare parallel processing backend
 # plan(future::multisession,workers = 2)
 
-analysis <- binneRlyse(files, 
-                       info, 
-                       parameters = parameters)
+analysis <- binneRlyse(files,
+        info,
+        parameters = parameters
+)
 }
 }
 \seealso{
-\code{\link{Binalysis-class}}, \code{\link{binParameters}}, 
+\code{\link{Binalysis-class}}, \code{\link{binParameters}},
 \code{\link{sampleInfo}}, \code{\link{binnedData}},  \code{\link{accurateData}}
 }

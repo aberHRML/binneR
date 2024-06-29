@@ -5,7 +5,7 @@
 \alias{Binalysis-class}
 \title{Spectral binning analysis class}
 \description{
-An S4 class to store spectrally binned data and accurate 
+An S4 class to store spectrally binned data and accurate
 mass information.
 }
 \section{Slots}{
@@ -19,12 +19,12 @@ mass information.
 
 \item{\code{sample_info}}{tibble containing runinfo data}
 
-\item{\code{binned_data}}{list containing tibbles of spectrally binned data 
+\item{\code{binned_data}}{list containing tibbles of spectrally binned data
 for each acquisition mode}
 
 \item{\code{accurate_mz}}{tibble containin accurate mass information}
 
-\item{\code{spectra}}{list containing tibbles of headers and class master 
+\item{\code{spectra}}{list containing tibbles of headers and class master
 mix fingerprints}
 }}
 

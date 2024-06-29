@@ -9,33 +9,34 @@ readFiles(files, dp, scans)
 \arguments{
 \item{files}{A vector of converted data file paths}
 
-\item{dp}{An integer denoting the number of decimal places for spectral 
+\item{dp}{An integer denoting the number of decimal places for spectral
 binning}
 
 \item{scans}{A vector of scan numbers that should be retrieved}
 }
 \value{
-A list containing peak lists for the relevant scans with combined 
+A list containing peak lists for the relevant scans with combined
 scan ranges for each present mode in the data file.
 }
 \description{
 Apply spectral binning on multiple data files.
 }
 \details{
-Parallel processing is managed by the \code{future} package. This can 
-be specified using the \code{plan() function}. See the example below 
+Parallel processing is managed by the \code{future} package. This can
+be specified using the \code{plan() function}. See the example below
 and \code{?future::plan} for details on how this can be specified.
 }
 \examples{
 ## Example file path
-file_paths <- system.file('example-data/1.mzML.gz',package = 'binneR')
+file_paths <- system.file("example-data/1.mzML.gz", package = "binneR")
 
 ## Optionally declare parallel processing backend
 # plan(future::multisession,workers = 2)
-                                                                        
+
 ## Process example file
 res <- readFiles(file_paths,
-                 dp = 2,
-                 scans = detectInfusionScans(file_paths))
+        dp = 2,
+        scans = detectInfusionScans(file_paths)
+)
 
 }

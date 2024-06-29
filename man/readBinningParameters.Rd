@@ -16,7 +16,7 @@ S4 object of class BinParameters.
 Parse binning parameters from a YAML formatted file.
 }
 \examples{
-file <- system.file('binning_parameters.yml',package = 'binneR')
+file <- system.file("binning_parameters.yml", package = "binneR")
 parameters <- readBinningParameters(file)
 }
 \seealso{

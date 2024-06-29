@@ -12,12 +12,13 @@ plotChromFromFile(files, scans = c())
 \item{scans}{specify scans to highlight within the plot}
 }
 \description{
-Plot and averaged infusion profile from a vector of specified 
+Plot and averaged infusion profile from a vector of specified
 file paths.
 }
 \examples{
-file_paths <- system.file('example-data/1.mzML.gz',package = 'binneR')
+file_paths <- system.file("example-data/1.mzML.gz", package = "binneR")
 
-plotChromFromFile(file_paths, 
-                  scans = detectInfusionScans(file_paths))
+plotChromFromFile(file_paths,
+  scans = detectInfusionScans(file_paths)
+)
 }

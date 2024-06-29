@@ -16,7 +16,7 @@ S4 object of class BinParameters
 Detect binning parameters from a given list of file paths.
 }
 \examples{
-file_paths <-system.file('example-data/1.mzML.gz',package = 'binneR')
+file_paths <- system.file("example-data/1.mzML.gz", package = "binneR")
 parameters <- detectParameters(file_paths)
 }
 \seealso{

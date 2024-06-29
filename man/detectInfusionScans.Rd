@@ -9,7 +9,7 @@ detectInfusionScans(files, thresh = 0.5)
 \arguments{
 \item{files}{character vector of file paths to use}
 
-\item{thresh}{detection threshold as a proportion of the peak of the 
+\item{thresh}{detection threshold as a proportion of the peak of the
 infusion profile}
 }
 \value{
@@ -19,7 +19,7 @@ Numeric vector of detected infusion scans.
 Detect infusion scans for a set of FIE-MS infusion profiles.
 }
 \examples{
-file_paths <- system.file('example-data/1.mzML.gz',package = 'binneR')
+file_paths <- system.file("example-data/1.mzML.gz", package = "binneR")
 
 detectInfusionScans(file_paths)
 }
