@@ -9,27 +9,15 @@ use mzdata::{
 use std::fs::File;
 use std::io::{BufReader, Read, Seek};
 
-#[derive(Debug, IntoRobj)]
-struct Peaks {
-    mz: Vec<f64>,
-    intensities: Vec<f32>,
-}
-
-#[derive(Debug, IntoRobj)]
+#[derive(Debug, IntoDataFrameRow)]
 struct Header {
     scan: usize,
     polarity: String,
     scan_filter: String,
 }
 
-#[derive(Debug, IntoRobj)]
-struct MzML {
-    header: Robj,
-    peaks: Robj,
-}
-
 #[extendr]
-fn parse_mzml(path: &str) -> MzML {
+fn parse_mzml(path: &str) -> List {
     let mut file = File::open(path).unwrap();
     let decoder = GzDecoder::new(BufReader::new(&mut file));
 
@@ -42,7 +30,7 @@ fn parse_mzml(path: &str) -> MzML {
     };
 
     let mzml_reader = MzMLReader::new(reader);
-    let mut header_data: Vec<Robj> = Vec::new();
+    let mut header_data: Vec<Header> = Vec::new();
     let mut peak_data: Vec<Robj> = Vec::new();
 
     for scan in mzml_reader {
@@ -66,26 +54,23 @@ fn parse_mzml(path: &str) -> MzML {
         }
         .to_vec();
 
-        peak_data.push(Peaks { mz, intensities }.into_robj());
+        peak_data.push(data_frame!(mz = mz, intensity = intensities));
 
         let header = scan.description();
-        header_data.push(
-            Header {
-                scan: header.index + 1,
-                polarity: header.polarity.to_string(),
-                scan_filter: header.acquisition.scans[0]
-                    .get_param_by_name("filter string")
-                    .unwrap()
-                    .value()
-                    .to_string(),
-            }
-            .into_robj(),
-        );
+        header_data.push(Header {
+            scan: header.index + 1,
+            polarity: header.polarity.to_string(),
+            scan_filter: header.acquisition.scans[0]
+                .get_param_by_name("filter string")
+                .unwrap()
+                .value()
+                .to_string(),
+        });
     }
-    MzML {
-        header: header_data.into_robj(),
-        peaks: peak_data.into_robj(),
-    }
+    list!(
+        header = header_data.into_dataframe().unwrap(),
+        peaks = peak_data.into_robj()
+    )
 }
 
 #[cfg(test)]
@@ -96,7 +81,8 @@ mod tests {
     fn read_mzml() {
         test! {
             let mzml = parse_mzml("../../inst/example-data/1.mzML.gz");
-            assert_eq!(mzml.header.len(), 156);
+            assert_eq!(mzml.dollar("header").unwrap().inherits("data.frame"),true);
+            assert_eq!(mzml.dollar("peaks").unwrap().len(), 156);
         }
     }
 }
