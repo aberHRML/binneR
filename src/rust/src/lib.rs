@@ -23,7 +23,7 @@ fn extract_header(scan: &MultiLayerSpectrum) -> Header {
         polarity: header.polarity.to_string(),
         scan_filter: header.acquisition.scans[0]
             .get_param_by_name("filter string")
-            .unwrap()
+            .expect("Filter string not found.")
             .value()
             .to_string(),
     }
@@ -35,18 +35,22 @@ fn extract_peaks(scan: &MultiLayerSpectrum) -> Robj {
     let mz = match peaks {
         RefPeakDataLevel::RawData(arrays) => {
             let array = &arrays.byte_buffer_map[&ArrayType::MZArray];
-            array.to_f64().unwrap()
+            array
+                .to_f64()
+                .expect("Unable to convert m/z array to float 64.")
         }
-        _ => todo!(),
+        _ => panic!("Raw data not found in mzML file."),
     }
     .to_vec();
 
     let intensities = match peaks {
         RefPeakDataLevel::RawData(arrays) => {
             let array = &arrays.byte_buffer_map[&ArrayType::IntensityArray];
-            array.to_f32().unwrap()
+            array
+                .to_f32()
+                .expect("Unable to convert intensity array to float 32.")
         }
-        _ => todo!(),
+        _ => panic!("Raw data not found in mzML file."),
     }
     .to_vec();
 
@@ -55,7 +59,7 @@ fn extract_peaks(scan: &MultiLayerSpectrum) -> Robj {
 
 #[extendr]
 fn parse_mzml(path: &str) -> List {
-    let mut file = File::open(path).unwrap();
+    let mut file = File::open(path).expect("Unable to open the specified file.");
     let decoder = GzDecoder::new(BufReader::new(&mut file));
 
     let reader: Box<dyn Read> = match decoder.header() {
@@ -79,7 +83,9 @@ fn parse_mzml(path: &str) -> List {
         header_data.push(header);
     }
     list!(
-        header = header_data.into_dataframe().unwrap(),
+        header = header_data
+            .into_dataframe()
+            .expect("Unable to convert header to a data.frame."),
         peaks = peak_data.into_robj()
     )
 }
