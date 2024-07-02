@@ -94,8 +94,10 @@ mod tests {
 
     #[test]
     fn read_mzml() {
-        let mzml = parse_mzml("../../inst/example-data/1.mzML.gz");
-        assert_eq!(mzml.header.len(), 156)
+        test! {
+            let mzml = parse_mzml("../../inst/example-data/1.mzML.gz");
+            assert_eq!(mzml.header.len(), 156);
+        }
     }
 }
 
