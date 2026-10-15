@@ -1,10 +1,8 @@
 ---
 title: "binneR"
 output: 
-  prettydoc::html_pretty:
+  rmarkdown::html_vignette:
     toc: true
-    highlight: github
-    theme: tactile
 vignette: >
  %\VignetteIndexEntry{binneR usage}
  %\VignetteEngine{knitr::rmarkdown}
@@ -28,9 +26,9 @@ htmltools::img(src = knitr::image_uri(system.file('sticker/binneRsticker.png',pa
 The *binneR* package provides a spectral binning approach for routine processing of flow infusion electrospray - high resolution mass spectrometry (FIE-HRMS) metabolomic fingerprinting experiments, the results of which can then be used for subsequent statistical analyses.
 
 Spectral binning rounds high resolution fingerprinting data by a specified amu bin width.
-FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can be averaged to provide a metabolome fingerprint. Below shows an animation of the spectrum change across ‘plug flow’ region of an example FIE-HRMS injection acquired in negative ionisation mode. 
+FIE-HRMS data consists of a 'plug flow', across which MS signal intensities can be averaged to provide a metabolome fingerprint. The figure below shows an example chromatogram and spectrum from an injection acquired in negative ionisation mode.
 
-```{r FIEfingerprint, eval=TRUE,echo=FALSE, fig.width=7,fig.height=5,fig.align='center',fig.show='animate',animation.hook = 'gifski',interval=0.1,dev='png',aniopts=('controls,loop'),message=FALSE}
+```{r FIEfingerprint, eval=TRUE,echo=FALSE, fig.width=7,fig.height=5,fig.align='center',message=FALSE}
 
 file <- system.file('example-data/1.mzML.gz',package = 'binneR')
 ms <- mzR::openMSfile(file)
@@ -62,7 +60,8 @@ chrom <- chrom %>%
 	dplyr::filter(polarity == 0)
 chrom$acquisitionNum <- 1:nrow(chrom)
 
-for (i in is[1]:is[2]) {
+i <- is[1]
+
 	p <- list()
 	
 	p$chromatogram <- ggplot(chrom,aes(x = acquisitionNum,y = totIonCurrent)) + 
@@ -87,7 +86,6 @@ for (i in is[1]:is[2]) {
 		}
 	
 	gridExtra::grid.arrange(gridExtra::arrangeGrob(p$chromatogram,p$spectrum))
-}
 ```
 
 Spectral binning is applied on a scan by scan basis where the data is rounded to the specified bin width, the signals are then sum aggregated and their intensities are averaged across the specified scans.
@@ -106,7 +104,7 @@ The subsequent sections will outline the use of these two main functionalities.
 Before we begin, the necessary packages need to be loaded.
 ```{r library-load}
 library(binneR)
-library(metaboData)
+file <- system.file("example-data/1.mzML.gz", package = "binneR")
 ```
 
 ## Parallel Processing
@@ -130,7 +128,7 @@ For a set of specified file paths, the range of infusion scans can be detected u
 
 ```{r infusionScanDetection}
 infusionScans <- detectInfusionScans(
-	metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1],
+	file,
 	thresh = 0.5
 )
 ```
@@ -140,7 +138,7 @@ The infusion scans can also be plotted by supplying the range to the scans argum
 
 ```{r exampleChromatograms, fig.width=7,fig.height=5,fig.align='center'}
 plotChromFromFile(
-	metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1],
+	file,
 	scans = infusionScans
 )
 ```
@@ -153,7 +151,7 @@ Spectral binning can be performed using the `readFiles()` function as shown belo
 The example file within the package can be specified using the following.
 
 ```{r fileList}
-file <- metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')[1]
+file <- system.file("example-data/1.mzML.gz", package = "binneR")
 ```
 
 Then the data can be spectrally binned using:
@@ -171,16 +169,23 @@ The package allows for a `Binalysis` that formalises the spectral binning approa
 The accurate *m/z* data can be aggregated based on a specified class structure from which the modal accurate *m/z* is extracted.
 Some bin metrics are also computed that allow the assessment of the quality of the 0.01 amu bins.
 
-The example data used here is from the [*metaboData*](https://github.com/aberHRML/metaboData) package and consists of 10 replicate injections of a leaf tissue extract from the model grass species *Brachypodium distachyon*.
+The package includes one mzML file for this worked example. For a real experiment, provide all sample files and a matching sample information table.
 
 ### Basic Usage
 
 Firstly the file paths and sample information can be loaded for the example data set using the following:
 
 ```{r exampleFiles}
-info <- metaboData::runinfo('FIE-HRMS','BdistachyonTechnical')
-
-files <-  metaboData::filePaths('FIE-HRMS','BdistachyonTechnical')
+files <- system.file("example-data/1.mzML.gz", package = "binneR")
+info <- tibble::tibble(
+  fileOrder = 1,
+  injOrder = 1,
+  fileName = basename(files),
+  batch = 1,
+  block = 1,
+  name = "Bundled example",
+  class = "Example"
+)
 ```
 
 There are two main functions for processing experimental data:
