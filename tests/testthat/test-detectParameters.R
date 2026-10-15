@@ -1,5 +1,3 @@
-library(metaboData)
-
 context('detectParameters')
 
 test_that('detectParameters works',{
