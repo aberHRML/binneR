@@ -8,7 +8,7 @@ URL: https://aberhrml.github.io/binneR/, http://aberhrml.github.io/binneR/
 BugReports: https://github.com/aberHRML/binneR/issues
 Depends: R (>= 3.5)
 Imports: 
-    dplyr,
+    dplyr (>= 1.1.1),
     magrittr,
     mzR,
     tidyr,
@@ -38,10 +38,8 @@ Suggests:
     rmarkdown,
     gridExtra,
     metaboData (>= 0.2.3),
-    prettydoc,
     htmltools,
     covr,
-    testthat,
-    gifski
+    testthat
 VignetteBuilder: knitr
 Remotes: bioc::mzR

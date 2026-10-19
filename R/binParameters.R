@@ -1,25 +1,25 @@
 #' Set spectral binning parameters
 #' @description Selection of parameters to use for spectral binning.
 #' @param scans numeric vector containing the scan indexes to use for binning
-#' @param cls the column of class labels to use for aggregating accurate 
-#' mass data. Defaults to NULL where accurate mass data will be averaged 
+#' @param cls the column of class labels to use for aggregating accurate
+#' mass data. Defaults to NULL where accurate mass data will be averaged
 #' accross all samples
 #' @return S4 object of class BinParameters
-#' @examples 
+#' @examples
 #' p <- binParameters(scans = 6:17)
-#' @seealso \code{\link{BinParameters-class}}, \code{\link{scans}}, 
+#' @seealso \code{\link{BinParameters-class}}, \code{\link{scans}},
 #' \code{\link{cls}}
 #' @importFrom parallel detectCores
 #' @export
 
-binParameters <- function(scans = 5:12, 
-                          cls = character()){
-   p <- new('BinParameters',
-        scans = scans,
-        cls = cls
-        )
-   
-   return(p)
+binParameters <- function(scans = 5:12,
+                          cls = character()) {
+  p <- new("BinParameters",
+    scans = scans,
+    cls = cls
+  )
+
+  return(p)
 }
 
 
@@ -31,30 +31,32 @@ binParameters <- function(scans = 5:12,
 #' @seealso \code{\link{BinParameters-class}}, \code{\link{binParameters}}
 #' @export
 
-setMethod('scans',signature = 'BinParameters',function(x){
-        x@scans
+setMethod("scans", signature = "BinParameters", function(x) {
+  x@scans
 })
 
 #' @rdname parameters
 #' @export
 
-setMethod('scans<-',signature = 'BinParameters',
-          function(x,value){
-        x@scans <- value
-        return(x)
+setMethod("scans<-",
+  signature = "BinParameters",
+  function(x, value) {
+    x@scans <- value
+    return(x)
+  }
+)
+
+#' @rdname parameters
+#' @export
+
+setMethod("cls", signature = "BinParameters", function(x) {
+  x@cls
 })
 
 #' @rdname parameters
 #' @export
 
-setMethod('cls',signature = 'BinParameters',function(x){
-        x@cls
-})
-
-#' @rdname parameters
-#' @export
-
-setMethod('cls<-',signature = 'BinParameters',function(x,value){
-        x@cls <- value
-        return(x)
+setMethod("cls<-", signature = "BinParameters", function(x, value) {
+  x@cls <- value
+  return(x)
 })
