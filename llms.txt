@@ -1,0 +1,100 @@
+# binneR ![](reference/figures/binneRsticker.png)
+
+> **Spectral Processing for High Resolution Flow Infusion Mass
+> Spectrometry**
+
+A spectral binning approach for flow infusion electrospray high
+resolution mass spectrometry (FIE-HRMS) metabolome fingerprinting data.
+The package includes an integrated workflow for generating spectrally
+binned intensity matrices from converted raw data file formats such as
+`.mzML` and `.mzXML`. There are also tools for plotting chromatograms,
+spectra and total ion counts.
+
+The methodology is outlined in the article:
+
+[Finch, J.P., Wilson, T., Lyons, L., Phillips, H., Beckmann, M. and
+Draper, J., 2022. Spectral binning as an approach to post-acquisition
+processing of high resolution FIE-MS metabolome fingerprinting data.
+*Metabolomics*, 18(8),
+pp.1-9.](https://doi.org/10.1007/s11306-022-01923-6)
+
+### Installation
+
+To download and install this development version run:
+
+``` r
+
+remotes::install_github('aberHRML/binneR')
+```
+
+### Learn more
+
+The package documentation can be browsed online at
+<https://aberHRML.github.io/binneR/>.
+
+If this is your first time using `binneR` see the
+[vignette](https://aberHRML.github.io/binneR/articles/binneR.html) for
+information on how to get started.
+
+If you believe you’ve found a bug in `binneR`, please file a bug (and,
+if possible, a [reproducible example](https://reprex.tidyverse.org)) at
+<https://github.com/aberHRML/binneR/issues>.
+
+# Package index
+
+## All functions
+
+- [`BinParameters-class`](http://aberhrml.github.io/binneR/reference/BinParameters-class.md)
+  : Spectral binning parameters class
+- [`Binalysis-class`](http://aberhrml.github.io/binneR/reference/Binalysis-class.md)
+  : Spectral binning analysis class
+- [`binParameters()`](http://aberhrml.github.io/binneR/reference/binParameters.md)
+  : Set spectral binning parameters
+- [`binneRlyse()`](http://aberhrml.github.io/binneR/reference/binneRlyse.md)
+  : Perform spectral binning
+- [`detectInfusionScans()`](http://aberhrml.github.io/binneR/reference/detectInfusionScans.md)
+  : Detect infusion profile scan range
+- [`detectParameters()`](http://aberhrml.github.io/binneR/reference/detectParameters.md)
+  : Detect suitable spectral binning parameters
+- [`scans()`](http://aberhrml.github.io/binneR/reference/parameters.md)
+  [`` `scans<-`() ``](http://aberhrml.github.io/binneR/reference/parameters.md)
+  [`cls()`](http://aberhrml.github.io/binneR/reference/parameters.md)
+  [`` `cls<-`() ``](http://aberhrml.github.io/binneR/reference/parameters.md)
+  : Get and set spectral binning parameters
+- [`plotBin()`](http://aberhrml.github.io/binneR/reference/plotBin.md) :
+  Plot a spectral bin feature
+- [`plotCentrality()`](http://aberhrml.github.io/binneR/reference/plotCentrality.md)
+  : Plot bin centrality histogram
+- [`plotChromFromFile()`](http://aberhrml.github.io/binneR/reference/plotChromFromFile.md)
+  : Plot an infusion profile chromatogram from a file
+- [`plotChromatogram()`](http://aberhrml.github.io/binneR/reference/plotChromatogram.md)
+  : Plot an infusion profile chromatogram
+- [`plotFingerprint()`](http://aberhrml.github.io/binneR/reference/plotFingerprint.md)
+  : Plot a fingerprint mass spectrum
+- [`plotPurity()`](http://aberhrml.github.io/binneR/reference/plotPurity.md)
+  : Plot bin purity histogram
+- [`plotTIC()`](http://aberhrml.github.io/binneR/reference/plotTIC.md) :
+  Plot sample total ion counts
+- [`readBinningParameters()`](http://aberhrml.github.io/binneR/reference/readBinningParameters.md)
+  : Read binning parameters from file
+- [`readFiles()`](http://aberhrml.github.io/binneR/reference/readFiles.md)
+  : Read and process mulitple data files
+- [`version()`](http://aberhrml.github.io/binneR/reference/results.md)
+  [`creationDate()`](http://aberhrml.github.io/binneR/reference/results.md)
+  [`filePaths()`](http://aberhrml.github.io/binneR/reference/results.md)
+  [`sampleInfo()`](http://aberhrml.github.io/binneR/reference/results.md)
+  [`binnedData()`](http://aberhrml.github.io/binneR/reference/results.md)
+  [`accurateData()`](http://aberhrml.github.io/binneR/reference/results.md)
+  [`binningParameters()`](http://aberhrml.github.io/binneR/reference/results.md)
+  : Binalysis class get methods
+- [`show(`*`<BinParameters>`*`)`](http://aberhrml.github.io/binneR/reference/show.md)
+  [`show(`*`<Binalysis>`*`)`](http://aberhrml.github.io/binneR/reference/show.md)
+  : Show methods for spectral binning classes
+- [`singleSample()`](http://aberhrml.github.io/binneR/reference/singleSample.md)
+  : Perform single sample spectral binning
+
+# Articles
+
+### All vignettes
+
+- [binneR](http://aberhrml.github.io/binneR/articles/binneR.md):
